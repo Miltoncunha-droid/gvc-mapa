@@ -375,6 +375,8 @@ header {
   position: relative;
   z-index: 0;
   min-width: 0;
+  min-height: 0;
+  height: 100%;
 }
 #map.view-mode { cursor: grab; }
 #map.view-mode:active { cursor: grabbing; }
@@ -910,8 +912,12 @@ header {
 
   /* ── Geocoder ── */
   #geocoder-wrap {
-    top: 8px !important; left: 8px !important; right: 8px !important;
-    transform: none !important; width: auto !important; max-width: none !important;
+    top: 8px !important;
+    left: 8px !important;
+    right: 8px !important;
+    transform: none !important;
+    width: auto !important;
+    max-width: none !important;
   }
 
   /* ── Layer switcher ── */
@@ -1114,81 +1120,82 @@ header {
     </div>
   </div>
 
-  <div id="map"></div>
-
-  <!-- MAP GEOCODER SEARCH -->
-  <div id="geocoder-wrap" style="
-    position:absolute; top:12px; left:50%; transform:translateX(-50%);
-    z-index:800; width:360px; max-width:calc(100vw - 340px);
-  ">
-    <div style="position:relative;">
-      <span style="
-        position:absolute; left:12px; top:50%; transform:translateY(-50%);
-        font-size:1rem; pointer-events:none; opacity:0.6;
-      ">🔍</span>
-      <input id="geocoder-input" type="text" autocomplete="off"
-        placeholder="Buscar endereço, cidade, bairro..."
-        oninput="onGeocoderInput(this.value)"
-        style="
-          width:100%; padding:10px 36px 10px 38px;
-          background:rgba(10,13,15,0.92);
-          border:1px solid rgba(255,255,255,0.12);
-          backdrop-filter:blur(16px);
-          border-radius:12px;
-          color:#dde4ec;
-          font-family:'Outfit',sans-serif; font-size:0.85rem;
-          outline:none;
-          box-shadow:0 4px 24px rgba(0,0,0,0.5);
-          transition:border-color 0.2s;
-        "
-        onfocus="this.style.borderColor='#00c896'"
-        onblur="setTimeout(()=>{ this.style.borderColor='rgba(255,255,255,0.12)'; closeGeocoderDD(); }, 200)"
-      >
-      <button id="geocoder-clear" onclick="clearGeocoder()" style="
-        display:none; position:absolute; right:10px; top:50%; transform:translateY(-50%);
-        background:none; border:none; color:#5a6577; cursor:pointer; font-size:0.9rem; padding:4px;
-      ">✕</button>
+  <div id="map">
+    <!-- LAYER SWITCHER -->
+    <div class="layer-switcher">
+      <button class="map-layer-btn" data-layer="satellite" onclick="switchLayer('satellite')">🛰 Satélite</button>
+      <button class="map-layer-btn active" data-layer="streets" onclick="switchLayer('streets')">🗺 Ruas</button>
     </div>
-    <div id="geocoder-dropdown" style="
-      display:none;
-      position:absolute; top:calc(100% + 6px); left:0; right:0;
-      background:rgba(10,13,15,0.96);
-      border:1px solid rgba(255,255,255,0.1);
-      backdrop-filter:blur(16px);
-      border-radius:10px;
-      box-shadow:0 8px 32px rgba(0,0,0,0.6);
-      overflow:hidden;
-      max-height:260px; overflow-y:auto;
-    "></div>
+
+    <!-- MAP GEOCODER SEARCH -->
+    <div id="geocoder-wrap" style="
+      position:absolute; top:12px; left:50%; transform:translateX(-50%);
+      z-index:800; width:360px; max-width:calc(100% - 32px);
+    ">
+      <div style="position:relative;">
+        <span style="
+          position:absolute; left:12px; top:50%; transform:translateY(-50%);
+          font-size:1rem; pointer-events:none; opacity:0.6;
+        ">🔍</span>
+        <input id="geocoder-input" type="text" autocomplete="off"
+          placeholder="Buscar endereço, cidade, bairro..."
+          oninput="onGeocoderInput(this.value)"
+          style="
+            width:100%; padding:10px 36px 10px 38px;
+            background:rgba(10,13,15,0.92);
+            border:1px solid rgba(255,255,255,0.12);
+            backdrop-filter:blur(16px);
+            border-radius:12px;
+            color:#dde4ec;
+            font-family:'Outfit',sans-serif; font-size:0.85rem;
+            outline:none;
+            box-shadow:0 4px 24px rgba(0,0,0,0.5);
+            transition:border-color 0.2s;
+          "
+          onfocus="this.style.borderColor='#00c896'"
+          onblur="setTimeout(()=>{ this.style.borderColor='rgba(255,255,255,0.12)'; closeGeocoderDD(); }, 200)"
+        >
+        <button id="geocoder-clear" onclick="clearGeocoder()" style="
+          display:none; position:absolute; right:10px; top:50%; transform:translateY(-50%);
+          background:none; border:none; color:#5a6577; cursor:pointer; font-size:0.9rem; padding:4px;
+        ">✕</button>
+      </div>
+      <div id="geocoder-dropdown" style="
+        display:none;
+        position:absolute; top:calc(100% + 6px); left:0; right:0;
+        background:rgba(10,13,15,0.96);
+        border:1px solid rgba(255,255,255,0.1);
+        backdrop-filter:blur(16px);
+        border-radius:10px;
+        box-shadow:0 8px 32px rgba(0,0,0,0.6);
+        overflow:hidden;
+        max-height:260px; overflow-y:auto;
+      "></div>
+    </div>
+
+    <!-- MOVE LOCATION BANNER -->
+    <div id="move-banner" style="
+      display:none; position:absolute; top:12px; left:50%; transform:translateX(-50%);
+      z-index:900; background:rgba(0,200,150,0.15); border:1px solid #00c896;
+      backdrop-filter:blur(12px); border-radius:12px;
+      padding:10px 18px; gap:12px;
+      align-items:center; justify-content:center;
+      box-shadow:0 4px 24px rgba(0,200,150,0.2);
+      white-space:nowrap;
+    ">
+      <span style="font-size:1.1rem;">📍</span>
+      <span style="font-family:'Outfit',sans-serif;font-size:0.82rem;color:#00c896;font-weight:600;">
+        Clique no mapa para definir a nova localização
+      </span>
+      <button onclick="cancelMoveLocation()" style="
+        background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15);
+        color:#dde4ec; border-radius:8px; padding:4px 10px;
+        font-family:'Outfit',sans-serif; font-size:0.75rem; cursor:pointer;
+      ">Cancelar</button>
+    </div>
+
   </div>
 
-  <!-- MOVE LOCATION BANNER -->
-  <div id="move-banner" style="
-    display:none; position:absolute; top:12px; left:50%; transform:translateX(-50%);
-    z-index:900; background:rgba(0,200,150,0.15); border:1px solid #00c896;
-    backdrop-filter:blur(12px); border-radius:12px;
-    padding:10px 18px; gap:12px;
-    align-items:center; justify-content:center;
-    box-shadow:0 4px 24px rgba(0,200,150,0.2);
-    white-space:nowrap;
-  ">
-    <span style="font-size:1.1rem;">📍</span>
-    <span style="font-family:'Outfit',sans-serif;font-size:0.82rem;color:#00c896;font-weight:600;">
-      Clique no mapa para definir a nova localização
-    </span>
-    <button onclick="cancelMoveLocation()" style="
-      background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15);
-      color:#dde4ec; border-radius:8px; padding:4px 10px;
-      font-family:'Outfit',sans-serif; font-size:0.75rem; cursor:pointer;
-    ">Cancelar</button>
-  </div>
-
-  <!-- LAYER SWITCHER -->
-  <div class="layer-switcher">
-    <button class="map-layer-btn" data-layer="satellite" onclick="switchLayer('satellite')">🛰 Satélite</button>
-    <button class="map-layer-btn active" data-layer="streets"   onclick="switchLayer('streets')">🗺 Ruas</button>
-
-  </div>
 </div>
 
 <!-- ROUTE PANEL -->
@@ -4036,7 +4043,6 @@ const map = L.map('map', {
   zoomSnap: 0.5,
   zoomDelta: 0.5,
   wheelPxPerZoomLevel: 80,
-  preferCanvas: true,
 });
 L.control.zoom({ position: 'bottomright' }).addTo(map);
 L.control.scale({ position: 'bottomright', imperial: false, metric: true }).addTo(map);
@@ -4088,6 +4094,9 @@ const clusterGroup = L.markerClusterGroup({
 });
 clusterGroup.addTo(map);
 
+// Adiciona tile diretamente para garantir carregamento inicial
+tileLayers.streets.addTo(map);
+
 function switchLayer(name) {
   Object.values(tileLayers).forEach(l => { if (map.hasLayer(l)) map.removeLayer(l); });
   tileLayers[name].addTo(map);
@@ -4103,8 +4112,6 @@ function switchLayer(name) {
     b.classList.toggle('active', b.dataset.layer === name)
   );
 }
-
-switchLayer('streets');
 
 map.on('click', e => {
   if (movingPointId) return; // handled by move mode
