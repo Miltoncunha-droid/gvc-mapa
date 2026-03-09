@@ -375,6 +375,8 @@ header {
   position: relative;
   z-index: 0;
   min-width: 0;
+  min-height: 0;
+  height: 100%;
 }
 #map.view-mode { cursor: grab; }
 #map.view-mode:active { cursor: grabbing; }
@@ -771,7 +773,7 @@ header {
 /* ── LAYER SWITCHER ── */
 .layer-switcher {
   position: absolute;
-  bottom: 48px; left: 50%;
+  bottom: 24px; left: 50%;
   transform: translateX(-50%);
   z-index: 800;
   display: flex; gap: 6px;
@@ -1026,6 +1028,12 @@ header {
         <button onclick="exportPDF()">🖨 PDF (lista)</button>
         <div style="height:1px;background:#1f262e;margin:2px 0;"></div>
         <button onclick="openMapPrintModal()">🗺 Print do Mapa</button>
+        <div style="height:1px;background:#1f262e;margin:2px 0;"></div>
+        <button onclick="exportJSON()" style="color:#00c896;">💾 Backup JSON</button>
+        <button onclick="document.getElementById('import-json-input').click()" style="color:#00c896;">📂 Restaurar JSON</button>
+        <input type="file" id="import-json-input" accept=".json" style="display:none" onchange="importJSON(this)">
+        <div style="height:1px;background:#1f262e;margin:2px 0;"></div>
+        <button onclick="openSheetsModal()" style="color:#3b9eff;">🔗 Google Sheets</button>
       </div>
     </div>
   </div>
@@ -1179,10 +1187,9 @@ header {
 
   <!-- LAYER SWITCHER -->
   <div class="layer-switcher">
-    <button class="map-layer-btn active" data-layer="satellite" onclick="switchLayer('satellite')">🛰 Satélite</button>
-    <button class="map-layer-btn" data-layer="streets"   onclick="switchLayer('streets')">🗺 Ruas</button>
-    <button class="map-layer-btn" data-layer="topo"      onclick="switchLayer('topo')">⛰ Relevo</button>
-    <button class="map-layer-btn" data-layer="dark"      onclick="switchLayer('dark')">🌑 Dark</button>
+    <button class="map-layer-btn" data-layer="satellite" onclick="switchLayer('satellite')">🛰 Satélite</button>
+    <button class="map-layer-btn active" data-layer="streets"   onclick="switchLayer('streets')">🗺 Ruas</button>
+
   </div>
 </div>
 
@@ -1338,6 +1345,151 @@ header {
 .rp-loading.show { display:block; }
 </style>
 
+
+
+<!-- GOOGLE SHEETS MODAL -->
+<div id="sheets-overlay" style="
+  display:none; position:fixed; inset:0; z-index:99998;
+  background:rgba(0,0,0,0.75); backdrop-filter:blur(6px);
+  align-items:center; justify-content:center;
+">
+  <div style="
+    background:#111519; border:1px solid #252d36; border-radius:16px;
+    width:500px; max-width:95vw; max-height:90vh; overflow-y:auto;
+    padding:24px; box-shadow:0 16px 48px rgba(0,0,0,0.8);
+    font-family:'Outfit',sans-serif;
+  ">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div style="font-size:1rem;font-weight:700;color:#dde4ec;">🔗 Integração Google Sheets</div>
+      <button onclick="closeSheetsModal()" style="background:none;border:none;color:#5a6577;font-size:1.2rem;cursor:pointer;">✕</button>
+    </div>
+
+    <!-- Status indicator -->
+    <div id="sheets-status" style="
+      padding:10px 14px; border-radius:8px; font-size:0.8rem;
+      margin-bottom:16px; display:none;
+    "></div>
+
+    <!-- URL field -->
+    <div style="margin-bottom:14px;">
+      <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.08em;
+             color:#5a6577;text-transform:uppercase;margin-bottom:6px;">
+        URL do Google Apps Script
+      </label>
+      <input id="sheets-url" type="text" placeholder="https://script.google.com/macros/s/..."
+        style="width:100%;background:#181d22;border:1px solid #252d36;border-radius:8px;
+               color:#dde4ec;font-family:'Outfit',sans-serif;font-size:0.82rem;
+               padding:9px 12px;outline:none;"
+        onfocus="this.style.borderColor='#3b9eff'" onblur="this.style.borderColor='#252d36'">
+    </div>
+
+    <!-- Action buttons -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+      <button onclick="sheetsPush()" style="
+        background:rgba(0,200,150,0.1);border:1px solid #00c896;border-radius:8px;
+        color:#00c896;font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:600;
+        padding:10px;cursor:pointer;transition:all 0.15s;"
+        onmouseover="this.style.background='rgba(0,200,150,0.2)'"
+        onmouseout="this.style.background='rgba(0,200,150,0.1)'">
+        ↑ Enviar para Sheets
+      </button>
+      <button onclick="sheetsPull()" style="
+        background:rgba(59,158,255,0.1);border:1px solid #3b9eff;border-radius:8px;
+        color:#3b9eff;font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:600;
+        padding:10px;cursor:pointer;transition:all 0.15s;"
+        onmouseover="this.style.background='rgba(59,158,255,0.2)'"
+        onmouseout="this.style.background='rgba(59,158,255,0.1)'">
+        ↓ Carregar do Sheets
+      </button>
+    </div>
+
+    <!-- Setup instructions -->
+    <div style="background:#181d22;border:1px solid #252d36;border-radius:10px;padding:16px;">
+      <div style="font-size:0.78rem;font-weight:700;color:#dde4ec;margin-bottom:12px;">
+        📋 Como configurar (uma vez só)
+      </div>
+      <div style="font-size:0.75rem;color:#5a6577;line-height:1.8;">
+        <div style="margin-bottom:6px;"><span style="color:#00c896;font-weight:700;">1.</span> Acesse <a href="https://sheets.google.com" target="_blank" style="color:#3b9eff;">sheets.google.com</a> e crie uma planilha chamada <strong style="color:#dde4ec;">GVC Mapa</strong></div>
+        <div style="margin-bottom:6px;"><span style="color:#00c896;font-weight:700;">2.</span> No menu, vá em <strong style="color:#dde4ec;">Extensões → Apps Script</strong></div>
+        <div style="margin-bottom:6px;"><span style="color:#00c896;font-weight:700;">3.</span> Apague o código existente e cole o código abaixo</div>
+        <div style="margin-bottom:6px;"><span style="color:#00c896;font-weight:700;">4.</span> Clique em <strong style="color:#dde4ec;">Implantar → Nova implantação → App da Web</strong></div>
+        <div style="margin-bottom:6px;"><span style="color:#00c896;font-weight:700;">5.</span> Em "Quem tem acesso" selecione <strong style="color:#dde4ec;">Qualquer pessoa</strong> → Implantar</div>
+        <div><span style="color:#00c896;font-weight:700;">6.</span> Copie a URL gerada e cole no campo acima</div>
+      </div>
+
+      <!-- Apps Script code -->
+      <div style="margin-top:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <span style="font-size:0.7rem;color:#5a6577;font-family:'Space Mono',monospace;">CÓDIGO DO APPS SCRIPT</span>
+          <button onclick="copyScriptCode()" style="
+            background:rgba(59,158,255,0.1);border:1px solid #3b9eff;border-radius:6px;
+            color:#3b9eff;font-family:'Outfit',sans-serif;font-size:0.7rem;
+            padding:4px 10px;cursor:pointer;" id="copy-script-btn">
+            📋 Copiar
+          </button>
+        </div>
+        <pre id="apps-script-code" style="
+          background:#0a0d0f;border:1px solid #1f262e;border-radius:8px;
+          padding:12px;font-family:'Space Mono',monospace;font-size:0.65rem;
+          color:#dde4ec;overflow-x:auto;white-space:pre;line-height:1.6;
+          max-height:200px;overflow-y:auto;
+        ">const SHEET_NAME = 'Pontos';
+
+function doGet(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet()
+    .getSheetByName(SHEET_NAME) || 
+    SpreadsheetApp.getActiveSpreadsheet().insertSheet(SHEET_NAME);
+  const data = sheet.getDataRange().getValues();
+  if (data.length <= 1) return jsonResponse([]);
+  const headers = data[0];
+  const rows = data.slice(1).map(r => {
+    const obj = {};
+    headers.forEach((h,i) => obj[h] = r[i]);
+    try { obj.residuos = JSON.parse(obj.residuos || '[]'); } catch(e) { obj.residuos = []; }
+    return obj;
+  });
+  return jsonResponse(rows);
+}
+
+function doPost(e) {
+  const points = JSON.parse(e.postData.contents);
+  const sheet = SpreadsheetApp.getActiveSpreadsheet()
+    .getSheetByName(SHEET_NAME) ||
+    SpreadsheetApp.getActiveSpreadsheet().insertSheet(SHEET_NAME);
+  sheet.clearContents();
+  if (!points.length) return jsonResponse({ok:true});
+  const headers = ['id','tipo','nome','cat','contatoNome','tel','email','obs','residuos','lat','lng','gmaps'];
+  sheet.appendRow(headers);
+  points.forEach(p => {
+    sheet.appendRow(headers.map(h => 
+      h === 'residuos' ? JSON.stringify(p[h]||[]) : (p[h]||'')
+    ));
+  });
+  return jsonResponse({ok:true, count: points.length});
+}
+
+function jsonResponse(data) {
+  return ContentService
+    .createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;text-align:right;">
+      <button onclick="
+        const url = document.getElementById('sheets-url').value.trim();
+        if (url) { localStorage.setItem('gvc_sheets_url', url); }
+        closeSheetsModal();
+      " style="
+        background:linear-gradient(135deg,#00c896,#00a87a);border:none;border-radius:8px;
+        color:#000;font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:700;
+        padding:9px 22px;cursor:pointer;">
+        Salvar URL
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- MAP PRINT MODAL -->
 <div id="map-print-overlay" style="
@@ -3886,7 +4038,6 @@ const map = L.map('map', {
   zoomSnap: 0.5,
   zoomDelta: 0.5,
   wheelPxPerZoomLevel: 80,
-  preferCanvas: true,
 });
 L.control.zoom({ position: 'bottomright' }).addTo(map);
 L.control.scale({ position: 'bottomright', imperial: false, metric: true }).addTo(map);
@@ -3895,23 +4046,15 @@ const tileLayers = {
   // Esri World Imagery — melhor satélite gratuito disponível (Maxar/Nearmap)
   satellite: L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    { attribution:'© Esri, Maxar, Earthstar Geographics', maxZoom:19, subdomains:'abcd' }
+    { attribution:'© Esri, Maxar, Earthstar Geographics', maxZoom:19 }
   ),
   // Esri World Street Map — visual limpo e detalhado
   streets: L.tileLayer(
-    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
-    { attribution:'© Esri, HERE, Garmin, OpenStreetMap', maxZoom:19 }
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    { attribution:'© OpenStreetMap contributors', maxZoom:19 }
   ),
-  // Esri World Topo — topografia com relevo sombreado
-  topo: L.tileLayer(
-    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
-    { attribution:'© Esri, USGS, NOAA', maxZoom:19 }
-  ),
-  // CartoDB Dark Matter — dark mode refinado
-  dark: L.tileLayer(
-    'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-    { attribution:'© CartoDB', maxZoom:19 }
-  ),
+
+
 };
 
 // Camada de labels para satélite: sombra escura + texto branco por cima
@@ -3946,9 +4089,8 @@ const clusterGroup = L.markerClusterGroup({
 });
 clusterGroup.addTo(map);
 
-tileLayers.satellite.addTo(map);
-labelsShadow.addTo(map);
-labelsOverlay.addTo(map);
+// Adiciona tile diretamente para garantir carregamento inicial
+tileLayers.streets.addTo(map);
 
 function switchLayer(name) {
   Object.values(tileLayers).forEach(l => { if (map.hasLayer(l)) map.removeLayer(l); });
@@ -5189,6 +5331,158 @@ self.addEventListener('fetch', e => {
   });
 
 })();
+
+
+// ═══════════════════════════════════════════════════════════
+// BACKUP / RESTORE JSON
+// ═══════════════════════════════════════════════════════════
+
+function exportJSON() {
+  if (!points.length) return alert('Nenhum ponto cadastrado.');
+  const data = JSON.stringify(points, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `GVC_Backup_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  document.getElementById('export-menu').classList.remove('open');
+}
+
+function importJSON(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (!Array.isArray(imported)) throw new Error('Formato inválido');
+
+      const merge = confirm(
+        `Encontrados ${imported.length} pontos no backup.\n\n` +
+        `Clique OK para MESCLAR com os ${points.length} pontos existentes.\n` +
+        `Clique Cancelar para SUBSTITUIR todos os pontos atuais.`
+      );
+
+      if (merge) {
+        // Merge — skip duplicates by id
+        const existingIds = new Set(points.map(p => p.id));
+        let added = 0;
+        imported.forEach(p => {
+          if (!existingIds.has(p.id)) {
+            points.push(p);
+            addLeafletPoint(p);
+            added++;
+          }
+        });
+        alert(`✅ ${added} novos pontos adicionados.`);
+      } else {
+        // Replace all
+        Object.keys(leafletLayers).forEach(id => removeLeafletPoint(id));
+        points = imported;
+        points.forEach(addLeafletPoint);
+        alert(`✅ ${points.length} pontos carregados.`);
+      }
+
+      applyFilters();
+      saveToStorage();
+      renderList();
+      renderHeaderStats();
+    } catch(err) {
+      alert('❌ Erro ao importar: ' + err.message);
+    }
+    input.value = '';
+  };
+  reader.readAsText(file);
+  document.getElementById('export-menu').classList.remove('open');
+}
+
+// ═══════════════════════════════════════════════════════════
+// GOOGLE SHEETS INTEGRATION
+// ═══════════════════════════════════════════════════════════
+
+function openSheetsModal() {
+  document.getElementById('export-menu').classList.remove('open');
+  const saved = localStorage.getItem('gvc_sheets_url') || '';
+  document.getElementById('sheets-url').value = saved;
+  document.getElementById('sheets-status').style.display = 'none';
+  document.getElementById('sheets-overlay').style.display = 'flex';
+}
+
+function closeSheetsModal() {
+  document.getElementById('sheets-overlay').style.display = 'none';
+}
+
+function showSheetsStatus(msg, ok) {
+  const el = document.getElementById('sheets-status');
+  el.style.display = 'block';
+  el.style.background = ok ? 'rgba(0,200,150,0.1)' : 'rgba(232,67,147,0.1)';
+  el.style.border = '1px solid ' + (ok ? '#00c896' : '#e84393');
+  el.style.color = ok ? '#00c896' : '#e84393';
+  el.textContent = msg;
+}
+
+function getSheetsUrl() {
+  const url = document.getElementById('sheets-url').value.trim();
+  if (!url) { showSheetsStatus('❌ Cole a URL do Apps Script primeiro.', false); return null; }
+  localStorage.setItem('gvc_sheets_url', url);
+  return url;
+}
+
+async function sheetsPush() {
+  const url = getSheetsUrl(); if (!url) return;
+  showSheetsStatus('Enviando...', true);
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(points),
+    });
+    const data = await res.json();
+    if (data.ok) showSheetsStatus(`✅ ${data.count} pontos salvos no Google Sheets!`, true);
+    else showSheetsStatus('❌ Erro ao salvar.', false);
+  } catch(e) {
+    showSheetsStatus('❌ Erro de conexão. Verifique a URL e as permissões.', false);
+  }
+}
+
+async function sheetsPull() {
+  const url = getSheetsUrl(); if (!url) return;
+  showSheetsStatus('Carregando...', true);
+  try {
+    const res = await fetch(url);
+    const imported = await res.json();
+    if (!Array.isArray(imported)) throw new Error('Resposta inválida');
+
+    Object.keys(leafletLayers).forEach(id => removeLeafletPoint(id));
+    points = imported;
+    points.forEach(p => {
+      if (p.residuos && typeof p.residuos === 'string') {
+        try { p.residuos = JSON.parse(p.residuos); } catch(e) { p.residuos = []; }
+      }
+    });
+    points.forEach(addLeafletPoint);
+    applyFilters();
+    saveToStorage();
+    renderList();
+    renderHeaderStats();
+    showSheetsStatus(`✅ ${points.length} pontos carregados do Google Sheets!`, true);
+  } catch(e) {
+    showSheetsStatus('❌ Erro ao carregar. Verifique a URL e as permissões.', false);
+  }
+}
+
+function copyScriptCode() {
+  const code = document.getElementById('apps-script-code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = document.getElementById('copy-script-btn');
+    btn.textContent = '✅ Copiado!';
+    setTimeout(() => btn.textContent = '📋 Copiar', 2000);
+  });
+}
+
+// Close sheets modal on backdrop click
+document.getElementById('sheets-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeSheetsModal();
+});
 
 </script>
 </body>
