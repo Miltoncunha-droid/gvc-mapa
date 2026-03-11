@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -30,62 +31,63 @@
 }
 
 /* ── LIGHT THEME ── */
-[data-theme="light"] {
-  --bg: #f0f2f5;
-  --surface: #ffffff;
-  --surface2: #f7f8fa;
-  --border: #e2e6ec;
-  --border2: #d0d5dd;
-  --retec-dim: rgba(0,180,130,0.08);
-  --retec-glow: rgba(0,180,130,0.25);
-  --text: #1a2332;
-  --text-muted: #6b7a8d;
-  --text-dim: #a0aab6;
-  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+[data-theme=“light”] {
+–bg: #f0f2f5;
+–surface: #ffffff;
+–surface2: #f7f8fa;
+–border: #e2e6ec;
+–border2: #d0d5dd;
+–retec-dim: rgba(0,180,130,0.08);
+–retec-glow: rgba(0,180,130,0.25);
+–text: #1a2332;
+–text-muted: #6b7a8d;
+–text-dim: #a0aab6;
+–shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
-[data-theme="light"] .items-table input,
-[data-theme="light"] .items-table select,
-[data-theme="light"] .field input,
-[data-theme="light"] .field select,
-[data-theme="light"] .field textarea,
-[data-theme="light"] .status-select,
-[data-theme="light"] .sb-search input {
-  background: #fff;
-  color: #1a2332;
+[data-theme=“light”] .items-table input,
+[data-theme=“light”] .items-table select,
+[data-theme=“light”] .field input,
+[data-theme=“light”] .field select,
+[data-theme=“light”] .field textarea,
+[data-theme=“light”] .status-select,
+[data-theme=“light”] .sb-search input {
+background: #fff;
+color: #1a2332;
 }
-[data-theme="light"] .drc-item:hover { background: #f0f2f5; }
-[data-theme="light"] .drc-item.active { background: rgba(0,180,130,0.08); }
-[data-theme="light"] .results-panel { box-shadow: var(--shadow); }
-[data-theme="light"] .form-section { box-shadow: var(--shadow); }
-[data-theme="light"] .coleta-block { background: #f7f8fa; }
-[data-theme="light"] .tax-badge { background: rgba(59,158,255,0.06); }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
+[data-theme=“light”] .drc-item:hover { background: #f0f2f5; }
+[data-theme=“light”] .drc-item.active { background: rgba(0,180,130,0.08); }
+[data-theme=“light”] .results-panel { box-shadow: var(–shadow); }
+[data-theme=“light”] .form-section { box-shadow: var(–shadow); }
+[data-theme=“light”] .coleta-block { background: #f7f8fa; }
+[data-theme=“light”] .tax-badge { background: rgba(59,158,255,0.06); }
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(–font); background: var(–bg); color: var(–text); min-height: 100vh; }
 
 /* ── HEADER ── */
 header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 0 24px;
-  height: 52px;
-  display: flex; align-items: center; gap: 16px;
-  position: sticky; top: 0; z-index: 100;
+background: var(–surface);
+border-bottom: 1px solid var(–border);
+padding: 0 24px;
+height: 52px;
+display: flex; align-items: center; gap: 16px;
+position: sticky; top: 0; z-index: 100;
 }
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.logo-icon { width: 28px; height: 28px; background: var(--retec); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-.logo-text { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; color: var(--retec); }
-.logo-sub { font-size: 0.6rem; color: var(--text-muted); font-family: var(--font-mono); }
-.hdiv { width: 1px; height: 24px; background: var(--border2); }
-.hbadge { font-family: var(--font-mono); font-size: 0.65rem; color: var(--orange); background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.25); border-radius: 4px; padding: 2px 8px; letter-spacing: 0.08em; }
+.logo-icon { width: 28px; height: 28px; background: var(–retec); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.logo-text { font-family: var(–font-mono); font-size: 0.85rem; font-weight: 700; color: var(–retec); }
+.logo-sub { font-size: 0.6rem; color: var(–text-muted); font-family: var(–font-mono); }
+.hdiv { width: 1px; height: 24px; background: var(–border2); }
+.hbadge { font-family: var(–font-mono); font-size: 0.65rem; color: var(–orange); background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.25); border-radius: 4px; padding: 2px 8px; letter-spacing: 0.08em; }
 .hactions { margin-left: auto; display: flex; gap: 8px; }
 .hbtn {
-  padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border2);
-  background: transparent; color: var(--text-muted); font-family: var(--font); font-size: 0.75rem; font-weight: 500;
-  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
-  cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 6px;
+padding: 6px 14px; border-radius: 6px; border: 1px solid var(–border2);
+background: transparent; color: var(–text-muted); font-family: var(–font); font-size: 0.75rem; font-weight: 500;
+touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 6px;
 }
-.hbtn:hover { border-color: var(--retec); color: var(--retec); }
-.hbtn.primary { background: var(--retec); border-color: var(--retec); color: #000; font-weight: 700; }
+.hbtn:hover { border-color: var(–retec); color: var(–retec); }
+.hbtn.primary { background: var(–retec); border-color: var(–retec); color: #000; font-weight: 700; }
 .hbtn.primary:hover { opacity: 0.85; }
 
 /* ── LAYOUT ── */
@@ -93,29 +95,29 @@ header {
 
 /* ── SIDEBAR LIST ── */
 .sidebar {
-  width: 280px; flex-shrink: 0;
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  display: flex; flex-direction: column;
-  position: sticky; top: 52px; height: calc(100vh - 52px); overflow-y: auto;
+width: 280px; flex-shrink: 0;
+background: var(–surface);
+border-right: 1px solid var(–border);
+display: flex; flex-direction: column;
+position: sticky; top: 52px; height: calc(100vh - 52px); overflow-y: auto;
 }
-.sb-header { padding: 16px; border-bottom: 1px solid var(--border); }
-.sb-title { font-family: var(--font-mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+.sb-header { padding: 16px; border-bottom: 1px solid var(–border); }
+.sb-title { font-family: var(–font-mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; color: var(–text-muted); text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
 .sb-search { position: relative; }
-.sb-search input { width: 100%; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: var(--font); font-size: 0.8rem; padding: 7px 10px 7px 32px; outline: none; transition: border-color 0.15s; }
-.sb-search input:focus { border-color: var(--retec); }
-.sb-search::before { content: '🔍'; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 0.75rem; pointer-events: none; opacity: 0.5; }
+.sb-search input { width: 100%; background: var(–surface2); border: 1px solid var(–border2); border-radius: 8px; color: var(–text); font-family: var(–font); font-size: 0.8rem; padding: 7px 10px 7px 32px; outline: none; transition: border-color 0.15s; }
+.sb-search input:focus { border-color: var(–retec); }
+.sb-search::before { content: ‘🔍’; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 0.75rem; pointer-events: none; opacity: 0.5; }
 .drc-list { flex: 1; overflow-y: auto; padding: 8px; }
 .drc-item {
-  padding: 10px 12px; border-radius: 8px; cursor: pointer;
-  transition: background 0.15s; border: 1px solid transparent;
-  margin-bottom: 4px;
+padding: 10px 12px; border-radius: 8px; cursor: pointer;
+transition: background 0.15s; border: 1px solid transparent;
+margin-bottom: 4px;
 }
-.drc-item:hover { background: var(--surface2); }
-.drc-item.active { background: var(--retec-dim); border-color: rgba(0,200,150,0.25); }
-.drc-num { font-family: var(--font-mono); font-size: 0.6rem; color: var(--retec); margin-bottom: 2px; }
-.drc-name { font-size: 0.8rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.drc-meta { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; display: flex; gap: 8px; }
+.drc-item:hover { background: var(–surface2); }
+.drc-item.active { background: var(–retec-dim); border-color: rgba(0,200,150,0.25); }
+.drc-num { font-family: var(–font-mono); font-size: 0.6rem; color: var(–retec); margin-bottom: 2px; }
+.drc-name { font-size: 0.8rem; font-weight: 600; color: var(–text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.drc-meta { font-size: 0.68rem; color: var(–text-muted); margin-top: 2px; display: flex; gap: 8px; }
 .drc-status { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em; white-space: nowrap; }
 .status-rascunho   { background: rgba(90,101,119,0.2);   color: #8898aa; }
 .status-enviado    { background: rgba(59,158,255,0.15);   color: #3b9eff; }
@@ -126,12 +128,12 @@ header {
 
 /* Status change button */
 .status-change-btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 12px; border-radius: 8px; border: 1px solid var(--border2);
-  background: var(--surface2); color: var(--text); font-family: var(--font);
-  font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.15s;
+display: inline-flex; align-items: center; gap: 6px;
+padding: 5px 12px; border-radius: 8px; border: 1px solid var(–border2);
+background: var(–surface2); color: var(–text); font-family: var(–font);
+font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.15s;
 }
-.status-change-btn:hover { border-color: var(--retec); color: var(--retec); }
+.status-change-btn:hover { border-color: var(–retec); color: var(–retec); }
 
 /* Timeline */
 .timeline { padding: 6px 0; }
@@ -139,108 +141,108 @@ header {
 .tl-item:last-child { padding-bottom: 0; }
 .tl-line { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 20px; }
 .tl-dot  { width: 10px; height: 10px; border-radius: 50%; border: 2px solid; flex-shrink: 0; margin-top: 3px; }
-.tl-vert { flex: 1; width: 2px; background: var(--border); margin-top: 4px; min-height: 12px; }
+.tl-vert { flex: 1; width: 2px; background: var(–border); margin-top: 4px; min-height: 12px; }
 .tl-item:last-child .tl-vert { display: none; }
 .tl-body { flex: 1; min-width: 0; }
 .tl-header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .tl-status { font-size: 0.72rem; font-weight: 700; }
-.tl-date   { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); }
-.tl-author { font-size: 0.7rem; color: var(--text-muted); }
-.tl-just   { margin-top: 4px; padding: 6px 10px; background: rgba(232,67,147,0.06); border: 1px solid rgba(232,67,147,0.2); border-radius: 6px; font-size: 0.75rem; color: var(--text-muted); font-style: italic; }
+.tl-date   { font-family: var(–font-mono); font-size: 0.6rem; color: var(–text-muted); }
+.tl-author { font-size: 0.7rem; color: var(–text-muted); }
+.tl-just   { margin-top: 4px; padding: 6px 10px; background: rgba(232,67,147,0.06); border: 1px solid rgba(232,67,147,0.2); border-radius: 6px; font-size: 0.75rem; color: var(–text-muted); font-style: italic; }
 
 /* Status modal */
 .status-modal-overlay {
-  display: none; position: fixed; inset: 0; z-index: 99998;
-  background: rgba(0,0,0,0.72); backdrop-filter: blur(6px);
-  align-items: center; justify-content: center;
+display: none; position: fixed; inset: 0; z-index: 99998;
+background: rgba(0,0,0,0.72); backdrop-filter: blur(6px);
+align-items: center; justify-content: center;
 }
 .status-modal-overlay.open { display: flex; }
 .status-modal {
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 16px;
-  width: 480px; max-width: 95vw; font-family: var(--font);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.7); overflow: hidden;
+background: var(–surface); border: 1px solid var(–border2); border-radius: 16px;
+width: 480px; max-width: 95vw; font-family: var(–font);
+box-shadow: 0 20px 60px rgba(0,0,0,0.7); overflow: hidden;
 }
 .status-opt {
-  display: flex; align-items: center; gap: 10px;
-  padding: 11px 14px; border-radius: 8px; border: 1px solid var(--border);
-  cursor: pointer; transition: all 0.15s; margin-bottom: 7px;
+display: flex; align-items: center; gap: 10px;
+padding: 11px 14px; border-radius: 8px; border: 1px solid var(–border);
+cursor: pointer; transition: all 0.15s; margin-bottom: 7px;
 }
-.status-opt:hover  { border-color: var(--border2); background: var(--surface2); }
-.status-opt.selected { border-color: var(--retec) !important; background: var(--retec-dim); }
+.status-opt:hover  { border-color: var(–border2); background: var(–surface2); }
+.status-opt.selected { border-color: var(–retec) !important; background: var(–retec-dim); }
 .status-opt-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 .status-opt-info { flex: 1; }
 .status-opt-label { font-size: 0.82rem; font-weight: 600; }
-.status-opt-desc  { font-size: 0.68rem; color: var(--text-muted); margin-top: 1px; }
-.just-section { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-.just-label { font-family: var(--font-mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; color: var(--red); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.status-opt-desc  { font-size: 0.68rem; color: var(–text-muted); margin-top: 1px; }
+.just-section { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(–border); }
+.just-label { font-family: var(–font-mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; color: var(–red); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
 .just-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
 .just-chip {
-  padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border2);
-  font-size: 0.72rem; cursor: pointer; transition: all 0.15s; color: var(--text-muted);
-  background: var(--surface2);
+padding: 4px 10px; border-radius: 20px; border: 1px solid var(–border2);
+font-size: 0.72rem; cursor: pointer; transition: all 0.15s; color: var(–text-muted);
+background: var(–surface2);
 }
-.just-chip:hover  { border-color: var(--red); color: var(--red); }
-.just-chip.active { border-color: var(--red); background: rgba(232,67,147,0.1); color: var(--red); font-weight: 600; }
-.sb-empty { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 0.8rem; }
+.just-chip:hover  { border-color: var(–red); color: var(–red); }
+.just-chip.active { border-color: var(–red); background: rgba(232,67,147,0.1); color: var(–red); font-weight: 600; }
+.sb-empty { text-align: center; padding: 40px 20px; color: var(–text-muted); font-size: 0.8rem; }
 .new-btn {
-  margin: 12px; padding: 10px; border-radius: 8px;
-  background: var(--retec-dim); border: 1px dashed rgba(0,200,150,0.4);
-  color: var(--retec); font-family: var(--font); font-size: 0.8rem; font-weight: 600;
-  cursor: pointer; transition: all 0.15s; text-align: center;
+margin: 12px; padding: 10px; border-radius: 8px;
+background: var(–retec-dim); border: 1px dashed rgba(0,200,150,0.4);
+color: var(–retec); font-family: var(–font); font-size: 0.8rem; font-weight: 600;
+cursor: pointer; transition: all 0.15s; text-align: center;
 }
-.new-btn:hover { background: rgba(0,200,150,0.15); border-color: var(--retec); }
+.new-btn:hover { background: rgba(0,200,150,0.15); border-color: var(–retec); }
 
-.date-filter { padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--surface2); }
-.date-filter-label { font-family: var(--font-mono); font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 7px; display: flex; align-items: center; justify-content: space-between; }
+.date-filter { padding: 10px 12px; border-bottom: 1px solid var(–border); background: var(–surface2); }
+.date-filter-label { font-family: var(–font-mono); font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; color: var(–text-muted); text-transform: uppercase; margin-bottom: 7px; display: flex; align-items: center; justify-content: space-between; }
 .date-filter-row { display: flex; gap: 6px; align-items: center; }
-.date-filter input[type="date"] { flex: 1; background: var(--surface); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-family: var(--font); font-size: 0.72rem; padding: 5px 7px; outline: none; transition: border-color 0.15s; min-width: 0; }
-.date-filter input[type="date"]:focus { border-color: var(--retec); }
-.date-filter-sep { font-size: 0.7rem; color: var(--text-dim); flex-shrink: 0; }
-.date-clear { background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 0.7rem; padding: 3px 6px; border-radius: 4px; transition: color 0.15s; white-space: nowrap; }
-.date-clear:hover { color: var(--red); }
+.date-filter input[type=“date”] { flex: 1; background: var(–surface); border: 1px solid var(–border2); border-radius: 6px; color: var(–text); font-family: var(–font); font-size: 0.72rem; padding: 5px 7px; outline: none; transition: border-color 0.15s; min-width: 0; }
+.date-filter input[type=“date”]:focus { border-color: var(–retec); }
+.date-filter-sep { font-size: 0.7rem; color: var(–text-dim); flex-shrink: 0; }
+.date-clear { background: none; border: none; color: var(–text-dim); cursor: pointer; font-size: 0.7rem; padding: 3px 6px; border-radius: 4px; transition: color 0.15s; white-space: nowrap; }
+.date-clear:hover { color: var(–red); }
 
 .sb-filter-select {
-  width: 100%; background: var(--surface); border: 1px solid var(--border2);
-  border-radius: 6px; color: var(--text); font-family: var(--font);
-  font-size: 0.75rem; padding: 5px 8px; outline: none;
-  transition: border-color 0.15s; cursor: pointer;
+width: 100%; background: var(–surface); border: 1px solid var(–border2);
+border-radius: 6px; color: var(–text); font-family: var(–font);
+font-size: 0.75rem; padding: 5px 8px; outline: none;
+transition: border-color 0.15s; cursor: pointer;
 }
-.sb-filter-select:focus { border-color: var(--retec); }
-.sb-filter-select option { background: var(--surface); }
+.sb-filter-select:focus { border-color: var(–retec); }
+.sb-filter-select option { background: var(–surface); }
 .filter-active-bar {
-  display: none; padding: 5px 12px 6px;
-  background: var(--retec-dim); border-bottom: 1px solid rgba(0,200,150,0.2);
+display: none; padding: 5px 12px 6px;
+background: var(–retec-dim); border-bottom: 1px solid rgba(0,200,150,0.2);
 }
 .filter-active-bar.visible { display: flex; align-items: center; gap: 8px; }
 .filter-active-tags { display: flex; gap: 5px; flex-wrap: wrap; flex: 1; }
 .filter-tag {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 2px 8px; background: var(--retec-dim); border: 1px solid rgba(0,200,150,0.3);
-  border-radius: 10px; font-size: 0.6rem; font-weight: 600; color: var(--retec);
-  cursor: pointer;
+display: inline-flex; align-items: center; gap: 4px;
+padding: 2px 8px; background: var(–retec-dim); border: 1px solid rgba(0,200,150,0.3);
+border-radius: 10px; font-size: 0.6rem; font-weight: 600; color: var(–retec);
+cursor: pointer;
 }
 .filter-tag:hover { background: rgba(0,200,150,0.2); }
-[data-theme="light"] .sb-filter-select { background: #fff; color: #1a2332; }
+[data-theme=“light”] .sb-filter-select { background: #fff; color: #1a2332; }
 
 /* ── MAIN FORM ── */
 .main { flex: 1; padding: 24px; overflow-y: auto; max-width: 960px; }
-.empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; gap: 16px; color: var(--text-muted); }
+.empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; gap: 16px; color: var(–text-muted); }
 .empty-icon { font-size: 3rem; opacity: 0.3; }
-.empty-title { font-size: 1rem; font-weight: 600; color: var(--text-dim); }
+.empty-title { font-size: 1rem; font-weight: 600; color: var(–text-dim); }
 .empty-sub { font-size: 0.8rem; }
 
 /* ── FORM SECTIONS ── */
 .form-section {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 12px; margin-bottom: 16px; overflow: hidden;
+background: var(–surface); border: 1px solid var(–border);
+border-radius: 12px; margin-bottom: 16px; overflow: hidden;
 }
 .section-header {
-  padding: 14px 18px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 10px;
-  background: var(--surface2);
+padding: 14px 18px; border-bottom: 1px solid var(–border);
+display: flex; align-items: center; gap: 10px;
+background: var(–surface2);
 }
 .section-icon { font-size: 1rem; }
-.section-title { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; color: var(--retec); text-transform: uppercase; flex: 1; }
+.section-title { font-family: var(–font-mono); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; color: var(–retec); text-transform: uppercase; flex: 1; }
 .section-body { padding: 18px; }
 
 /* ── GRID INPUTS ── */
@@ -249,358 +251,357 @@ header {
 .form-grid.cols3 { grid-template-columns: 1fr 1fr 1fr; }
 .form-grid.full { grid-template-columns: 1fr; }
 .field { display: flex; flex-direction: column; gap: 5px; }
-.field label { font-family: var(--font-mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; color: var(--text-muted); text-transform: uppercase; }
+.field label { font-family: var(–font-mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; color: var(–text-muted); text-transform: uppercase; }
 .field input, .field select, .field textarea {
-  background: var(--surface2); border: 1px solid var(--border2);
-  border-radius: 8px; color: var(--text); font-family: var(--font); font-size: 0.85rem;
-  padding: 8px 12px; outline: none; transition: border-color 0.15s; width: 100%;
+background: var(–surface2); border: 1px solid var(–border2);
+border-radius: 8px; color: var(–text); font-family: var(–font); font-size: 0.85rem;
+padding: 8px 12px; outline: none; transition: border-color 0.15s; width: 100%;
 }
-.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--retec); }
-.field select option { background: var(--surface2); }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(–retec); }
+.field select option { background: var(–surface2); }
 .field textarea { resize: vertical; min-height: 60px; }
 .field input[readonly] { opacity: 0.6; cursor: default; }
 
 /* ── TABLE ITEMS ── */
 .items-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
 .items-table th {
-  font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--text-muted); padding: 8px 10px; text-align: left;
-  border-bottom: 1px solid var(--border); white-space: nowrap;
+font-family: var(–font-mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+color: var(–text-muted); padding: 8px 10px; text-align: left;
+border-bottom: 1px solid var(–border); white-space: nowrap;
 }
-.items-table td { padding: 6px 6px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.items-table td { padding: 6px 6px; border-bottom: 1px solid var(–border); vertical-align: middle; }
 .items-table tr:last-child td { border-bottom: none; }
 .items-table input, .items-table select {
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 6px; color: var(--text); font-family: var(--font); font-size: 0.8rem;
-  padding: 5px 8px; outline: none; width: 100%; transition: border-color 0.15s;
+background: var(–surface2); border: 1px solid var(–border);
+border-radius: 6px; color: var(–text); font-family: var(–font); font-size: 0.8rem;
+padding: 5px 8px; outline: none; width: 100%; transition: border-color 0.15s;
 }
-.items-table input:focus, .items-table select:focus { border-color: var(--retec); }
-.items-table .total-cell { font-family: var(--font-mono); font-size: 0.78rem; color: var(--retec); white-space: nowrap; }
+.items-table input:focus, .items-table select:focus { border-color: var(–retec); }
+.items-table .total-cell { font-family: var(–font-mono); font-size: 0.78rem; color: var(–retec); white-space: nowrap; }
 .items-table .del-btn {
-  background: none; border: none; color: var(--text-dim); cursor: pointer;
-  font-size: 1rem; padding: 2px 6px; border-radius: 4px; transition: color 0.15s;
+background: none; border: none; color: var(–text-dim); cursor: pointer;
+font-size: 1rem; padding: 2px 6px; border-radius: 4px; transition: color 0.15s;
 }
-.items-table .del-btn:hover { color: var(--red); }
+.items-table .del-btn:hover { color: var(–red); }
 .add-row-btn {
-  margin-top: 10px; padding: 7px 14px; border-radius: 6px;
-  background: var(--retec-dim); border: 1px dashed rgba(0,200,150,0.3);
-  color: var(--retec); font-family: var(--font); font-size: 0.75rem; font-weight: 600;
-  cursor: pointer; transition: all 0.15s;
+margin-top: 10px; padding: 7px 14px; border-radius: 6px;
+background: var(–retec-dim); border: 1px dashed rgba(0,200,150,0.3);
+color: var(–retec); font-family: var(–font); font-size: 0.75rem; font-weight: 600;
+cursor: pointer; transition: all 0.15s;
 }
 .add-row-btn:hover { background: rgba(0,200,150,0.15); }
 
 /* ── RESULTS PANEL ── */
 .results-panel {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 12px; overflow: hidden; margin-bottom: 16px;
+background: var(–surface); border: 1px solid var(–border);
+border-radius: 12px; overflow: hidden; margin-bottom: 16px;
 }
 .results-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
 .result-card {
-  padding: 18px; border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+padding: 18px; border-right: 1px solid var(–border);
+border-bottom: 1px solid var(–border);
 }
 .result-card:nth-child(4n) { border-right: none; }
 .result-card:nth-last-child(-n+4) { border-bottom: none; }
-.result-label { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
-.result-val { font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; }
-.val-green { color: var(--retec); }
-.val-orange { color: var(--orange); }
-.val-blue { color: var(--blue); }
-.val-red { color: var(--red); }
-.val-white { color: var(--text); }
-.result-sub { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
-.margin-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+.result-label { font-family: var(–font-mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(–text-muted); margin-bottom: 6px; }
+.result-val { font-family: var(–font-mono); font-size: 1.1rem; font-weight: 700; }
+.val-green { color: var(–retec); }
+.val-orange { color: var(–orange); }
+.val-blue { color: var(–blue); }
+.val-red { color: var(–red); }
+.val-white { color: var(–text); }
+.result-sub { font-size: 0.68rem; color: var(–text-muted); margin-top: 2px; }
+.margin-bar { height: 4px; background: var(–border); border-radius: 2px; margin-top: 8px; overflow: hidden; }
 .margin-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
 
 /* ── PONTO DE COLETA ── */
 .coleta-block {
-  background: var(--surface2); border: 1px solid var(--border2);
-  border-radius: 10px; padding: 16px; margin-bottom: 12px; position: relative;
+background: var(–surface2); border: 1px solid var(–border2);
+border-radius: 10px; padding: 16px; margin-bottom: 12px; position: relative;
 }
-.coleta-title { font-family: var(--font-mono); font-size: 0.65rem; color: var(--blue); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-.coleta-del { background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 0.85rem; margin-left: auto; padding: 2px 6px; border-radius: 4px; transition: color 0.15s; }
-.coleta-del:hover { color: var(--red); }
+.coleta-title { font-family: var(–font-mono); font-size: 0.65rem; color: var(–blue); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.coleta-del { background: none; border: none; color: var(–text-dim); cursor: pointer; font-size: 0.85rem; margin-left: auto; padding: 2px 6px; border-radius: 4px; transition: color 0.15s; }
+.coleta-del:hover { color: var(–red); }
 .coleta-result { margin-top: 12px; padding: 10px 14px; background: rgba(0,200,150,0.05); border: 1px solid rgba(0,200,150,0.1); border-radius: 8px; display: flex; gap: 24px; flex-wrap: wrap; }
 .cr-item { display: flex; flex-direction: column; gap: 2px; }
-.cr-label { font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
-.cr-val { font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; color: var(--retec); }
+.cr-label { font-family: var(–font-mono); font-size: 0.55rem; color: var(–text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.cr-val { font-family: var(–font-mono); font-size: 0.82rem; font-weight: 700; color: var(–retec); }
 
 /* ── DESTINAÇÃO ── */
 .dest-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto; gap: 8px; align-items: center; margin-bottom: 8px; }
 
 /* ── IMPOSTOS BADGE ── */
 .tax-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-.tax-badge { padding: 4px 10px; background: rgba(59,158,255,0.08); border: 1px solid rgba(59,158,255,0.2); border-radius: 6px; font-family: var(--font-mono); font-size: 0.62rem; color: var(--blue); }
+.tax-badge { padding: 4px 10px; background: rgba(59,158,255,0.08); border: 1px solid rgba(59,158,255,0.2); border-radius: 6px; font-family: var(–font-mono); font-size: 0.62rem; color: var(–blue); }
 
 /* ── TOAST ── */
 .toast {
-  position: fixed; bottom: 24px; right: 24px; z-index: 9999;
-  background: var(--surface); border: 1px solid var(--border2);
-  border-radius: 10px; padding: 12px 18px;
-  font-size: 0.82rem; color: var(--text);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-  transform: translateY(100px); opacity: 0;
-  transition: all 0.3s cubic-bezier(0.32,0.72,0,1);
-  display: flex; align-items: center; gap: 10px;
+position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+background: var(–surface); border: 1px solid var(–border2);
+border-radius: 10px; padding: 12px 18px;
+font-size: 0.82rem; color: var(–text);
+box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+transform: translateY(100px); opacity: 0;
+transition: all 0.3s cubic-bezier(0.32,0.72,0,1);
+display: flex; align-items: center; gap: 10px;
 }
 .toast.show { transform: translateY(0); opacity: 1; }
 
 /* ── STATUS BADGE ── */
 .status-select {
-  background: var(--surface2); border: 1px solid var(--border2);
-  border-radius: 6px; color: var(--text); font-family: var(--font); font-size: 0.75rem;
-  padding: 4px 8px; outline: none; cursor: pointer;
+background: var(–surface2); border: 1px solid var(–border2);
+border-radius: 6px; color: var(–text); font-family: var(–font); font-size: 0.75rem;
+padding: 4px 8px; outline: none; cursor: pointer;
 }
 
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(–border2); border-radius: 3px; }
 
 /* ── RESPONSIVE ── */
 /* ══════════════════════════════════════════════
-   MOBILE RESPONSIVO  (≤ 768px)
+MOBILE RESPONSIVO  (≤ 768px)
 ══════════════════════════════════════════════ */
 @media (max-width: 768px) {
 
-  /* ── Header ── */
-  header {
-    padding: 0 12px;
-    height: auto;
-    min-height: 52px;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-  }
-  .logo img { height: 44px !important; }
-  .hdiv { display: none; }
-  .hbadge { font-size: 0.62rem; }
-  .hactions {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding-bottom: 4px;
-  }
-  .hbtn {
-    flex: 1 1 auto;
-    min-width: 70px;
-    font-size: 0.68rem;
-    padding: 5px 8px;
-    text-align: center;
-  }
+/* ── Header ── */
+header {
+padding: 0 12px;
+height: auto;
+min-height: 52px;
+flex-wrap: wrap;
+gap: 8px;
+padding-top: 6px;
+padding-bottom: 6px;
+}
+.logo img { height: 44px !important; }
+.hdiv { display: none; }
+.hbadge { font-size: 0.62rem; }
+.hactions {
+width: 100%;
+display: flex;
+flex-wrap: wrap;
+gap: 6px;
+padding-bottom: 4px;
+}
+.hbtn {
+flex: 1 1 auto;
+min-width: 70px;
+font-size: 0.68rem;
+padding: 5px 8px;
+text-align: center;
+}
 
-  /* ── Layout: sidebar vira drawer ── */
-  .app { flex-direction: column; }
+/* ── Layout: sidebar vira drawer ── */
+.app { flex-direction: column; }
 
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    top: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s ease;
-  }
-  .sidebar.mobile-open {
-    max-height: 80vh;
-    overflow-y: auto;
-  }
+.sidebar {
+width: 100%;
+height: auto;
+position: relative;
+top: auto;
+border-right: none;
+border-bottom: 1px solid var(–border);
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.35s ease;
+}
+.sidebar.mobile-open {
+max-height: 80vh;
+overflow-y: auto;
+}
 
-  /* Botão flutuante para abrir/fechar sidebar no mobile */
-  #mob-sidebar-toggle {
-    display: flex;
-  }
+/* Botão flutuante para abrir/fechar sidebar no mobile */
+#mob-sidebar-toggle {
+display: flex;
+}
 
-  /* ── Área principal ── */
-  .main {
-    padding: 14px;
-    max-width: 100%;
-  }
+/* ── Área principal ── */
+.main {
+padding: 14px;
+max-width: 100%;
+}
 
-  /* ── Cards de resultado ── */
-  .results-grid { grid-template-columns: 1fr 1fr; }
-  .result-card { padding: 12px; }
-  .result-val  { font-size: 1rem; }
+/* ── Cards de resultado ── */
+.results-grid { grid-template-columns: 1fr 1fr; }
+.result-card { padding: 12px; }
+.result-val  { font-size: 1rem; }
 
-  /* ── Formulário de identificação ── */
-  .form-grid        { grid-template-columns: 1fr !important; }
-  .form-grid.cols2  { grid-template-columns: 1fr !important; }
-  .form-grid.cols3  { grid-template-columns: 1fr !important; }
-  .form-grid.full   { grid-template-columns: 1fr; }
+/* ── Formulário de identificação ── */
+.form-grid        { grid-template-columns: 1fr !important; }
+.form-grid.cols2  { grid-template-columns: 1fr !important; }
+.form-grid.cols3  { grid-template-columns: 1fr !important; }
+.form-grid.full   { grid-template-columns: 1fr; }
 
-  /* ── Seções de tabela (destinação, locação, op.) ── */
-  .items-table { display: block; width: 100%; }
-  .items-table thead { display: none; }
-  .items-table tbody { display: block; }
-  .items-table tr {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-  .items-table td {
-    display: block;
-    border: none;
-    padding: 3px 0;
-    font-size: 0.78rem;
-  }
-  .items-table td:last-child {
-    grid-column: 1 / -1;
-    text-align: right;
-  }
+/* ── Seções de tabela (destinação, locação, op.) ── */
+.items-table { display: block; width: 100%; }
+.items-table thead { display: none; }
+.items-table tbody { display: block; }
+.items-table tr {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 6px;
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 10px;
+margin-bottom: 10px;
+}
+.items-table td {
+display: block;
+border: none;
+padding: 3px 0;
+font-size: 0.78rem;
+}
+.items-table td:last-child {
+grid-column: 1 / -1;
+text-align: right;
+}
 
-  /* ── Coleta cards ── */
-  .coleta-card .coleta-grid { grid-template-columns: 1fr 1fr !important; }
-  .coleta-card .coleta-grid-wide { grid-template-columns: 1fr 1fr !important; }
-  .coleta-summary { flex-wrap: wrap; gap: 8px; }
+/* ── Coleta cards ── */
+.coleta-card .coleta-grid { grid-template-columns: 1fr 1fr !important; }
+.coleta-card .coleta-grid-wide { grid-template-columns: 1fr 1fr !important; }
+.coleta-summary { flex-wrap: wrap; gap: 8px; }
 
-  /* ── Seção header ── */
-  .section-header {
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 12px 14px;
-  }
-  .section-title { font-size: 0.8rem; }
+/* ── Seção header ── */
+.section-header {
+flex-wrap: wrap;
+gap: 6px;
+padding: 12px 14px;
+}
+.section-title { font-size: 0.8rem; }
 
-  /* ── Timeline ── */
-  .timeline-entry { flex-direction: column; gap: 4px; }
+/* ── Timeline ── */
+.timeline-entry { flex-direction: column; gap: 4px; }
 
-  /* ── Status modal ── */
-  .status-modal {
-    width: 96vw !important;
-    max-width: 96vw !important;
-    margin: 12px;
-  }
-  .status-grid { grid-template-columns: 1fr 1fr !important; }
+/* ── Status modal ── */
+.status-modal {
+width: 96vw !important;
+max-width: 96vw !important;
+margin: 12px;
+}
+.status-grid { grid-template-columns: 1fr 1fr !important; }
 
-  /* ── Cadastros modal ── */
-  .cad-modal-inner {
-    width: 96vw !important;
-    max-width: 96vw !important;
-    padding: 0 !important;
-  }
-  .cad-tabs { overflow-x: auto; }
-  .cad-tab  { font-size: 0.7rem; padding: 10px 10px; }
+/* ── Cadastros modal ── */
+.cad-modal-inner {
+width: 96vw !important;
+max-width: 96vw !important;
+padding: 0 !important;
+}
+.cad-tabs { overflow-x: auto; }
+.cad-tab  { font-size: 0.7rem; padding: 10px 10px; }
 
-  /* ── Toast ── */
-  #toast { right: 12px; left: 12px; font-size: 0.78rem; }
+/* ── Toast ── */
+#toast { right: 12px; left: 12px; font-size: 0.78rem; }
 
-  /* ── Empty state ── */
-  .empty-state { min-height: 200px; }
-  .empty-icon  { font-size: 2rem; }
+/* ── Empty state ── */
+.empty-state { min-height: 200px; }
+.empty-icon  { font-size: 2rem; }
 }
 
 /* Botão flutuante sidebar — oculto no desktop */
 #mob-sidebar-toggle {
-  display: none;
-  position: fixed;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  bottom: 20px;
-  right: 20px;
-  z-index: 900;
-  background: var(--retec);
-  color: #000;
-  border: none;
-  border-radius: 50px;
-  padding: 12px 20px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 4px 18px rgba(0,200,150,0.35);
-  transition: transform 0.15s, box-shadow 0.15s;
+display: none;
+position: fixed;
+touch-action: manipulation;
+-webkit-tap-highlight-color: transparent;
+bottom: 20px;
+right: 20px;
+z-index: 900;
+background: var(–retec);
+color: #000;
+border: none;
+border-radius: 50px;
+padding: 12px 20px;
+font-size: 0.82rem;
+font-weight: 700;
+cursor: pointer;
+box-shadow: 0 4px 18px rgba(0,200,150,0.35);
+transition: transform 0.15s, box-shadow 0.15s;
 }
 #mob-sidebar-toggle:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 24px rgba(0,200,150,0.5);
+transform: scale(1.05);
+box-shadow: 0 6px 24px rgba(0,200,150,0.5);
 }
 
 @media (max-width: 480px) {
-  .results-grid { grid-template-columns: 1fr !important; }
-  .coleta-card .coleta-grid { grid-template-columns: 1fr !important; }
-  .items-table tr { grid-template-columns: 1fr; }
-  .hbtn { font-size: 0.65rem; padding: 5px 6px; }
-  .logo img { height: 36px !important; }
+.results-grid { grid-template-columns: 1fr !important; }
+.coleta-card .coleta-grid { grid-template-columns: 1fr !important; }
+.items-table tr { grid-template-columns: 1fr; }
+.hbtn { font-size: 0.65rem; padding: 5px 6px; }
+.logo img { height: 36px !important; }
 }
 
 /* ── MULTI-SELECT DROPDOWN FILTER ── */
 .ms-filter { position: relative; width: 100%; user-select: none; }
 .ms-trigger {
-  width: 100%; background: var(--surface); border: 1px solid var(--border2);
-  border-radius: 6px; color: var(--text); font-family: var(--font);
-  font-size: 0.75rem; padding: 5px 26px 5px 8px; outline: none;
-  cursor: pointer; text-align: left; transition: border-color 0.15s;
-  display: flex; align-items: center; gap: 5px; flex-wrap: wrap; min-height: 28px;
-  box-sizing: border-box; position: relative;
-  -webkit-appearance: none; appearance: none;
-  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+width: 100%; background: var(–surface); border: 1px solid var(–border2);
+border-radius: 6px; color: var(–text); font-family: var(–font);
+font-size: 0.75rem; padding: 5px 26px 5px 8px; outline: none;
+cursor: pointer; text-align: left; transition: border-color 0.15s;
+display: flex; align-items: center; gap: 5px; flex-wrap: wrap; min-height: 28px;
+box-sizing: border-box; position: relative;
+-webkit-appearance: none; appearance: none;
+touch-action: manipulation; -webkit-tap-highlight-color: transparent;
 }
 .ms-trigger::after {
-  content: '▾'; position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-  font-size: 0.65rem; color: var(--text-dim); pointer-events: none;
+content: ‘▾’; position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+font-size: 0.65rem; color: var(–text-dim); pointer-events: none;
 }
-.ms-trigger.open { border-color: var(--retec); }
-.ms-trigger .ms-placeholder { color: var(--text-dim); font-size: 0.75rem; }
+.ms-trigger.open { border-color: var(–retec); }
+.ms-trigger .ms-placeholder { color: var(–text-dim); font-size: 0.75rem; }
 .ms-tag {
-  background: var(--surface3); border: 1px solid var(--border2);
-  border-radius: 12px; padding: 1px 6px; font-size: 0.65rem;
-  color: var(--text); display: inline-flex; align-items: center; gap: 3px;
-  white-space: nowrap;
+background: var(–surface3); border: 1px solid var(–border2);
+border-radius: 12px; padding: 1px 6px; font-size: 0.65rem;
+color: var(–text); display: inline-flex; align-items: center; gap: 3px;
+white-space: nowrap;
 }
 .ms-tag .ms-tag-x {
-  cursor: pointer; color: var(--text-dim); font-size: 0.7rem; line-height: 1;
-  background: none; border: none; padding: 0; margin: 0;
-  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+cursor: pointer; color: var(–text-dim); font-size: 0.7rem; line-height: 1;
+background: none; border: none; padding: 0; margin: 0;
+touch-action: manipulation; -webkit-tap-highlight-color: transparent;
 }
-.ms-tag .ms-tag-x:hover { color: var(--red); }
+.ms-tag .ms-tag-x:hover { color: var(–red); }
 .ms-dropdown {
-  display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-  background: var(--surface); border: 1px solid var(--border2); border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.25); z-index: 500;
-  max-height: 220px; overflow-y: auto;
+display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+background: var(–surface); border: 1px solid var(–border2); border-radius: 8px;
+box-shadow: 0 8px 24px rgba(0,0,0,0.25); z-index: 500;
+max-height: 220px; overflow-y: auto;
 }
 .ms-dropdown.open { display: block; }
 .ms-option {
-  display: flex; align-items: center; gap: 8px;
-  padding: 7px 10px; cursor: pointer; font-size: 0.78rem;
-  transition: background 0.1s; width: 100%; background: transparent;
-  border: none; text-align: left; font-family: var(--font); color: var(--text);
-  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+display: flex; align-items: center; gap: 8px;
+padding: 7px 10px; cursor: pointer; font-size: 0.78rem;
+transition: background 0.1s; width: 100%; background: transparent;
+border: none; text-align: left; font-family: var(–font); color: var(–text);
+touch-action: manipulation; -webkit-tap-highlight-color: transparent;
 }
-.ms-option:hover { background: var(--surface2); }
-.ms-option input[type=checkbox] { accent-color: var(--retec); width: 13px; height: 13px; cursor: pointer; flex-shrink: 0; }
+.ms-option:hover { background: var(–surface2); }
+.ms-option input[type=checkbox] { accent-color: var(–retec); width: 13px; height: 13px; cursor: pointer; flex-shrink: 0; }
 .ms-option label { cursor: pointer; flex: 1; }
 .ms-select-all {
-  padding: 6px 10px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 8px; font-size: 0.7rem;
-  color: var(--text-muted); cursor: pointer; transition: background 0.1s;
-  width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border);
-  text-align: left; font-family: var(--font);
-  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+padding: 6px 10px; border-bottom: 1px solid var(–border);
+display: flex; align-items: center; gap: 8px; font-size: 0.7rem;
+color: var(–text-muted); cursor: pointer; transition: background 0.1s;
+width: 100%; background: transparent; border: none; border-bottom: 1px solid var(–border);
+text-align: left; font-family: var(–font);
+touch-action: manipulation; -webkit-tap-highlight-color: transparent;
 }
-.ms-select-all:hover { background: var(--surface2); }
-.ms-select-all input[type=checkbox] { accent-color: var(--retec); width: 13px; height: 13px; cursor: pointer; }
-
+.ms-select-all:hover { background: var(–surface2); }
+.ms-select-all input[type=checkbox] { accent-color: var(–retec); width: 13px; height: 13px; cursor: pointer; }
 
 .detail-subbar{
-  display:flex;align-items:center;gap:12px;padding:10px 20px;
-  border-bottom:1px solid var(--border);background:var(--surface);
-  flex-shrink:0;flex-wrap:wrap;
+display:flex;align-items:center;gap:12px;padding:10px 20px;
+border-bottom:1px solid var(–border);background:var(–surface);
+flex-shrink:0;flex-wrap:wrap;
 }
-.detail-drc-id{font-family:var(--font-mono);font-size:0.78rem;font-weight:700;letter-spacing:.08em;color:var(--retec);}
+.detail-drc-id{font-family:var(–font-mono);font-size:0.78rem;font-weight:700;letter-spacing:.08em;color:var(–retec);}
 .detail-actions{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap;}
 @media(max-width:768px){
-  .detail-subbar{padding:8px 12px;gap:8px;}
-  .detail-actions{width:100%;}
-  .detail-actions .hbtn{flex:1 1 auto;text-align:center;font-size:.72rem;}
+.detail-subbar{padding:8px 12px;gap:8px;}
+.detail-actions{width:100%;}
+.detail-actions .hbtn{flex:1 1 auto;text-align:center;font-size:.72rem;}
 }
 
 </style>
@@ -613,13 +614,14 @@ header {
   <div class="hdiv"></div>
   <span class="hbadge">DRC · PRECIFICAÇÃO</span>
   <div class="hactions">
-    <a class="hbtn" href="drc.html" style="text-decoration:none;display:inline-flex;align-items:center;touch-action:manipulation;">← Lista</a>
+    <a class="hbtn" href="index.html" style="text-decoration:none;display:inline-flex;align-items:center;touch-action:manipulation;">← Lista</a>
     <a class="hbtn" href="drc-cadastros.html" style="text-decoration:none;display:inline-flex;align-items:center;touch-action:manipulation;">⚙ Cadastros</a>
     <button class="hbtn" id="theme-toggle" onclick="toggleTheme()" title="Alternar tema">🌙</button>
   </div>
 </header>
 
 <!-- STATUS MODAL -->
+
 <div id="status-modal-overlay" class="status-modal-overlay" onclick="if(event.target===this)closeStatusModal()">
   <div class="status-modal">
     <div style="padding:18px 22px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px;">
@@ -634,52 +636,54 @@ header {
       <!-- Status options -->
       <div id="status-opts-container"></div>
 
-      <!-- Justificativa (shown only for negative statuses) -->
-      <div class="just-section" id="just-section" style="display:none;">
-        <div class="just-label">⚠ Justificativa obrigatória</div>
-        <select id="just-select"
-          onchange="selectJustOption(this.value)"
-          style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;
-                 color:var(--text);font-family:var(--font);font-size:0.85rem;padding:9px 12px;
-                 outline:none;cursor:pointer;transition:border-color 0.15s;appearance:none;
-                 background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23888' d='M6 8L0 0h12z'/%3E%3C/svg%3E\");
-                 background-repeat:no-repeat;background-position:right 12px center;"
-          onfocus="this.style.borderColor='var(--retec)'" onblur="this.style.borderColor='var(--border2)'">
-        </select>
-        <!-- Campo livre para "Outra..." -->
-        <textarea id="just-textarea" placeholder="Descreva a justificativa..."
-          oninput="pendingJust=this.value"
-          style="display:none;margin-top:10px;width:100%;background:var(--surface2);border:1px solid var(--border2);
-                 border-radius:8px;color:var(--text);font-family:var(--font);font-size:0.82rem;padding:9px 12px;
-                 outline:none;resize:vertical;min-height:70px;transition:border-color 0.15s;box-sizing:border-box;"
-          onfocus="this.style.borderColor='var(--retec)'" onblur="this.style.borderColor='var(--border2)'"></textarea>
-      </div>
+```
+  <!-- Justificativa (shown only for negative statuses) -->
+  <div class="just-section" id="just-section" style="display:none;">
+    <div class="just-label">⚠ Justificativa obrigatória</div>
+    <select id="just-select"
+      onchange="selectJustOption(this.value)"
+      style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;
+             color:var(--text);font-family:var(--font);font-size:0.85rem;padding:9px 12px;
+             outline:none;cursor:pointer;transition:border-color 0.15s;appearance:none;
+             background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23888' d='M6 8L0 0h12z'/%3E%3C/svg%3E\");
+             background-repeat:no-repeat;background-position:right 12px center;"
+      onfocus="this.style.borderColor='var(--retec)'" onblur="this.style.borderColor='var(--border2)'">
+    </select>
+    <!-- Campo livre para "Outra..." -->
+    <textarea id="just-textarea" placeholder="Descreva a justificativa..."
+      oninput="pendingJust=this.value"
+      style="display:none;margin-top:10px;width:100%;background:var(--surface2);border:1px solid var(--border2);
+             border-radius:8px;color:var(--text);font-family:var(--font);font-size:0.82rem;padding:9px 12px;
+             outline:none;resize:vertical;min-height:70px;transition:border-color 0.15s;box-sizing:border-box;"
+      onfocus="this.style.borderColor='var(--retec)'" onblur="this.style.borderColor='var(--border2)'"></textarea>
+  </div>
 
-      <!-- Autor -->
-      <div style="margin-top:14px;">
-        <label style="font-family:var(--font-mono);font-size:0.6rem;font-weight:700;letter-spacing:0.08em;color:var(--red);text-transform:uppercase;display:block;margin-bottom:6px;">⚠ Registrado por <span style="font-size:0.55rem;color:var(--text-dim);text-transform:none;font-weight:400;">(obrigatório)</span></label>
-        <select id="status-autor"
-          style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;
-                 color:var(--text);font-family:var(--font);font-size:0.85rem;padding:9px 12px;
-                 outline:none;cursor:pointer;transition:border-color 0.15s;appearance:none;
-                 background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23888' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
-                 background-repeat:no-repeat;background-position:right 12px center;"
-          onfocus="this.style.borderColor='var(--retec)'" onblur="this.style.borderColor='var(--border2)'">
-        </select>
-      </div>
-    </div>
-    <div style="padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;">
-      <button onclick="closeStatusModal()" style="padding:9px 18px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text-muted);font-family:var(--font);font-size:0.82rem;cursor:pointer;">Cancelar</button>
-      <button onclick="confirmStatusChange()" style="padding:9px 22px;border-radius:8px;border:none;background:var(--retec);color:#000;font-family:var(--font);font-size:0.82rem;font-weight:700;cursor:pointer;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Confirmar</button>
-    </div>
+  <!-- Autor -->
+  <div style="margin-top:14px;">
+    <label style="font-family:var(--font-mono);font-size:0.6rem;font-weight:700;letter-spacing:0.08em;color:var(--red);text-transform:uppercase;display:block;margin-bottom:6px;">⚠ Registrado por <span style="font-size:0.55rem;color:var(--text-dim);text-transform:none;font-weight:400;">(obrigatório)</span></label>
+    <select id="status-autor"
+      style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;
+             color:var(--text);font-family:var(--font);font-size:0.85rem;padding:9px 12px;
+             outline:none;cursor:pointer;transition:border-color 0.15s;appearance:none;
+             background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23888' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+             background-repeat:no-repeat;background-position:right 12px center;"
+      onfocus="this.style.borderColor='var(--retec)'" onblur="this.style.borderColor='var(--border2)'">
+    </select>
   </div>
 </div>
+<div style="padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;">
+  <button onclick="closeStatusModal()" style="padding:9px 18px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text-muted);font-family:var(--font);font-size:0.82rem;cursor:pointer;">Cancelar</button>
+  <button onclick="confirmStatusChange()" style="padding:9px 22px;border-radius:8px;border:none;background:var(--retec);color:#000;font-family:var(--font);font-size:0.82rem;font-weight:700;cursor:pointer;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Confirmar</button>
+</div>
+```
 
-
+  </div>
+</div>
 
 <div style="display:flex;flex-direction:column;height:calc(100vh - 52px);overflow:hidden;">
 
   <!-- Sub-bar with DRC id + action buttons -->
+
   <div class="detail-subbar" id="detail-subbar" style="display:none;">
     <div>
       <div class="detail-drc-id" id="detail-drc-id">—</div>
@@ -694,14 +698,16 @@ header {
   </div>
 
   <!-- Empty / error state -->
+
   <div class="empty-state" id="empty-state" style="flex:1;">
     <div class="empty-icon">⚠️</div>
     <div class="empty-title">DRC não encontrado</div>
     <div class="empty-sub">O DRC solicitado não existe ou foi excluído</div>
-    <a href="drc.html" style="margin-top:10px;padding:9px 22px;border-radius:8px;background:var(--retec);color:#000;font-weight:700;font-size:.82rem;text-decoration:none;font-family:var(--font);">← Voltar à lista</a>
+    <a href="index.html" style="margin-top:10px;padding:9px 22px;border-radius:8px;background:var(--retec);color:#000;font-weight:700;font-size:.82rem;text-decoration:none;font-family:var(--font);">← Voltar à lista</a>
   </div>
 
   <!-- Form area -->
+
   <div id="detail-main" style="display:none;flex:1;overflow-y:auto;">
     <div id="drc-form"></div>
   </div>
@@ -1005,91 +1011,96 @@ function renderForm() {
       '</div>' +
       '<div class="form-grid full" style="margin-top:12px;">' +
         '<div class="field"><label>Observações / Escopo</label><textarea oninput="updateField(\'obs\',this.value)" placeholder="Detalhes do escopo, condições especiais...">' + (drc.obs||'') + '</textarea></div>' +
-      '</div>' +
-    '</div>' +
+
+```
   '</div>' +
+'</div>' +
+```
 
-  // Results
-  renderResults(r) +
+‘</div>’ +
 
-  // Timeline
-  '<div class="form-section">' +
-    '<div class="section-header">' +
-      '<span class="section-icon">🕐</span>' +
-      '<span class="section-title">Histórico de Status</span>' +
-      '<span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);">' + histLen + ' registro(s)</span>' +
-    '</div>' +
-    '<div class="section-body"><div class="timeline">' + renderTimeline(drc) + '</div></div>' +
-  '</div>' +
+// Results
+renderResults(r) +
 
-  // Coleta
-  '<div class="form-section">' +
-    '<div class="section-header">' +
-      '<span class="section-icon">🚚</span>' +
-      '<span class="section-title">Coleta e Transporte</span>' +
-      '<span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--retec);">' + fmt(r.recTransp) + '</span>' +
-    '</div>' +
-    '<div class="section-body">' +
-      '<div id="coletas-container">' + drc.coletas.map((c,i) => renderColeta(c,i)).join('') + '</div>' +
-      '<button class="add-row-btn" onclick="addColeta()">＋ Adicionar Ponto de Coleta</button>' +
-    '</div>' +
-  '</div>' +
+// Timeline
+‘<div class="form-section">’ +
+‘<div class="section-header">’ +
+‘<span class="section-icon">🕐</span>’ +
+‘<span class="section-title">Histórico de Status</span>’ +
+‘<span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);">’ + histLen + ’ registro(s)</span>’ +
+‘</div>’ +
+‘<div class="section-body"><div class="timeline">’ + renderTimeline(drc) + ‘</div></div>’ +
+‘</div>’ +
 
-  // Destinação
-  '<div class="form-section">' +
-    '<div class="section-header">' +
-      '<span class="section-icon">♻️</span>' +
-      '<span class="section-title">Tratamento e Destinação</span>' +
-      '<span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--retec);">' + fmt(r.recDest) + '</span>' +
-    '</div>' +
-    '<div class="section-body">' +
-      '<table class="items-table" style="width:100%">' +
-        '<thead><tr><th>Destinação / Tratamento</th><th>Und</th><th>Qtde</th><th>$ Custo Unit.</th><th>$ PV Unit.</th><th>$ Receita</th><th>$ Despesa</th><th>Receptor</th><th></th></tr></thead>' +
-        '<tbody id="dest-tbody">' + drc.destinacoes.map((d,i) => renderDestRow(d,i)).join('') + '</tbody>' +
-      '</table>' +
-      '<button class="add-row-btn" onclick="addDest()">＋ Adicionar Destinação</button>' +
-    '</div>' +
-  '</div>' +
+// Coleta
+‘<div class="form-section">’ +
+‘<div class="section-header">’ +
+‘<span class="section-icon">🚚</span>’ +
+‘<span class="section-title">Coleta e Transporte</span>’ +
+‘<span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--retec);">’ + fmt(r.recTransp) + ‘</span>’ +
+‘</div>’ +
+‘<div class="section-body">’ +
+‘<div id="coletas-container">’ + drc.coletas.map((c,i) => renderColeta(c,i)).join(’’) + ‘</div>’ +
+‘<button class="add-row-btn" onclick="addColeta()">＋ Adicionar Ponto de Coleta</button>’ +
+‘</div>’ +
+‘</div>’ +
 
-  // Locação
-  '<div class="form-section">' +
-    '<div class="section-header">' +
-      '<span class="section-icon">📦</span>' +
-      '<span class="section-title">Locação de Equipamentos</span>' +
-      '<span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--retec);">' + fmt(r.recLoc) + '</span>' +
-    '</div>' +
-    '<div class="section-body">' +
-      '<table class="items-table" style="width:100%">' +
-        '<thead><tr><th>Descrição</th><th>Qtde</th><th>Unidade</th><th>$ Custo Unit.</th><th>$ Venda Unit.</th><th>$ Receita</th><th></th></tr></thead>' +
-        '<tbody id="loc-tbody">' + drc.locacoes.map((l,i) => renderLocRow(l,i)).join('') + '</tbody>' +
-      '</table>' +
-      '<button class="add-row-btn" onclick="addLoc()">＋ Adicionar Item de Locação</button>' +
-    '</div>' +
-  '</div>' +
+// Destinação
+‘<div class="form-section">’ +
+‘<div class="section-header">’ +
+‘<span class="section-icon">♻️</span>’ +
+‘<span class="section-title">Tratamento e Destinação</span>’ +
+‘<span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--retec);">’ + fmt(r.recDest) + ‘</span>’ +
+‘</div>’ +
+‘<div class="section-body">’ +
+‘<table class="items-table" style="width:100%">’ +
+‘<thead><tr><th>Destinação / Tratamento</th><th>Und</th><th>Qtde</th><th>$ Custo Unit.</th><th>$ PV Unit.</th><th>$ Receita</th><th>$ Despesa</th><th>Receptor</th><th></th></tr></thead>’ +
+‘<tbody id="dest-tbody">’ + drc.destinacoes.map((d,i) => renderDestRow(d,i)).join(’’) + ‘</tbody>’ +
+‘</table>’ +
+‘<button class="add-row-btn" onclick="addDest()">＋ Adicionar Destinação</button>’ +
+‘</div>’ +
+‘</div>’ +
 
-  // Op. Especiais
-  '<div class="form-section">' +
-    '<div class="section-header">' +
-      '<span class="section-icon">⚙️</span>' +
-      '<span class="section-title">Operações Especiais / Mão de Obra</span>' +
-      '<span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--retec);">' + fmt(r.recOp) + '</span>' +
-    '</div>' +
-    '<div class="section-body">' +
-      '<table class="items-table" style="width:100%">' +
-        '<thead><tr><th>Descrição</th><th>Qtde</th><th>Unidade</th><th>$ Custo Unit.</th><th>$ Venda Unit.</th><th>$ Receita</th><th>Fornecedor</th><th></th></tr></thead>' +
-        '<tbody id="op-tbody">' + drc.opEspeciais.map((o,i) => renderOpRow(o,i)).join('') + '</tbody>' +
-      '</table>' +
-      '<button class="add-row-btn" onclick="addOp()">＋ Adicionar Operação</button>' +
-    '</div>' +
-  '</div>';
+// Locação
+‘<div class="form-section">’ +
+‘<div class="section-header">’ +
+‘<span class="section-icon">📦</span>’ +
+‘<span class="section-title">Locação de Equipamentos</span>’ +
+‘<span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--retec);">’ + fmt(r.recLoc) + ‘</span>’ +
+‘</div>’ +
+‘<div class="section-body">’ +
+‘<table class="items-table" style="width:100%">’ +
+‘<thead><tr><th>Descrição</th><th>Qtde</th><th>Unidade</th><th>$ Custo Unit.</th><th>$ Venda Unit.</th><th>$ Receita</th><th></th></tr></thead>’ +
+‘<tbody id="loc-tbody">’ + drc.locacoes.map((l,i) => renderLocRow(l,i)).join(’’) + ‘</tbody>’ +
+‘</table>’ +
+‘<button class="add-row-btn" onclick="addLoc()">＋ Adicionar Item de Locação</button>’ +
+‘</div>’ +
+‘</div>’ +
+
+// Op. Especiais
+‘<div class="form-section">’ +
+‘<div class="section-header">’ +
+‘<span class="section-icon">⚙️</span>’ +
+‘<span class="section-title">Operações Especiais / Mão de Obra</span>’ +
+‘<span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--retec);">’ + fmt(r.recOp) + ‘</span>’ +
+‘</div>’ +
+‘<div class="section-body">’ +
+‘<table class="items-table" style="width:100%">’ +
+‘<thead><tr><th>Descrição</th><th>Qtde</th><th>Unidade</th><th>$ Custo Unit.</th><th>$ Venda Unit.</th><th>$ Receita</th><th>Fornecedor</th><th></th></tr></thead>’ +
+‘<tbody id="op-tbody">’ + drc.opEspeciais.map((o,i) => renderOpRow(o,i)).join(’’) + ‘</tbody>’ +
+‘</table>’ +
+‘<button class="add-row-btn" onclick="addOp()">＋ Adicionar Operação</button>’ +
+‘</div>’ +
+‘</div>’;
 
 }
 
 function renderResults(r) {
-  const mPct = (r.margem * 100).toFixed(1);
-  const mColor = r.margem > 0.20 ? '#00c896' : r.margem > 0.10 ? '#f5a623' : '#e84393';
-  const taxTotal = r.iss + r.pis + r.cofins;
-  return `
+const mPct = (r.margem * 100).toFixed(1);
+const mColor = r.margem > 0.20 ? ‘#00c896’ : r.margem > 0.10 ? ‘#f5a623’ : ‘#e84393’;
+const taxTotal = r.iss + r.pis + r.cofins;
+return `
+
   <div class="results-panel">
     <div style="padding:14px 18px;border-bottom:1px solid var(--border);background:var(--surface2);display:flex;align-items:center;gap:10px;">
       <span style="font-family:var(--font-mono);font-size:0.65rem;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);text-transform:uppercase;">Resumo Financeiro</span>
@@ -1147,702 +1158,654 @@ function renderResults(r) {
 }
 
 function renderColeta(c, i) {
-  const rc = calcColeta(c);
-  return `<div class="coleta-block" id="coleta-${c.id}">
-    <div class="coleta-title">
-      <span>🔵 ${i+1}º Ponto de Coleta</span>
-      <button class="coleta-del" onclick="removeColeta('${c.id}')">✕ Remover</button>
-    </div>
-    <div class="form-grid cols3" style="margin-bottom:12px;">
-      <div class="field"><label>Endereço de Coleta</label><input value="${c.endereco||''}" oninput="updateColeta('${c.id}','endereco',this.value)" placeholder="Rua, número, bairro..."></div>
-      <div class="field"><label>Resíduo</label><input value="${c.residuo||''}" oninput="updateColeta('${c.id}','residuo',this.value)" placeholder="Tipo de resíduo"></div>
-      <div class="field"><label>Destino</label><input value="${c.destino||''}" oninput="updateColeta('${c.id}','destino',this.value)" placeholder="Unidade de destino"></div>
-      <div class="field"><label>Tipo de Veículo</label>
-        <select onchange="updateColeta('${c.id}','veiculo',this.value)">
-          ${VEICULOS.map(v => `<option value="${v}" ${c.veiculo===v?'selected':''}>${v}</option>`).join('')}
-        </select>
-      </div>
-      <div class="field"><label>Distância Total (km)</label><input type="number" value="${c.distanciaTotal||0}" oninput="updateColeta('${c.id}','distanciaTotal',this.value)" min="0"></div>
-      <div class="field"><label>Média km/L do Veículo</label><input type="number" value="${c.mediaKm||6}" oninput="updateColeta('${c.id}','mediaKm',this.value)" step="0.1" min="1"></div>
-      <div class="field"><label>Qtde de Viagens</label><input type="number" value="${c.qtdViagens||1}" oninput="updateColeta('${c.id}','qtdViagens',this.value)" min="1"></div>
-      <div class="field"><label>Diesel R$/Litro</label><input type="number" value="${c.dieselPorLitro||6.2}" oninput="updateColeta('${c.id}','dieselPorLitro',this.value)" step="0.01" min="0"></div>
-      <div class="field"><label>Pedágio (por passagem)</label><input type="number" value="${c.pedagio||0}" oninput="updateColeta('${c.id}','pedagio',this.value)" min="0"></div>
-    </div>
-    <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Mão de Obra (diárias)</div>
-    <div class="form-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px;">
-      <div class="field"><label>Ajudante (diárias)</label><input type="number" value="${c.ajudante||0}" oninput="updateColeta('${c.id}','ajudante',this.value)" step="0.5" min="0"></div>
-      <div class="field"><label>Motorista (diárias)</label><input type="number" value="${c.motorista||0.5}" oninput="updateColeta('${c.id}','motorista',this.value)" step="0.5" min="0"></div>
-      <div class="field"><label>Pernoite (diárias)</label><input type="number" value="${c.pernoite||0}" oninput="updateColeta('${c.id}','pernoite',this.value)" step="0.5" min="0"></div>
-      <div class="field"><label>Limpeza SAO (vezes)</label><input type="number" value="${c.limpezaSAO||0}" oninput="updateColeta('${c.id}','limpezaSAO',this.value)" min="0"></div>
-    </div>
-    <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Serviços Extras</div>
-    <div class="form-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px;">
-      <div class="field"><label>Viagem Caçamba CVR</label><input type="number" value="${c.viagemCVR||0}" oninput="updateColeta('${c.id}','viagemCVR',this.value)" min="0"></div>
-      <div class="field"><label>Vácuo Sucção 12m³</label><input type="number" value="${c.vacuoSucao||0}" oninput="updateColeta('${c.id}','vacuoSucao',this.value)" min="0"></div>
-      <div class="field"><label>Retroescavadeira</label><input type="number" value="${c.retroescavadeira||0}" oninput="updateColeta('${c.id}','retroescavadeira',this.value)" min="0"></div>
-      <div class="field"><label>Kit Bomba Sucção</label><input type="number" value="${c.kitBomba||0}" oninput="updateColeta('${c.id}','kitBomba',this.value)" min="0"></div>
-    </div>
-    <div class="coleta-result">
-      <div class="cr-item"><span class="cr-label">Combustível</span><span class="cr-val">${fmt(rc.diesel)}</span></div>
-      <div class="cr-item"><span class="cr-label">Depreciação</span><span class="cr-val">${fmt(rc.depr)}</span></div>
-      <div class="cr-item"><span class="cr-label">Custo Total</span><span class="cr-val">${fmt(rc.custoTotal)}</span></div>
-      <div class="cr-item"><span class="cr-label">Custo/km</span><span class="cr-val">R$ ${rc.custoPorKm.toFixed(2)}/km</span></div>
-      <div class="cr-item"><span class="cr-label">Preço Base Venda</span><span class="cr-val" style="color:var(--orange);">${fmt(rc.precoBase)}</span></div>
-    </div>
+const rc = calcColeta(c);
+return `<div class="coleta-block" id="coleta-${c.id}"> <div class="coleta-title"> <span>🔵 ${i+1}º Ponto de Coleta</span> <button class="coleta-del" onclick="removeColeta('${c.id}')">✕ Remover</button> </div> <div class="form-grid cols3" style="margin-bottom:12px;"> <div class="field"><label>Endereço de Coleta</label><input value="${c.endereco||''}" oninput="updateColeta('${c.id}','endereco',this.value)" placeholder="Rua, número, bairro..."></div> <div class="field"><label>Resíduo</label><input value="${c.residuo||''}" oninput="updateColeta('${c.id}','residuo',this.value)" placeholder="Tipo de resíduo"></div> <div class="field"><label>Destino</label><input value="${c.destino||''}" oninput="updateColeta('${c.id}','destino',this.value)" placeholder="Unidade de destino"></div> <div class="field"><label>Tipo de Veículo</label> <select onchange="updateColeta('${c.id}','veiculo',this.value)"> ${VEICULOS.map(v => `<option value=”${v}” ${c.veiculo===v?‘selected’:’’}>${v}</option>`).join(’’)}
+</select>
+</div>
+<div class="field"><label>Distância Total (km)</label><input type="number" value="${c.distanciaTotal||0}" oninput="updateColeta('${c.id}','distanciaTotal',this.value)" min="0"></div>
+<div class="field"><label>Média km/L do Veículo</label><input type="number" value="${c.mediaKm||6}" oninput="updateColeta('${c.id}','mediaKm',this.value)" step="0.1" min="1"></div>
+<div class="field"><label>Qtde de Viagens</label><input type="number" value="${c.qtdViagens||1}" oninput="updateColeta('${c.id}','qtdViagens',this.value)" min="1"></div>
+<div class="field"><label>Diesel R$/Litro</label><input type="number" value="${c.dieselPorLitro||6.2}" oninput="updateColeta('${c.id}','dieselPorLitro',this.value)" step="0.01" min="0"></div>
+<div class="field"><label>Pedágio (por passagem)</label><input type="number" value="${c.pedagio||0}" oninput="updateColeta('${c.id}','pedagio',this.value)" min="0"></div>
+</div>
+<div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Mão de Obra (diárias)</div>
+<div class="form-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px;">
+<div class="field"><label>Ajudante (diárias)</label><input type="number" value="${c.ajudante||0}" oninput="updateColeta('${c.id}','ajudante',this.value)" step="0.5" min="0"></div>
+<div class="field"><label>Motorista (diárias)</label><input type="number" value="${c.motorista||0.5}" oninput="updateColeta('${c.id}','motorista',this.value)" step="0.5" min="0"></div>
+<div class="field"><label>Pernoite (diárias)</label><input type="number" value="${c.pernoite||0}" oninput="updateColeta('${c.id}','pernoite',this.value)" step="0.5" min="0"></div>
+<div class="field"><label>Limpeza SAO (vezes)</label><input type="number" value="${c.limpezaSAO||0}" oninput="updateColeta('${c.id}','limpezaSAO',this.value)" min="0"></div>
+</div>
+<div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Serviços Extras</div>
+<div class="form-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px;">
+<div class="field"><label>Viagem Caçamba CVR</label><input type="number" value="${c.viagemCVR||0}" oninput="updateColeta('${c.id}','viagemCVR',this.value)" min="0"></div>
+<div class="field"><label>Vácuo Sucção 12m³</label><input type="number" value="${c.vacuoSucao||0}" oninput="updateColeta('${c.id}','vacuoSucao',this.value)" min="0"></div>
+<div class="field"><label>Retroescavadeira</label><input type="number" value="${c.retroescavadeira||0}" oninput="updateColeta('${c.id}','retroescavadeira',this.value)" min="0"></div>
+<div class="field"><label>Kit Bomba Sucção</label><input type="number" value="${c.kitBomba||0}" oninput="updateColeta('${c.id}','kitBomba',this.value)" min="0"></div>
+</div>
+<div class="coleta-result">
+<div class="cr-item"><span class="cr-label">Combustível</span><span class="cr-val">${fmt(rc.diesel)}</span></div>
+<div class="cr-item"><span class="cr-label">Depreciação</span><span class="cr-val">${fmt(rc.depr)}</span></div>
+<div class="cr-item"><span class="cr-label">Custo Total</span><span class="cr-val">${fmt(rc.custoTotal)}</span></div>
+<div class="cr-item"><span class="cr-label">Custo/km</span><span class="cr-val">R$ ${rc.custoPorKm.toFixed(2)}/km</span></div>
+<div class="cr-item"><span class="cr-label">Preço Base Venda</span><span class="cr-val" style="color:var(--orange);">${fmt(rc.precoBase)}</span></div>
+</div>
+
   </div>`;
 }
 
 function renderDestRow(d, i) {
-  const rec = (Number(d.pvUnit)||0) * (Number(d.qtd)||0);
-  const desp = (Number(d.custoUnit)||0) * (Number(d.qtd)||0);
-  return `<tr id="dest-${d.id}">
-    <td><select style="min-width:200px;" onchange="updateDest('${d.id}','tipo',this.value)">
-      <option value="">Selecione...</option>
-      ${DESTINOS.map(t => `<option value="${t}" ${d.tipo===t?'selected':''}>${t}</option>`).join('')}
-    </select></td>
-    <td><input value="${d.unidade||'kg'}" oninput="updateDest('${d.id}','unidade',this.value)" style="width:60px;"></td>
-    <td><input type="number" value="${d.qtd||0}" oninput="updateDest('${d.id}','qtd',this.value)" style="width:80px;" min="0"></td>
-    <td><input type="number" value="${d.custoUnit||0}" oninput="updateDest('${d.id}','custoUnit',this.value)" style="width:100px;" step="0.01" min="0"></td>
-    <td><input type="number" value="${d.pvUnit||0}" oninput="updateDest('${d.id}','pvUnit',this.value)" style="width:100px;" step="0.01" min="0"></td>
-    <td class="total-cell">${fmt(rec)}</td>
-    <td class="total-cell" style="color:var(--orange);">${fmt(desp)}</td>
-    <td><input value="${d.receptor||''}" oninput="updateDest('${d.id}','receptor',this.value)" placeholder="Receptor" style="width:120px;"></td>
-    <td><button class="del-btn" onclick="removeDest('${d.id}')">✕</button></td>
+const rec = (Number(d.pvUnit)||0) * (Number(d.qtd)||0);
+const desp = (Number(d.custoUnit)||0) * (Number(d.qtd)||0);
+return `<tr id="dest-${d.id}"> <td><select style="min-width:200px;" onchange="updateDest('${d.id}','tipo',this.value)"> <option value="">Selecione...</option> ${DESTINOS.map(t => `<option value=”${t}” ${d.tipo===t?‘selected’:’’}>${t}</option>`).join(’’)}
+</select></td>
+<td><input value="${d.unidade||'kg'}" oninput="updateDest('${d.id}','unidade',this.value)" style="width:60px;"></td>
+<td><input type="number" value="${d.qtd||0}" oninput="updateDest('${d.id}','qtd',this.value)" style="width:80px;" min="0"></td>
+<td><input type="number" value="${d.custoUnit||0}" oninput="updateDest('${d.id}','custoUnit',this.value)" style="width:100px;" step="0.01" min="0"></td>
+<td><input type="number" value="${d.pvUnit||0}" oninput="updateDest('${d.id}','pvUnit',this.value)" style="width:100px;" step="0.01" min="0"></td>
+<td class="total-cell">${fmt(rec)}</td>
+<td class="total-cell" style="color:var(--orange);">${fmt(desp)}</td>
+<td><input value="${d.receptor||''}" oninput="updateDest('${d.id}','receptor',this.value)" placeholder="Receptor" style="width:120px;"></td>
+<td><button class="del-btn" onclick="removeDest('${d.id}')">✕</button></td>
+
   </tr>`;
 }
 
 function renderLocRow(l, i) {
-  const rec = (Number(l.venda)||0) * (Number(l.qtd)||0);
-  return `<tr id="loc-${l.id}">
-    <td><input value="${l.descricao||''}" oninput="updateLoc('${l.id}','descricao',this.value)" placeholder="Ex: Container 1000L, Caçamba 5m³" style="min-width:200px;"></td>
-    <td><input type="number" value="${l.qtd||1}" oninput="updateLoc('${l.id}','qtd',this.value)" style="width:60px;" min="0"></td>
-    <td><input value="${l.unidade||'Mês'}" oninput="updateLoc('${l.id}','unidade',this.value)" style="width:80px;"></td>
-    <td><input type="number" value="${l.custo||0}" oninput="updateLoc('${l.id}','custo',this.value)" style="width:100px;" step="0.01" min="0"></td>
-    <td><input type="number" value="${l.venda||0}" oninput="updateLoc('${l.id}','venda',this.value)" style="width:100px;" step="0.01" min="0"></td>
-    <td class="total-cell">${fmt(rec)}</td>
-    <td><button class="del-btn" onclick="removeLoc('${l.id}')">✕</button></td>
+const rec = (Number(l.venda)||0) * (Number(l.qtd)||0);
+return `<tr id="loc-${l.id}">
+<td><input value="${l.descricao||''}" oninput="updateLoc('${l.id}','descricao',this.value)" placeholder="Ex: Container 1000L, Caçamba 5m³" style="min-width:200px;"></td>
+<td><input type="number" value="${l.qtd||1}" oninput="updateLoc('${l.id}','qtd',this.value)" style="width:60px;" min="0"></td>
+<td><input value="${l.unidade||'Mês'}" oninput="updateLoc('${l.id}','unidade',this.value)" style="width:80px;"></td>
+<td><input type="number" value="${l.custo||0}" oninput="updateLoc('${l.id}','custo',this.value)" style="width:100px;" step="0.01" min="0"></td>
+<td><input type="number" value="${l.venda||0}" oninput="updateLoc('${l.id}','venda',this.value)" style="width:100px;" step="0.01" min="0"></td>
+<td class="total-cell">${fmt(rec)}</td>
+<td><button class="del-btn" onclick="removeLoc('${l.id}')">✕</button></td>
+
   </tr>`;
 }
 
 function renderOpRow(o, i) {
-  const rec = (Number(o.venda)||0) * (Number(o.qtd)||0);
-  return `<tr id="op-${o.id}">
-    <td><input value="${o.descricao||''}" oninput="updateOp('${o.id}','descricao',this.value)" placeholder="Ex: Limpeza, Coleta especial..." style="min-width:180px;"></td>
-    <td><input type="number" value="${o.qtd||1}" oninput="updateOp('${o.id}','qtd',this.value)" style="width:60px;" min="0"></td>
-    <td><input value="${o.unidade||'Serviço'}" oninput="updateOp('${o.id}','unidade',this.value)" style="width:80px;"></td>
-    <td><input type="number" value="${o.custo||0}" oninput="updateOp('${o.id}','custo',this.value)" style="width:100px;" step="0.01" min="0"></td>
-    <td><input type="number" value="${o.venda||0}" oninput="updateOp('${o.id}','venda',this.value)" style="width:100px;" step="0.01" min="0"></td>
-    <td class="total-cell">${fmt(rec)}</td>
-    <td><input value="${o.fornecedor||''}" oninput="updateOp('${o.id}','fornecedor',this.value)" placeholder="Fornecedor" style="width:120px;"></td>
-    <td><button class="del-btn" onclick="removeOp('${o.id}')">✕</button></td>
+const rec = (Number(o.venda)||0) * (Number(o.qtd)||0);
+return `<tr id="op-${o.id}">
+<td><input value="${o.descricao||''}" oninput="updateOp('${o.id}','descricao',this.value)" placeholder="Ex: Limpeza, Coleta especial..." style="min-width:180px;"></td>
+<td><input type="number" value="${o.qtd||1}" oninput="updateOp('${o.id}','qtd',this.value)" style="width:60px;" min="0"></td>
+<td><input value="${o.unidade||'Serviço'}" oninput="updateOp('${o.id}','unidade',this.value)" style="width:80px;"></td>
+<td><input type="number" value="${o.custo||0}" oninput="updateOp('${o.id}','custo',this.value)" style="width:100px;" step="0.01" min="0"></td>
+<td><input type="number" value="${o.venda||0}" oninput="updateOp('${o.id}','venda',this.value)" style="width:100px;" step="0.01" min="0"></td>
+<td class="total-cell">${fmt(rec)}</td>
+<td><input value="${o.fornecedor||''}" oninput="updateOp('${o.id}','fornecedor',this.value)" placeholder="Fornecedor" style="width:120px;"></td>
+<td><button class="del-btn" onclick="removeOp('${o.id}')">✕</button></td>
+
   </tr>`;
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // UPDATE HANDLERS
 // ═══════════════════════════════════════════════════════════
 function updateField(field, value) {
-  if (!currentDRC) return;
-  currentDRC[field] = value;
-  // Re-render results panel if needed
-  const r = calcDRC(currentDRC);
-  const rp = document.querySelector('.results-panel');
-  if (rp) rp.outerHTML = renderResults(r);
-  renderList();
+if (!currentDRC) return;
+currentDRC[field] = value;
+// Re-render results panel if needed
+const r = calcDRC(currentDRC);
+const rp = document.querySelector(’.results-panel’);
+if (rp) rp.outerHTML = renderResults(r);
+renderList();
 }
 
 function updateColeta(id, field, value) {
-  if (!currentDRC) return;
-  const c = currentDRC.coletas.find(x => x.id === id);
-  if (!c) return;
-  c[field] = isNaN(value) || value === '' ? value : Number(value);
-  // Update just this coleta result
-  const rc = calcColeta(c);
-  const el = document.getElementById('coleta-' + id);
-  if (el) {
-    const cr = el.querySelector('.coleta-result');
-    if (cr) cr.innerHTML = `
-      <div class="cr-item"><span class="cr-label">Combustível</span><span class="cr-val">${fmt(rc.diesel)}</span></div>
-      <div class="cr-item"><span class="cr-label">Depreciação</span><span class="cr-val">${fmt(rc.depr)}</span></div>
-      <div class="cr-item"><span class="cr-label">Custo Total</span><span class="cr-val">${fmt(rc.custoTotal)}</span></div>
-      <div class="cr-item"><span class="cr-label">Custo/km</span><span class="cr-val">R$ ${rc.custoPorKm.toFixed(2)}/km</span></div>
-      <div class="cr-item"><span class="cr-label">Preço Base Venda</span><span class="cr-val" style="color:var(--orange);">${fmt(rc.precoBase)}</span></div>`;
-  }
-  refreshResults();
+if (!currentDRC) return;
+const c = currentDRC.coletas.find(x => x.id === id);
+if (!c) return;
+c[field] = isNaN(value) || value === ‘’ ? value : Number(value);
+// Update just this coleta result
+const rc = calcColeta(c);
+const el = document.getElementById(‘coleta-’ + id);
+if (el) {
+const cr = el.querySelector(’.coleta-result’);
+if (cr) cr.innerHTML = ` <div class="cr-item"><span class="cr-label">Combustível</span><span class="cr-val">${fmt(rc.diesel)}</span></div> <div class="cr-item"><span class="cr-label">Depreciação</span><span class="cr-val">${fmt(rc.depr)}</span></div> <div class="cr-item"><span class="cr-label">Custo Total</span><span class="cr-val">${fmt(rc.custoTotal)}</span></div> <div class="cr-item"><span class="cr-label">Custo/km</span><span class="cr-val">R$ ${rc.custoPorKm.toFixed(2)}/km</span></div> <div class="cr-item"><span class="cr-label">Preço Base Venda</span><span class="cr-val" style="color:var(--orange);">${fmt(rc.precoBase)}</span></div>`;
+}
+refreshResults();
 }
 
 function updateDest(id, field, value) {
-  if (!currentDRC) return;
-  const d = currentDRC.destinacoes.find(x => x.id === id);
-  if (d) { d[field] = isNaN(value) || value === '' ? value : Number(value); refreshResults(); }
+if (!currentDRC) return;
+const d = currentDRC.destinacoes.find(x => x.id === id);
+if (d) { d[field] = isNaN(value) || value === ‘’ ? value : Number(value); refreshResults(); }
 }
 function updateLoc(id, field, value) {
-  if (!currentDRC) return;
-  const l = currentDRC.locacoes.find(x => x.id === id);
-  if (l) { l[field] = isNaN(value) || value === '' ? value : Number(value); refreshResults(); }
+if (!currentDRC) return;
+const l = currentDRC.locacoes.find(x => x.id === id);
+if (l) { l[field] = isNaN(value) || value === ‘’ ? value : Number(value); refreshResults(); }
 }
 function updateOp(id, field, value) {
-  if (!currentDRC) return;
-  const o = currentDRC.opEspeciais.find(x => x.id === id);
-  if (o) { o[field] = isNaN(value) || value === '' ? value : Number(value); refreshResults(); }
+if (!currentDRC) return;
+const o = currentDRC.opEspeciais.find(x => x.id === id);
+if (o) { o[field] = isNaN(value) || value === ‘’ ? value : Number(value); refreshResults(); }
 }
 
 function refreshResults() {
-  if (!currentDRC) return;
-  const r = calcDRC(currentDRC);
-  const rp = document.querySelector('.results-panel');
-  if (rp) rp.outerHTML = renderResults(r);
-  renderList();
+if (!currentDRC) return;
+const r = calcDRC(currentDRC);
+const rp = document.querySelector(’.results-panel’);
+if (rp) rp.outerHTML = renderResults(r);
+renderList();
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // ADD / REMOVE
 // ═══════════════════════════════════════════════════════════
 function addColeta() {
-  currentDRC.coletas.push(newColeta(currentDRC.coletas.length + 1));
-  renderForm();
+currentDRC.coletas.push(newColeta(currentDRC.coletas.length + 1));
+renderForm();
 }
 function removeColeta(id) {
-  if (currentDRC.coletas.length <= 1) { toast('⚠️ Mínimo 1 ponto de coleta', '#f5a623'); return; }
-  currentDRC.coletas = currentDRC.coletas.filter(c => c.id !== id);
-  renderForm();
+if (currentDRC.coletas.length <= 1) { toast(‘⚠️ Mínimo 1 ponto de coleta’, ‘#f5a623’); return; }
+currentDRC.coletas = currentDRC.coletas.filter(c => c.id !== id);
+renderForm();
 }
 function addDest() {
-  currentDRC.destinacoes.push(newDest());
-  const tb = document.getElementById('dest-tbody');
-  const d = currentDRC.destinacoes[currentDRC.destinacoes.length-1];
-  if (tb) tb.insertAdjacentHTML('beforeend', renderDestRow(d, currentDRC.destinacoes.length-1));
+currentDRC.destinacoes.push(newDest());
+const tb = document.getElementById(‘dest-tbody’);
+const d = currentDRC.destinacoes[currentDRC.destinacoes.length-1];
+if (tb) tb.insertAdjacentHTML(‘beforeend’, renderDestRow(d, currentDRC.destinacoes.length-1));
 }
 function removeDest(id) {
-  currentDRC.destinacoes = currentDRC.destinacoes.filter(d => d.id !== id);
-  document.getElementById('dest-' + id)?.remove();
-  refreshResults();
+currentDRC.destinacoes = currentDRC.destinacoes.filter(d => d.id !== id);
+document.getElementById(‘dest-’ + id)?.remove();
+refreshResults();
 }
 function addLoc() {
-  currentDRC.locacoes.push(newLoc());
-  const tb = document.getElementById('loc-tbody');
-  const l = currentDRC.locacoes[currentDRC.locacoes.length-1];
-  if (tb) tb.insertAdjacentHTML('beforeend', renderLocRow(l, currentDRC.locacoes.length-1));
+currentDRC.locacoes.push(newLoc());
+const tb = document.getElementById(‘loc-tbody’);
+const l = currentDRC.locacoes[currentDRC.locacoes.length-1];
+if (tb) tb.insertAdjacentHTML(‘beforeend’, renderLocRow(l, currentDRC.locacoes.length-1));
 }
 function removeLoc(id) {
-  currentDRC.locacoes = currentDRC.locacoes.filter(l => l.id !== id);
-  document.getElementById('loc-' + id)?.remove();
-  refreshResults();
+currentDRC.locacoes = currentDRC.locacoes.filter(l => l.id !== id);
+document.getElementById(‘loc-’ + id)?.remove();
+refreshResults();
 }
 function addOp() {
-  currentDRC.opEspeciais.push(newOpEsp());
-  const tb = document.getElementById('op-tbody');
-  const o = currentDRC.opEspeciais[currentDRC.opEspeciais.length-1];
-  if (tb) tb.insertAdjacentHTML('beforeend', renderOpRow(o, currentDRC.opEspeciais.length-1));
+currentDRC.opEspeciais.push(newOpEsp());
+const tb = document.getElementById(‘op-tbody’);
+const o = currentDRC.opEspeciais[currentDRC.opEspeciais.length-1];
+if (tb) tb.insertAdjacentHTML(‘beforeend’, renderOpRow(o, currentDRC.opEspeciais.length-1));
 }
 function removeOp(id) {
-  currentDRC.opEspeciais = currentDRC.opEspeciais.filter(o => o.id !== id);
-  document.getElementById('op-' + id)?.remove();
-  refreshResults();
+currentDRC.opEspeciais = currentDRC.opEspeciais.filter(o => o.id !== id);
+document.getElementById(‘op-’ + id)?.remove();
+refreshResults();
 }
-
 
 // ═══════════════════════════════════════════════════════════
 // STATUS SYSTEM
 // ═══════════════════════════════════════════════════════════
 const STATUS_META = {
-  rascunho:   { label: 'Rascunho',    icon: '📝', color: '#8898aa', neg: false, desc: 'DRC em elaboração, ainda não enviado' },
-  enviado:    { label: 'Enviado',     icon: '📤', color: '#3b9eff', neg: false, desc: 'Enviado ao consultor interno para análise' },
-  em_analise: { label: 'Em Análise',  icon: '🔍', color: '#f5a623', neg: false, desc: 'Consultor está avaliando a proposta' },
-  aprovado:   { label: 'Aprovado',    icon: '✅', color: '#00c896', neg: false, desc: 'Proposta aprovada pelo consultor' },
-  reprovado:  { label: 'Reprovado',   icon: '❌', color: '#e84393', neg: true,  desc: 'Proposta reprovada — justificativa obrigatória' },
-  cancelado:  { label: 'Cancelado',   icon: '🚫', color: '#e06060', neg: true,  desc: 'DRC cancelado — justificativa obrigatória' },
+rascunho:   { label: ‘Rascunho’,    icon: ‘📝’, color: ‘#8898aa’, neg: false, desc: ‘DRC em elaboração, ainda não enviado’ },
+enviado:    { label: ‘Enviado’,     icon: ‘📤’, color: ‘#3b9eff’, neg: false, desc: ‘Enviado ao consultor interno para análise’ },
+em_analise: { label: ‘Em Análise’,  icon: ‘🔍’, color: ‘#f5a623’, neg: false, desc: ‘Consultor está avaliando a proposta’ },
+aprovado:   { label: ‘Aprovado’,    icon: ‘✅’, color: ‘#00c896’, neg: false, desc: ‘Proposta aprovada pelo consultor’ },
+reprovado:  { label: ‘Reprovado’,   icon: ‘❌’, color: ‘#e84393’, neg: true,  desc: ‘Proposta reprovada — justificativa obrigatória’ },
+cancelado:  { label: ‘Cancelado’,   icon: ‘🚫’, color: ‘#e06060’, neg: true,  desc: ‘DRC cancelado — justificativa obrigatória’ },
 };
 
 let pendingStatus = null;
-let pendingJust   = '';
+let pendingJust   = ‘’;
 
 function renderTimeline(drc) {
-  const hist = (drc.statusHistorico || []).slice().reverse();
-  if (!hist.length) return '<div style="color:var(--text-muted);font-size:0.8rem;text-align:center;padding:16px 0;">Nenhum registro ainda.</div>';
-  return hist.map((h, i) => {
-    const meta = STATUS_META[h.status] || { label: h.status, icon: '●', color: 'var(--text-muted)' };
-    const d = h.data ? new Date(h.data) : null;
-    const dateStr = d ? d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' }) : '—';
-    const isFirst = i === hist.length - 1;
-    return `
-      <div class="tl-item">
-        <div class="tl-line">
-          <div class="tl-dot" style="border-color:${meta.color};background:${isFirst ? 'transparent' : meta.color};"></div>
-          <div class="tl-vert"></div>
-        </div>
-        <div class="tl-body">
-          <div class="tl-header">
-            <span class="tl-status" style="color:${meta.color};">${meta.icon} ${meta.label}</span>
-            <span class="tl-date">${dateStr}</span>
-            ${h.autor ? `<span class="tl-author">· ${h.autor}</span>` : ''}
-          </div>
-          ${h.justificativa ? `<div class="tl-just">💬 ${h.justificativa}</div>` : ''}
-        </div>
-      </div>`;
-  }).join('');
+const hist = (drc.statusHistorico || []).slice().reverse();
+if (!hist.length) return ‘<div style="color:var(--text-muted);font-size:0.8rem;text-align:center;padding:16px 0;">Nenhum registro ainda.</div>’;
+return hist.map((h, i) => {
+const meta = STATUS_META[h.status] || { label: h.status, icon: ‘●’, color: ‘var(–text-muted)’ };
+const d = h.data ? new Date(h.data) : null;
+const dateStr = d ? d.toLocaleDateString(‘pt-BR’) + ’ ’ + d.toLocaleTimeString(‘pt-BR’, { hour:‘2-digit’, minute:‘2-digit’ }) : ‘—’;
+const isFirst = i === hist.length - 1;
+return `<div class="tl-item"> <div class="tl-line"> <div class="tl-dot" style="border-color:${meta.color};background:${isFirst ? 'transparent' : meta.color};"></div> <div class="tl-vert"></div> </div> <div class="tl-body"> <div class="tl-header"> <span class="tl-status" style="color:${meta.color};">${meta.icon} ${meta.label}</span> <span class="tl-date">${dateStr}</span> ${h.autor ?`<span class="tl-author">· ${h.autor}</span>`: ''} </div> ${h.justificativa ?`<div class="tl-just">💬 ${h.justificativa}</div>` : ''} </div> </div>`;
+}).join(’’);
 }
 
 function openStatusModal() {
-  if (!currentDRC) return;
-  pendingStatus = currentDRC.status;
-  pendingJust   = '';
-  const overlay = document.getElementById('status-modal-overlay');
-  document.getElementById('status-modal-num').textContent = currentDRC.numero + ' · ' + (currentDRC.cliente || 'sem cliente');
-  document.getElementById('status-autor').value = currentDRC.consultor || '';
-  const _ta = document.getElementById('just-textarea');
-  if (_ta) { _ta.value = ''; _ta.style.display = 'none'; }
-  renderStatusOpts();
-  renderJustPresets();
-  renderAutorSelect();
-  overlay.classList.add('open');
+if (!currentDRC) return;
+pendingStatus = currentDRC.status;
+pendingJust   = ‘’;
+const overlay = document.getElementById(‘status-modal-overlay’);
+document.getElementById(‘status-modal-num’).textContent = currentDRC.numero + ’ · ’ + (currentDRC.cliente || ‘sem cliente’);
+document.getElementById(‘status-autor’).value = currentDRC.consultor || ‘’;
+const _ta = document.getElementById(‘just-textarea’);
+if (_ta) { _ta.value = ‘’; _ta.style.display = ‘none’; }
+renderStatusOpts();
+renderJustPresets();
+renderAutorSelect();
+overlay.classList.add(‘open’);
 }
 
 function closeStatusModal() {
-  document.getElementById('status-modal-overlay').classList.remove('open');
-  pendingStatus = null;
-  pendingJust   = '';
+document.getElementById(‘status-modal-overlay’).classList.remove(‘open’);
+pendingStatus = null;
+pendingJust   = ‘’;
 }
 
 function renderStatusOpts() {
-  const container = document.getElementById('status-opts-container');
-  container.innerHTML = Object.entries(STATUS_META).map(([key, meta]) => {
-    const isCurrent  = key === currentDRC.status;
-    const isSelected = key === pendingStatus;
-    return `
-      <div class="status-opt ${isSelected ? 'selected' : ''}" onclick="selectStatus('${key}')" id="sopt-${key}"
-           style="${isCurrent ? 'opacity:0.5;pointer-events:none;' : ''}">
-        <div class="status-opt-dot" style="background:${meta.color};"></div>
-        <div class="status-opt-info">
-          <div class="status-opt-label">${meta.icon} ${meta.label}</div>
-          <div class="status-opt-desc">${meta.desc}</div>
-        </div>
-        ${isCurrent ? '<span style="font-size:0.65rem;color:var(--text-muted);font-style:italic;">atual</span>' : ''}
-        ${isSelected ? '<span style="color:var(--retec);font-size:0.9rem;">✓</span>' : ''}
-      </div>`;
-  }).join('');
+const container = document.getElementById(‘status-opts-container’);
+container.innerHTML = Object.entries(STATUS_META).map(([key, meta]) => {
+const isCurrent  = key === currentDRC.status;
+const isSelected = key === pendingStatus;
+return ` <div class="status-opt ${isSelected ? 'selected' : ''}" onclick="selectStatus('${key}')" id="sopt-${key}" style="${isCurrent ? 'opacity:0.5;pointer-events:none;' : ''}"> <div class="status-opt-dot" style="background:${meta.color};"></div> <div class="status-opt-info"> <div class="status-opt-label">${meta.icon} ${meta.label}</div> <div class="status-opt-desc">${meta.desc}</div> </div> ${isCurrent ? '<span style="font-size:0.65rem;color:var(--text-muted);font-style:italic;">atual</span>' : ''} ${isSelected ? '<span style="color:var(--retec);font-size:0.9rem;">✓</span>' : ''} </div>`;
+}).join(’’);
 }
 
 function selectStatus(key) {
-  pendingStatus = key;
-  pendingJust   = '';
-  document.getElementById('just-textarea').value = '';
-  // Update visual
-  document.querySelectorAll('.status-opt').forEach(el => el.classList.remove('selected'));
-  const sel = document.getElementById('sopt-' + key);
-  if (sel) {
-    sel.classList.add('selected');
-    const check = sel.querySelector('span:last-child');
-    // Re-render cleanly
-    renderStatusOpts();
-  }
-  // Show/hide justificativa
-  const meta = STATUS_META[key];
-  const justSec = document.getElementById('just-section');
-  justSec.style.display = meta?.neg ? 'block' : 'none';
-  // Reset chip selection
-  document.querySelectorAll('.just-chip').forEach(c => c.classList.remove('active'));
+pendingStatus = key;
+pendingJust   = ‘’;
+document.getElementById(‘just-textarea’).value = ‘’;
+// Update visual
+document.querySelectorAll(’.status-opt’).forEach(el => el.classList.remove(‘selected’));
+const sel = document.getElementById(‘sopt-’ + key);
+if (sel) {
+sel.classList.add(‘selected’);
+const check = sel.querySelector(‘span:last-child’);
+// Re-render cleanly
+renderStatusOpts();
+}
+// Show/hide justificativa
+const meta = STATUS_META[key];
+const justSec = document.getElementById(‘just-section’);
+justSec.style.display = meta?.neg ? ‘block’ : ‘none’;
+// Reset chip selection
+document.querySelectorAll(’.just-chip’).forEach(c => c.classList.remove(‘active’));
 }
 
 function renderJustPresets() {
-  const sel = document.getElementById('just-select');
-  const ta  = document.getElementById('just-textarea');
-  const items = cadastros.justificativas || [];
-  sel.innerHTML = '<option value="">\u2014 Selecione uma justificativa \u2014</option>'
-    + items.map(j => '<option value="' + j.replace(/"/g, '&quot;') + '">' + j + '</option>').join('')
-    + '<option value="__outra__">\u270f Outra (digitar manualmente)...</option>';
-  sel.value = '';
-  if (ta) { ta.style.display = 'none'; ta.value = ''; }
-  pendingJust = '';
+const sel = document.getElementById(‘just-select’);
+const ta  = document.getElementById(‘just-textarea’);
+const items = cadastros.justificativas || [];
+sel.innerHTML = ‘<option value="">\u2014 Selecione uma justificativa \u2014</option>’
++ items.map(j => ‘<option value=”’ + j.replace(/”/g, ‘"’) + ‘”>’ + j + ‘</option>’).join(’’)
++ ‘<option value="__outra__">\u270f Outra (digitar manualmente)…</option>’;
+sel.value = ‘’;
+if (ta) { ta.style.display = ‘none’; ta.value = ‘’; }
+pendingJust = ‘’;
 }
 
 function renderAutorSelect() {
-  const sel = document.getElementById('status-autor');
-  if (!sel) return;
-  const users = cadastros.usuarios || [];
-  sel.innerHTML = '<option value="">— Selecione o usuário —</option>'
-    + users.map(u => '<option value="' + u.replace(/"/g, '&quot;') + '">' + u + '</option>').join('');
-  sel.value = '';
+const sel = document.getElementById(‘status-autor’);
+if (!sel) return;
+const users = cadastros.usuarios || [];
+sel.innerHTML = ‘<option value="">— Selecione o usuário —</option>’
++ users.map(u => ‘<option value=”’ + u.replace(/”/g, ‘"’) + ‘”>’ + u + ‘</option>’).join(’’);
+sel.value = ‘’;
 }
 
 function selectJustOption(val) {
-  const ta = document.getElementById('just-textarea');
-  if (val === '__outra__') {
-    pendingJust = '';
-    if (ta) { ta.style.display = 'block'; ta.value = ''; ta.focus(); }
-  } else {
-    pendingJust = val;
-    if (ta) { ta.style.display = 'none'; ta.value = ''; }
-  }
+const ta = document.getElementById(‘just-textarea’);
+if (val === ‘**outra**’) {
+pendingJust = ‘’;
+if (ta) { ta.style.display = ‘block’; ta.value = ‘’; ta.focus(); }
+} else {
+pendingJust = val;
+if (ta) { ta.style.display = ‘none’; ta.value = ‘’; }
+}
 }
 
 function syncJustText(val) {
-  pendingJust = val;
+pendingJust = val;
 }
-
-
 
 function confirmStatusChange() {
-  if (!pendingStatus || !currentDRC) return;
-  const meta = STATUS_META[pendingStatus];
-  if (meta?.neg && !pendingJust.trim()) {
-    const sel = document.getElementById('just-select');
-    const ta  = document.getElementById('just-textarea');
-    if (sel) { sel.style.borderColor = 'var(--red)'; setTimeout(()=>sel.style.borderColor='var(--border2)', 1200); }
-    if (ta && ta.style.display !== 'none') { ta.style.borderColor = 'var(--red)'; ta.focus(); }
-    else if (sel) sel.focus();
-    toast('⚠️ Informe a justificativa para continuar', '#e84393');
-    return;
-  }
-  const autor = document.getElementById('status-autor').value.trim();
-  if (!autor) {
-    const sel = document.getElementById('status-autor');
-    if (sel) { sel.style.borderColor = 'var(--red)'; setTimeout(()=>sel.style.borderColor='var(--border2)', 1200); sel.focus(); }
-    toast('⚠️ Selecione o usuário responsável', '#e84393');
-    return;
-  }
-  const entry = {
-    status: pendingStatus,
-    data: new Date().toISOString(),
-    autor,
-    justificativa: meta?.neg ? pendingJust.trim() : '',
-  };
-  if (!currentDRC.statusHistorico) currentDRC.statusHistorico = [];
-  currentDRC.statusHistorico.push(entry);
-  currentDRC.status = pendingStatus;
-  // Auto-save
-  const idx = drcs.findIndex(d => d.id === currentDRC.id);
-  if (idx >= 0) drcs[idx] = currentDRC;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({ drcs, counter: drcCounter }));
-  closeStatusModal();
-  renderForm();
-  renderList();
-  toast(`${meta.icon} Status atualizado: ${meta.label}`, meta.color);
+if (!pendingStatus || !currentDRC) return;
+const meta = STATUS_META[pendingStatus];
+if (meta?.neg && !pendingJust.trim()) {
+const sel = document.getElementById(‘just-select’);
+const ta  = document.getElementById(‘just-textarea’);
+if (sel) { sel.style.borderColor = ‘var(–red)’; setTimeout(()=>sel.style.borderColor=‘var(–border2)’, 1200); }
+if (ta && ta.style.display !== ‘none’) { ta.style.borderColor = ‘var(–red)’; ta.focus(); }
+else if (sel) sel.focus();
+toast(‘⚠️ Informe a justificativa para continuar’, ‘#e84393’);
+return;
 }
-
+const autor = document.getElementById(‘status-autor’).value.trim();
+if (!autor) {
+const sel = document.getElementById(‘status-autor’);
+if (sel) { sel.style.borderColor = ‘var(–red)’; setTimeout(()=>sel.style.borderColor=‘var(–border2)’, 1200); sel.focus(); }
+toast(‘⚠️ Selecione o usuário responsável’, ‘#e84393’);
+return;
+}
+const entry = {
+status: pendingStatus,
+data: new Date().toISOString(),
+autor,
+justificativa: meta?.neg ? pendingJust.trim() : ‘’,
+};
+if (!currentDRC.statusHistorico) currentDRC.statusHistorico = [];
+currentDRC.statusHistorico.push(entry);
+currentDRC.status = pendingStatus;
+// Auto-save
+const idx = drcs.findIndex(d => d.id === currentDRC.id);
+if (idx >= 0) drcs[idx] = currentDRC;
+localStorage.setItem(STORAGE_KEY, JSON.stringify({ drcs, counter: drcCounter }));
+closeStatusModal();
+renderForm();
+renderList();
+toast(`${meta.icon} Status atualizado: ${meta.label}`, meta.color);
+}
 
 // ── THEME TOGGLE ──────────────────────────────────────────
 function toggleMobileSidebar() {
-  const sb = document.querySelector('.sidebar');
-  const btn = document.getElementById('mob-sidebar-toggle');
-  if (!sb) return;
-  const open = sb.classList.toggle('mobile-open');
-  btn.textContent = open ? '✕ Fechar' : '☰ DRCs';
+const sb = document.querySelector(’.sidebar’);
+const btn = document.getElementById(‘mob-sidebar-toggle’);
+if (!sb) return;
+const open = sb.classList.toggle(‘mobile-open’);
+btn.textContent = open ? ‘✕ Fechar’ : ‘☰ DRCs’;
 }
 
 function closeMobileSidebar() {
-  const sb = document.querySelector('.sidebar');
-  const btn = document.getElementById('mob-sidebar-toggle');
-  if (!sb) return;
-  sb.classList.remove('mobile-open');
-  if (btn) btn.textContent = '☰ DRCs';
+const sb = document.querySelector(’.sidebar’);
+const btn = document.getElementById(‘mob-sidebar-toggle’);
+if (!sb) return;
+sb.classList.remove(‘mobile-open’);
+if (btn) btn.textContent = ‘☰ DRCs’;
 }
 
 function toggleTheme() {
-  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-  const newTheme = isLight ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', newTheme);
-  document.getElementById('theme-toggle').textContent = newTheme === 'light' ? '🌙' : '☀️';
-  localStorage.setItem('gvc_theme', newTheme);
+const isLight = document.documentElement.getAttribute(‘data-theme’) === ‘light’;
+const newTheme = isLight ? ‘dark’ : ‘light’;
+document.documentElement.setAttribute(‘data-theme’, newTheme);
+document.getElementById(‘theme-toggle’).textContent = newTheme === ‘light’ ? ‘🌙’ : ‘☀️’;
+localStorage.setItem(‘gvc_theme’, newTheme);
 }
 // Init theme
 (function() {
-  const saved = localStorage.getItem('gvc_theme') || 'dark';
-  if (saved === 'light') {
-    document.documentElement.setAttribute('data-theme', 'light');
-    document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('theme-toggle');
-      if (btn) btn.textContent = '☀️';
-    });
-  }
+const saved = localStorage.getItem(‘gvc_theme’) || ‘dark’;
+if (saved === ‘light’) {
+document.documentElement.setAttribute(‘data-theme’, ‘light’);
+document.addEventListener(‘DOMContentLoaded’, () => {
+const btn = document.getElementById(‘theme-toggle’);
+if (btn) btn.textContent = ‘☀️’;
+});
+}
 })();
-
 
 // ═══════════════════════════════════════════════════════════
 // PDF
 // ═══════════════════════════════════════════════════════════
 function exportPDF() {
-  if (!currentDRC) { toast('⚠️ Nenhum DRC aberto', '#f5a623'); return; }
-  const drc = currentDRC;
-  const r = calcDRC(drc);
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  const W = 210, M = 14;
+if (!currentDRC) { toast(‘⚠️ Nenhum DRC aberto’, ‘#f5a623’); return; }
+const drc = currentDRC;
+const r = calcDRC(drc);
+const { jsPDF } = window.jspdf;
+const pdf = new jsPDF({ orientation: ‘portrait’, unit: ‘mm’, format: ‘a4’ });
+const W = 210, M = 14;
 
-  // Header
-  pdf.setFillColor(10, 13, 15);
-  pdf.rect(0, 0, W, 28, 'F');
+// Header
+pdf.setFillColor(10, 13, 15);
+pdf.rect(0, 0, W, 28, ‘F’);
 
-  // Logo da empresa selecionada (ou ícone padrão)
-  const empresaLogo = drc.empresa ? (cadastros.empresasLogos[drc.empresa] || '') : '';
-  if (empresaLogo) {
-    try {
-      // Detectar formato (png/jpeg)
-      const fmt = empresaLogo.startsWith('data:image/png') ? 'PNG' : 'JPEG';
-      pdf.addImage(empresaLogo, fmt, M, 4, 0, 20);
-    } catch(e) {
-      // fallback: ícone padrão
-      pdf.setFillColor(0, 200, 150);
-      pdf.roundedRect(M, 7, 14, 14, 2, 2, 'F');
-      pdf.setFontSize(10); pdf.setTextColor(0,0,0);
-      pdf.text('♻', M+4.5, 16);
-    }
-  } else {
-    pdf.setFillColor(0, 200, 150);
-    pdf.roundedRect(M, 7, 14, 14, 2, 2, 'F');
-    pdf.setFontSize(10); pdf.setTextColor(0,0,0);
-    pdf.text('♻', M+4.5, 16);
-  }
-
-  pdf.setFontSize(11); pdf.setFont('helvetica','bold'); pdf.setTextColor(0,200,150);
-  pdf.text('DOCUMENTO DE REFERÊNCIA DE CUSTOS', empresaLogo ? M+40 : M+17, 13);
-  pdf.setFontSize(8); pdf.setFont('helvetica','normal'); pdf.setTextColor(90,101,119);
-  pdf.text(`${drc.numero}  ·  ${drc.status.toUpperCase()}  ·  ${drc.data||''}`, empresaLogo ? M+40 : M+17, 20);
-  pdf.setTextColor(90,101,119);
-  pdf.text('Uso interno — Setor de Vendas', W-M, 20, { align:'right' });
-
-  let y = 34;
-
-  // Info block
-  pdf.setFillColor(17,21,25);
-  pdf.roundedRect(M, y, W-2*M, 28, 3, 3, 'F');
-  pdf.setFontSize(7); pdf.setFont('helvetica','bold'); pdf.setTextColor(90,101,119);
-  pdf.text('EMPRESA', M+4, y+6);
-  pdf.text('CLIENTE', M+50, y+6);
-  pdf.text('CONSULTOR', M+110, y+6);
-  pdf.text('UNIDADE', M+155, y+6);
-  pdf.setFont('helvetica','normal'); pdf.setTextColor(221,228,236); pdf.setFontSize(9);
-  pdf.text(drc.empresa||'—', M+4, y+13);
-  pdf.text(drc.cliente||'—', M+50, y+13);
-  pdf.text(drc.consultor||'—', M+110, y+13);
-  pdf.text(drc.unidadeAtendimento||'—', M+155, y+13);
-  pdf.setFontSize(7); pdf.setFont('helvetica','bold'); pdf.setTextColor(90,101,119);
-  pdf.text('LEAD / CONTATO', M+4, y+19);
-  pdf.text('CATEGORIA', M+110, y+19);
-  pdf.setFont('helvetica','normal'); pdf.setTextColor(221,228,236); pdf.setFontSize(9);
-  pdf.text(drc.lead||'—', M+4, y+25);
-  pdf.text(drc.categoriaServico||'—', M+110, y+25);
-  y += 34;
-
-  // Financial summary
-  const cards = [
-    { label:'RECEITA BRUTA', val: fmt(r.receitaBruta), color:[221,228,236] },
-    { label:'CUSTO OPERACIONAL', val: fmt(r.custosTotal), color:[245,166,35] },
-    { label:'RECEITA LÍQUIDA', val: fmt(r.receitaLiq), color:[59,158,255] },
-    { label:'MARGEM FINAL', val: (r.margem*100).toFixed(1)+'%', color: r.margem>0.20?[0,200,150]:r.margem>0.10?[245,166,35]:[232,67,147] },
-    { label:'LÍQUIDO FINAL', val: fmt(r.liquido), color: r.liquido>=0?[0,200,150]:[232,67,147] },
-  ];
-  const cw = (W-2*M) / cards.length;
-  cards.forEach((c,i) => {
-    pdf.setFillColor(24,29,34);
-    pdf.rect(M + i*cw, y, cw, 16, 'F');
-    if (i < cards.length-1) { pdf.setDrawColor(37,45,54); pdf.line(M+(i+1)*cw, y+2, M+(i+1)*cw, y+14); }
-    pdf.setFontSize(6); pdf.setFont('helvetica','bold'); pdf.setTextColor(90,101,119);
-    pdf.text(c.label, M+i*cw+cw/2, y+5, { align:'center' });
-    pdf.setFontSize(9); pdf.setFont('helvetica','bold'); pdf.setTextColor(...c.color);
-    pdf.text(c.val, M+i*cw+cw/2, y+12, { align:'center' });
-  });
-  y += 20;
-
-  // Taxes row
-  pdf.setFillColor(17,21,25);
-  pdf.rect(M, y, W-2*M, 8, 'F');
-  pdf.setFontSize(6.5); pdf.setFont('helvetica','normal'); pdf.setTextColor(59,158,255);
-  const taxes = `ISS: ${fmt(r.iss)}  |  PIS: ${fmt(r.pis)}  |  COFINS: ${fmt(r.cofins)}  |  IR: ${fmt(r.ir)}  |  CSLL: ${fmt(r.csll)}`;
-  pdf.text(taxes, W/2, y+5, { align:'center' });
-  y += 12;
-
-  // Coletas table
-  if (drc.coletas.length) {
-    pdf.setFontSize(8); pdf.setFont('helvetica','bold'); pdf.setTextColor(0,200,150);
-    pdf.text('🚚 COLETA E TRANSPORTE', M, y); y += 5;
-    const coletaRows = drc.coletas.map((c,i) => {
-      const rc = calcColeta(c);
-      return [`${i+1}º`, c.veiculo||'—', c.residuo||'—', `${c.distanciaTotal||0} km`, String(c.qtdViagens||1), fmt(rc.custoTotal), fmt(rc.precoBase)];
-    });
-    pdf.autoTable({
-      startY: y, margin: { left: M, right: M },
-      head: [['Ponto','Veículo','Resíduo','Distância','Viagens','Custo Total','Preço Base Venda']],
-      body: coletaRows,
-      styles: { fontSize: 7, cellPadding: 2, textColor: [221,228,236], fillColor: [17,21,25], lineColor: [31,38,46], lineWidth: 0.1 },
-      headStyles: { fillColor: [24,29,34], textColor: [90,101,119], fontStyle:'bold', fontSize:6 },
-      alternateRowStyles: { fillColor: [24,29,34] },
-    });
-    y = pdf.lastAutoTable.finalY + 6;
-  }
-
-  // Destinação table
-  const destRows = drc.destinacoes.filter(d => d.tipo);
-  if (destRows.length) {
-    pdf.setFontSize(8); pdf.setFont('helvetica','bold'); pdf.setTextColor(0,200,150);
-    pdf.text('♻️ TRATAMENTO E DESTINAÇÃO', M, y); y += 5;
-    pdf.autoTable({
-      startY: y, margin: { left: M, right: M },
-      head: [['Destinação / Tratamento','Unid','Qtde','$ Custo Unit.','$ PV Unit.','$ Receita','$ Despesa','Receptor']],
-      body: destRows.map(d => [d.tipo,d.unidade,d.qtd,fmt(Number(d.custoUnit)||0),fmt(Number(d.pvUnit)||0),fmt((Number(d.pvUnit)||0)*(Number(d.qtd)||0)),fmt((Number(d.custoUnit)||0)*(Number(d.qtd)||0)),d.receptor||'—']),
-      styles: { fontSize: 6.5, cellPadding: 2, textColor: [221,228,236], fillColor: [17,21,25], lineColor: [31,38,46], lineWidth: 0.1 },
-      headStyles: { fillColor: [24,29,34], textColor: [90,101,119], fontStyle:'bold', fontSize:6 },
-      alternateRowStyles: { fillColor: [24,29,34] },
-    });
-    y = pdf.lastAutoTable.finalY + 6;
-  }
-
-  // Locação + Op Especiais
-  const locRows = drc.locacoes.filter(l => l.descricao);
-  if (locRows.length) {
-    pdf.setFontSize(8); pdf.setFont('helvetica','bold'); pdf.setTextColor(0,200,150);
-    pdf.text('📦 LOCAÇÃO DE EQUIPAMENTOS', M, y); y += 5;
-    pdf.autoTable({
-      startY: y, margin: { left: M, right: M },
-      head: [['Descrição','Qtde','Unid','$ Custo Unit.','$ Venda Unit.','$ Receita Total']],
-      body: locRows.map(l => [l.descricao,l.qtd,l.unidade,fmt(Number(l.custo)||0),fmt(Number(l.venda)||0),fmt((Number(l.venda)||0)*(Number(l.qtd)||0))]),
-      styles: { fontSize: 7, cellPadding: 2, textColor: [221,228,236], fillColor: [17,21,25], lineColor: [31,38,46], lineWidth: 0.1 },
-      headStyles: { fillColor: [24,29,34], textColor: [90,101,119], fontStyle:'bold', fontSize:6 },
-      alternateRowStyles: { fillColor: [24,29,34] },
-    });
-    y = pdf.lastAutoTable.finalY + 6;
-  }
-
-  // Obs
-  if (drc.obs) {
-    pdf.setFontSize(8); pdf.setFont('helvetica','bold'); pdf.setTextColor(90,101,119);
-    pdf.text('OBSERVAÇÕES:', M, y); y += 5;
-    pdf.setFont('helvetica','normal'); pdf.setTextColor(150,160,175); pdf.setFontSize(7.5);
-    const lines = pdf.splitTextToSize(drc.obs, W-2*M);
-    pdf.text(lines, M, y); y += lines.length * 4 + 4;
-  }
-
-  // Footer
-  const pageH = pdf.internal.pageSize.height;
-  pdf.setFillColor(17,21,25);
-  pdf.rect(0, pageH-14, W, 14, 'F');
-  pdf.setFontSize(6.5); pdf.setFont('helvetica','normal'); pdf.setTextColor(58,68,82);
-  pdf.text('Documento de uso interno. Gerado pelo Sistema GVC Mapa Operacional.', M, pageH-6);
-  pdf.setTextColor(0,200,150);
-  pdf.text(drc.numero, W-M, pageH-6, { align:'right' });
-
-  pdf.save(`${drc.numero}_${(drc.cliente||'cliente').replace(/\s/g,'_')}.pdf`);
-  toast('🖨 PDF gerado com sucesso', '#00c896');
+// Logo da empresa selecionada (ou ícone padrão)
+const empresaLogo = drc.empresa ? (cadastros.empresasLogos[drc.empresa] || ‘’) : ‘’;
+if (empresaLogo) {
+try {
+// Detectar formato (png/jpeg)
+const fmt = empresaLogo.startsWith(‘data:image/png’) ? ‘PNG’ : ‘JPEG’;
+pdf.addImage(empresaLogo, fmt, M, 4, 0, 20);
+} catch(e) {
+// fallback: ícone padrão
+pdf.setFillColor(0, 200, 150);
+pdf.roundedRect(M, 7, 14, 14, 2, 2, ‘F’);
+pdf.setFontSize(10); pdf.setTextColor(0,0,0);
+pdf.text(‘♻’, M+4.5, 16);
+}
+} else {
+pdf.setFillColor(0, 200, 150);
+pdf.roundedRect(M, 7, 14, 14, 2, 2, ‘F’);
+pdf.setFontSize(10); pdf.setTextColor(0,0,0);
+pdf.text(‘♻’, M+4.5, 16);
 }
 
+pdf.setFontSize(11); pdf.setFont(‘helvetica’,‘bold’); pdf.setTextColor(0,200,150);
+pdf.text(‘DOCUMENTO DE REFERÊNCIA DE CUSTOS’, empresaLogo ? M+40 : M+17, 13);
+pdf.setFontSize(8); pdf.setFont(‘helvetica’,‘normal’); pdf.setTextColor(90,101,119);
+pdf.text(`${drc.numero}  ·  ${drc.status.toUpperCase()}  ·  ${drc.data||''}`, empresaLogo ? M+40 : M+17, 20);
+pdf.setTextColor(90,101,119);
+pdf.text(‘Uso interno — Setor de Vendas’, W-M, 20, { align:‘right’ });
 
+let y = 34;
+
+// Info block
+pdf.setFillColor(17,21,25);
+pdf.roundedRect(M, y, W-2*M, 28, 3, 3, ‘F’);
+pdf.setFontSize(7); pdf.setFont(‘helvetica’,‘bold’); pdf.setTextColor(90,101,119);
+pdf.text(‘EMPRESA’, M+4, y+6);
+pdf.text(‘CLIENTE’, M+50, y+6);
+pdf.text(‘CONSULTOR’, M+110, y+6);
+pdf.text(‘UNIDADE’, M+155, y+6);
+pdf.setFont(‘helvetica’,‘normal’); pdf.setTextColor(221,228,236); pdf.setFontSize(9);
+pdf.text(drc.empresa||’—’, M+4, y+13);
+pdf.text(drc.cliente||’—’, M+50, y+13);
+pdf.text(drc.consultor||’—’, M+110, y+13);
+pdf.text(drc.unidadeAtendimento||’—’, M+155, y+13);
+pdf.setFontSize(7); pdf.setFont(‘helvetica’,‘bold’); pdf.setTextColor(90,101,119);
+pdf.text(‘LEAD / CONTATO’, M+4, y+19);
+pdf.text(‘CATEGORIA’, M+110, y+19);
+pdf.setFont(‘helvetica’,‘normal’); pdf.setTextColor(221,228,236); pdf.setFontSize(9);
+pdf.text(drc.lead||’—’, M+4, y+25);
+pdf.text(drc.categoriaServico||’—’, M+110, y+25);
+y += 34;
+
+// Financial summary
+const cards = [
+{ label:‘RECEITA BRUTA’, val: fmt(r.receitaBruta), color:[221,228,236] },
+{ label:‘CUSTO OPERACIONAL’, val: fmt(r.custosTotal), color:[245,166,35] },
+{ label:‘RECEITA LÍQUIDA’, val: fmt(r.receitaLiq), color:[59,158,255] },
+{ label:‘MARGEM FINAL’, val: (r.margem*100).toFixed(1)+’%’, color: r.margem>0.20?[0,200,150]:r.margem>0.10?[245,166,35]:[232,67,147] },
+{ label:‘LÍQUIDO FINAL’, val: fmt(r.liquido), color: r.liquido>=0?[0,200,150]:[232,67,147] },
+];
+const cw = (W-2*M) / cards.length;
+cards.forEach((c,i) => {
+pdf.setFillColor(24,29,34);
+pdf.rect(M + i*cw, y, cw, 16, ‘F’);
+if (i < cards.length-1) { pdf.setDrawColor(37,45,54); pdf.line(M+(i+1)*cw, y+2, M+(i+1)*cw, y+14); }
+pdf.setFontSize(6); pdf.setFont(‘helvetica’,‘bold’); pdf.setTextColor(90,101,119);
+pdf.text(c.label, M+i*cw+cw/2, y+5, { align:‘center’ });
+pdf.setFontSize(9); pdf.setFont(‘helvetica’,‘bold’); pdf.setTextColor(…c.color);
+pdf.text(c.val, M+i*cw+cw/2, y+12, { align:‘center’ });
+});
+y += 20;
+
+// Taxes row
+pdf.setFillColor(17,21,25);
+pdf.rect(M, y, W-2*M, 8, ‘F’);
+pdf.setFontSize(6.5); pdf.setFont(‘helvetica’,‘normal’); pdf.setTextColor(59,158,255);
+const taxes = `ISS: ${fmt(r.iss)}  |  PIS: ${fmt(r.pis)}  |  COFINS: ${fmt(r.cofins)}  |  IR: ${fmt(r.ir)}  |  CSLL: ${fmt(r.csll)}`;
+pdf.text(taxes, W/2, y+5, { align:‘center’ });
+y += 12;
+
+// Coletas table
+if (drc.coletas.length) {
+pdf.setFontSize(8); pdf.setFont(‘helvetica’,‘bold’); pdf.setTextColor(0,200,150);
+pdf.text(‘🚚 COLETA E TRANSPORTE’, M, y); y += 5;
+const coletaRows = drc.coletas.map((c,i) => {
+const rc = calcColeta(c);
+return [`${i+1}º`, c.veiculo||’—’, c.residuo||’—’, `${c.distanciaTotal||0} km`, String(c.qtdViagens||1), fmt(rc.custoTotal), fmt(rc.precoBase)];
+});
+pdf.autoTable({
+startY: y, margin: { left: M, right: M },
+head: [[‘Ponto’,‘Veículo’,‘Resíduo’,‘Distância’,‘Viagens’,‘Custo Total’,‘Preço Base Venda’]],
+body: coletaRows,
+styles: { fontSize: 7, cellPadding: 2, textColor: [221,228,236], fillColor: [17,21,25], lineColor: [31,38,46], lineWidth: 0.1 },
+headStyles: { fillColor: [24,29,34], textColor: [90,101,119], fontStyle:‘bold’, fontSize:6 },
+alternateRowStyles: { fillColor: [24,29,34] },
+});
+y = pdf.lastAutoTable.finalY + 6;
+}
+
+// Destinação table
+const destRows = drc.destinacoes.filter(d => d.tipo);
+if (destRows.length) {
+pdf.setFontSize(8); pdf.setFont(‘helvetica’,‘bold’); pdf.setTextColor(0,200,150);
+pdf.text(‘♻️ TRATAMENTO E DESTINAÇÃO’, M, y); y += 5;
+pdf.autoTable({
+startY: y, margin: { left: M, right: M },
+head: [[‘Destinação / Tratamento’,‘Unid’,‘Qtde’,’$ Custo Unit.’,’$ PV Unit.’,’$ Receita’,’$ Despesa’,‘Receptor’]],
+body: destRows.map(d => [d.tipo,d.unidade,d.qtd,fmt(Number(d.custoUnit)||0),fmt(Number(d.pvUnit)||0),fmt((Number(d.pvUnit)||0)*(Number(d.qtd)||0)),fmt((Number(d.custoUnit)||0)*(Number(d.qtd)||0)),d.receptor||’—’]),
+styles: { fontSize: 6.5, cellPadding: 2, textColor: [221,228,236], fillColor: [17,21,25], lineColor: [31,38,46], lineWidth: 0.1 },
+headStyles: { fillColor: [24,29,34], textColor: [90,101,119], fontStyle:‘bold’, fontSize:6 },
+alternateRowStyles: { fillColor: [24,29,34] },
+});
+y = pdf.lastAutoTable.finalY + 6;
+}
+
+// Locação + Op Especiais
+const locRows = drc.locacoes.filter(l => l.descricao);
+if (locRows.length) {
+pdf.setFontSize(8); pdf.setFont(‘helvetica’,‘bold’); pdf.setTextColor(0,200,150);
+pdf.text(‘📦 LOCAÇÃO DE EQUIPAMENTOS’, M, y); y += 5;
+pdf.autoTable({
+startY: y, margin: { left: M, right: M },
+head: [[‘Descrição’,‘Qtde’,‘Unid’,’$ Custo Unit.’,’$ Venda Unit.’,’$ Receita Total’]],
+body: locRows.map(l => [l.descricao,l.qtd,l.unidade,fmt(Number(l.custo)||0),fmt(Number(l.venda)||0),fmt((Number(l.venda)||0)*(Number(l.qtd)||0))]),
+styles: { fontSize: 7, cellPadding: 2, textColor: [221,228,236], fillColor: [17,21,25], lineColor: [31,38,46], lineWidth: 0.1 },
+headStyles: { fillColor: [24,29,34], textColor: [90,101,119], fontStyle:‘bold’, fontSize:6 },
+alternateRowStyles: { fillColor: [24,29,34] },
+});
+y = pdf.lastAutoTable.finalY + 6;
+}
+
+// Obs
+if (drc.obs) {
+pdf.setFontSize(8); pdf.setFont(‘helvetica’,‘bold’); pdf.setTextColor(90,101,119);
+pdf.text(‘OBSERVAÇÕES:’, M, y); y += 5;
+pdf.setFont(‘helvetica’,‘normal’); pdf.setTextColor(150,160,175); pdf.setFontSize(7.5);
+const lines = pdf.splitTextToSize(drc.obs, W-2*M);
+pdf.text(lines, M, y); y += lines.length * 4 + 4;
+}
+
+// Footer
+const pageH = pdf.internal.pageSize.height;
+pdf.setFillColor(17,21,25);
+pdf.rect(0, pageH-14, W, 14, ‘F’);
+pdf.setFontSize(6.5); pdf.setFont(‘helvetica’,‘normal’); pdf.setTextColor(58,68,82);
+pdf.text(‘Documento de uso interno. Gerado pelo Sistema GVC Mapa Operacional.’, M, pageH-6);
+pdf.setTextColor(0,200,150);
+pdf.text(drc.numero, W-M, pageH-6, { align:‘right’ });
+
+pdf.save(`${drc.numero}_${(drc.cliente||'cliente').replace(/\s/g,'_')}.pdf`);
+toast(‘🖨 PDF gerado com sucesso’, ‘#00c896’);
+}
 
 // ── Overrides for standalone detail page ─────────────────
 function saveDRC() {
-  if (!currentDRC) { toast('⚠️ Nenhum DRC aberto','#f5a623'); return; }
-  const idx = drcs.findIndex(d=>d.id===currentDRC.id);
-  if (idx>=0) drcs[idx]=currentDRC; else drcs.push(currentDRC);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({drcs,counter:drcCounter}));
-  toast('💾 DRC salvo com sucesso','#00c896');
-  updateDetailSubbar();
+if (!currentDRC) { toast(‘⚠️ Nenhum DRC aberto’,’#f5a623’); return; }
+const idx = drcs.findIndex(d=>d.id===currentDRC.id);
+if (idx>=0) drcs[idx]=currentDRC; else drcs.push(currentDRC);
+localStorage.setItem(STORAGE_KEY, JSON.stringify({drcs,counter:drcCounter}));
+toast(‘💾 DRC salvo com sucesso’,’#00c896’);
+updateDetailSubbar();
 }
 
 function confirmDelete() {
-  if (!currentDRC) return;
-  if (!confirm('Excluir este DRC permanentemente?')) return;
-  drcs = drcs.filter(d=>d.id!==currentDRC.id);
-  currentDRC = null;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({drcs,counter:drcCounter}));
-  toast('🗑 DRC excluído','#e84393');
-  setTimeout(()=>location.href='drc.html', 1200);
+if (!currentDRC) return;
+if (!confirm(‘Excluir este DRC permanentemente?’)) return;
+drcs = drcs.filter(d=>d.id!==currentDRC.id);
+currentDRC = null;
+localStorage.setItem(STORAGE_KEY, JSON.stringify({drcs,counter:drcCounter}));
+toast(‘🗑 DRC excluído’,’#e84393’);
+setTimeout(()=>location.href=‘index.html’, 1200);
 }
 
 function makeOptions(arr, selected) {
-  return (arr||[]).map(v=>`<option value="${v}" ${v===selected?'selected':''}>${v}</option>`).join('');
+return (arr||[]).map(v=>`<option value="${v}" ${v===selected?'selected':''}>${v}</option>`).join(’’);
 }
 
 function renderList() {
-  // Not needed on detail page — just refresh subbar
-  updateDetailSubbar();
+// Not needed on detail page — just refresh subbar
+updateDetailSubbar();
 }
 
 function updateDetailSubbar() {
-  if (!currentDRC) return;
-  const idEl = document.getElementById('detail-drc-id');
-  const stEl = document.getElementById('detail-drc-status');
-  if (idEl) idEl.textContent = currentDRC.numero;
-  if (stEl) {
-    const sm = STATUS_META[currentDRC.status]||{};
-    stEl.innerHTML = `<span class="drc-status status-${currentDRC.status}" style="font-size:.75rem;">${sm.icon||''} ${sm.label||currentDRC.status}</span>`;
-  }
+if (!currentDRC) return;
+const idEl = document.getElementById(‘detail-drc-id’);
+const stEl = document.getElementById(‘detail-drc-status’);
+if (idEl) idEl.textContent = currentDRC.numero;
+if (stEl) {
+const sm = STATUS_META[currentDRC.status]||{};
+stEl.innerHTML = `<span class="drc-status status-${currentDRC.status}" style="font-size:.75rem;">${sm.icon||''} ${sm.label||currentDRC.status}</span>`;
+}
 }
 
 function loadAndOpen() {
-  try {
-    const d = JSON.parse(localStorage.getItem(STORAGE_KEY)||'{"drcs":[],"counter":0}');
-    drcs=d.drcs||[]; drcCounter=d.counter||0;
-  } catch(e){ drcs=[]; drcCounter=0; }
-  try {
-    const c = JSON.parse(localStorage.getItem(CADASTROS_KEY));
-    if(c){
-      cadastros=c;
-      if(!cadastros.categorias)     cadastros.categorias=['Coleta e Transporte','Tratamento / Destinação','Locação de Equipamentos','Consultoria / Laudos','Operações Especiais'];
-      if(!cadastros.justificativas) cadastros.justificativas=[];
-      if(!cadastros.empresasLogos)  cadastros.empresasLogos={};
-      if(!cadastros.usuarios)       cadastros.usuarios=[];
-    }
-  } catch(e){}
+try {
+const d = JSON.parse(localStorage.getItem(STORAGE_KEY)||’{“drcs”:[],“counter”:0}’);
+drcs=d.drcs||[]; drcCounter=d.counter||0;
+} catch(e){ drcs=[]; drcCounter=0; }
+try {
+const c = JSON.parse(localStorage.getItem(CADASTROS_KEY));
+if(c){
+cadastros=c;
+if(!cadastros.categorias)     cadastros.categorias=[‘Coleta e Transporte’,‘Tratamento / Destinação’,‘Locação de Equipamentos’,‘Consultoria / Laudos’,‘Operações Especiais’];
+if(!cadastros.justificativas) cadastros.justificativas=[];
+if(!cadastros.empresasLogos)  cadastros.empresasLogos={};
+if(!cadastros.usuarios)       cadastros.usuarios=[];
+}
+} catch(e){}
 
-  const params = new URLSearchParams(location.search);
-  const id   = params.get('id');
-  const isNew = params.get('new')==='1';
+const params = new URLSearchParams(location.search);
+const id   = params.get(‘id’);
+const isNew = params.get(‘new’)===‘1’;
 
-  if (isNew) {
-    drcCounter++;
-    const drc = {
-      id: 'drc-'+Date.now(),
-      numero: `DRC-${new Date().getFullYear()}-${String(drcCounter).padStart(4,'0')}`,
-      status: 'rascunho',
-      statusHistorico:[{status:'rascunho',data:new Date().toISOString(),autor:'',justificativa:''}],
-      createdAt: new Date().toISOString(),
-      empresa:'',cliente:'',lead:'',consultor:'',data:new Date().toISOString().slice(0,10),
-      unidadeAtendimento:'',categoriaServico:'',obs:'',
-      coletas:[],destinacoes:[],locacoes:[],opEspeciais:[],
-    };
-    drcs.push(drc);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({drcs,counter:drcCounter}));
-    history.replaceState(null,'','drc-detalhe.html?id='+drc.id);
-    openDRC(drc.id);
-    toast('📋 Novo DRC criado: '+drc.numero,'#00c896');
-  } else if (id) {
-    openDRC(id);
-  } else {
-    document.getElementById('empty-state').style.display='flex';
-  }
+if (isNew) {
+drcCounter++;
+const drc = {
+id: ‘drc-’+Date.now(),
+numero: `DRC-${new Date().getFullYear()}-${String(drcCounter).padStart(4,'0')}`,
+status: ‘rascunho’,
+statusHistorico:[{status:‘rascunho’,data:new Date().toISOString(),autor:’’,justificativa:’’}],
+createdAt: new Date().toISOString(),
+empresa:’’,cliente:’’,lead:’’,consultor:’’,data:new Date().toISOString().slice(0,10),
+unidadeAtendimento:’’,categoriaServico:’’,obs:’’,
+coletas:[],destinacoes:[],locacoes:[],opEspeciais:[],
+};
+drcs.push(drc);
+localStorage.setItem(STORAGE_KEY, JSON.stringify({drcs,counter:drcCounter}));
+history.replaceState(null,’’,‘drc-detalhe.html?id=’+drc.id);
+openDRC(drc.id);
+toast(‘📋 Novo DRC criado: ‘+drc.numero,’#00c896’);
+} else if (id) {
+openDRC(id);
+} else {
+document.getElementById(‘empty-state’).style.display=‘flex’;
+}
 }
 
 function openDRC(id) {
-  currentDRC = drcs.find(d=>d.id===id);
-  if (!currentDRC) {
-    document.getElementById('empty-state').style.display='flex';
-    return;
-  }
-  document.getElementById('empty-state').style.display='none';
-  document.getElementById('detail-main').style.display='block';
-  document.getElementById('detail-subbar').style.display='flex';
-  renderForm();
-  updateDetailSubbar();
+currentDRC = drcs.find(d=>d.id===id);
+if (!currentDRC) {
+document.getElementById(‘empty-state’).style.display=‘flex’;
+return;
 }
-
+document.getElementById(‘empty-state’).style.display=‘none’;
+document.getElementById(‘detail-main’).style.display=‘block’;
+document.getElementById(‘detail-subbar’).style.display=‘flex’;
+renderForm();
+updateDetailSubbar();
+}
 
 function toggleTheme() {
-  const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', t);
-  localStorage.setItem('gvc_theme', t);
-  const btn = document.getElementById('theme-toggle');
-  if (btn) btn.textContent = t === 'light' ? '☀️' : '🌙';
+const t = document.documentElement.getAttribute(‘data-theme’) === ‘light’ ? ‘dark’ : ‘light’;
+document.documentElement.setAttribute(‘data-theme’, t);
+localStorage.setItem(‘gvc_theme’, t);
+const btn = document.getElementById(‘theme-toggle’);
+if (btn) btn.textContent = t === ‘light’ ? ‘☀️’ : ‘🌙’;
 }
 (function(){
-  const t = localStorage.getItem('gvc_theme') || 'dark';
-  document.documentElement.setAttribute('data-theme', t);
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('theme-toggle');
-    if (btn) btn.textContent = t === 'light' ? '☀️' : '🌙';
-  });
+const t = localStorage.getItem(‘gvc_theme’) || ‘dark’;
+document.documentElement.setAttribute(‘data-theme’, t);
+document.addEventListener(‘DOMContentLoaded’, () => {
+const btn = document.getElementById(‘theme-toggle’);
+if (btn) btn.textContent = t === ‘light’ ? ‘☀️’ : ‘🌙’;
+});
 })();
 
 loadAndOpen();
 </script>
+
 </body></html>
