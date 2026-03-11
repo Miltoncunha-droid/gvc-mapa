@@ -360,11 +360,175 @@ padding: 4px 8px; outline: none; cursor: pointer;
 ::-webkit-scrollbar-thumb { background: var(–border2); border-radius: 3px; }
 
 /* ── RESPONSIVE ── */
+/* ══════════════════════════════════════════════
+MOBILE RESPONSIVO  (≤ 768px)
+══════════════════════════════════════════════ */
 @media (max-width: 768px) {
-.sidebar { display: none; }
+
+/* ── Header ── */
+header {
+padding: 0 12px;
+height: auto;
+min-height: 52px;
+flex-wrap: wrap;
+gap: 8px;
+padding-top: 6px;
+padding-bottom: 6px;
+}
+.logo img { height: 44px !important; }
+.hdiv { display: none; }
+.hbadge { font-size: 0.62rem; }
+.hactions {
+width: 100%;
+display: flex;
+flex-wrap: wrap;
+gap: 6px;
+padding-bottom: 4px;
+}
+.hbtn {
+flex: 1 1 auto;
+min-width: 70px;
+font-size: 0.68rem;
+padding: 5px 8px;
+text-align: center;
+}
+
+/* ── Layout: sidebar vira drawer ── */
+.app { flex-direction: column; }
+
+.sidebar {
+width: 100%;
+height: auto;
+position: relative;
+top: auto;
+border-right: none;
+border-bottom: 1px solid var(–border);
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.35s ease;
+}
+.sidebar.mobile-open {
+max-height: 80vh;
+overflow-y: auto;
+}
+
+/* Botão flutuante para abrir/fechar sidebar no mobile */
+#mob-sidebar-toggle {
+display: flex;
+}
+
+/* ── Área principal ── */
+.main {
+padding: 14px;
+max-width: 100%;
+}
+
+/* ── Cards de resultado ── */
 .results-grid { grid-template-columns: 1fr 1fr; }
-.dest-row { grid-template-columns: 1fr 1fr 1fr; }
-.form-grid.cols3 { grid-template-columns: 1fr 1fr; }
+.result-card { padding: 12px; }
+.result-val  { font-size: 1rem; }
+
+/* ── Formulário de identificação ── */
+.form-grid        { grid-template-columns: 1fr !important; }
+.form-grid.cols2  { grid-template-columns: 1fr !important; }
+.form-grid.cols3  { grid-template-columns: 1fr !important; }
+.form-grid.full   { grid-template-columns: 1fr; }
+
+/* ── Seções de tabela (destinação, locação, op.) ── */
+.items-table { display: block; width: 100%; }
+.items-table thead { display: none; }
+.items-table tbody { display: block; }
+.items-table tr {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 6px;
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 10px;
+margin-bottom: 10px;
+}
+.items-table td {
+display: block;
+border: none;
+padding: 3px 0;
+font-size: 0.78rem;
+}
+.items-table td:last-child {
+grid-column: 1 / -1;
+text-align: right;
+}
+
+/* ── Coleta cards ── */
+.coleta-card .coleta-grid { grid-template-columns: 1fr 1fr !important; }
+.coleta-card .coleta-grid-wide { grid-template-columns: 1fr 1fr !important; }
+.coleta-summary { flex-wrap: wrap; gap: 8px; }
+
+/* ── Seção header ── */
+.section-header {
+flex-wrap: wrap;
+gap: 6px;
+padding: 12px 14px;
+}
+.section-title { font-size: 0.8rem; }
+
+/* ── Timeline ── */
+.timeline-entry { flex-direction: column; gap: 4px; }
+
+/* ── Status modal ── */
+.status-modal {
+width: 96vw !important;
+max-width: 96vw !important;
+margin: 12px;
+}
+.status-grid { grid-template-columns: 1fr 1fr !important; }
+
+/* ── Cadastros modal ── */
+.cad-modal-inner {
+width: 96vw !important;
+max-width: 96vw !important;
+padding: 0 !important;
+}
+.cad-tabs { overflow-x: auto; }
+.cad-tab  { font-size: 0.7rem; padding: 10px 10px; }
+
+/* ── Toast ── */
+#toast { right: 12px; left: 12px; font-size: 0.78rem; }
+
+/* ── Empty state ── */
+.empty-state { min-height: 200px; }
+.empty-icon  { font-size: 2rem; }
+}
+
+/* Botão flutuante sidebar — oculto no desktop */
+#mob-sidebar-toggle {
+display: none;
+position: fixed;
+bottom: 20px;
+right: 20px;
+z-index: 900;
+background: var(–retec);
+color: #000;
+border: none;
+border-radius: 50px;
+padding: 12px 20px;
+font-size: 0.82rem;
+font-weight: 700;
+cursor: pointer;
+box-shadow: 0 4px 18px rgba(0,200,150,0.35);
+transition: transform 0.15s, box-shadow 0.15s;
+}
+#mob-sidebar-toggle:hover {
+transform: scale(1.05);
+box-shadow: 0 6px 24px rgba(0,200,150,0.5);
+}
+
+@media (max-width: 480px) {
+.results-grid { grid-template-columns: 1fr !important; }
+.coleta-card .coleta-grid { grid-template-columns: 1fr !important; }
+.items-table tr { grid-template-columns: 1fr; }
+.hbtn { font-size: 0.65rem; padding: 5px 6px; }
+.logo img { height: 36px !important; }
 }
 </style>
 
@@ -525,7 +689,13 @@ padding: 4px 8px; outline: none; cursor: pointer;
 </div>
 
 <div class="app">
+  <!-- MOBILE SIDEBAR TOGGLE -->
+  <button id="mob-sidebar-toggle" onclick="toggleMobileSidebar()" title="Abrir/fechar painel">
+    ☰ DRCs
+  </button>
+
   <!-- SIDEBAR -->
+
   <aside class="sidebar">
     <div class="sb-header">
       <div class="sb-title">
@@ -935,6 +1105,8 @@ function selectDRC(id) {
   document.getElementById('drc-form').style.display = 'block';
   renderForm();
   renderList();
+  // fecha sidebar no mobile ao selecionar um DRC
+  closeMobileSidebar();
 }
 
 function makeOptions(arr, selected) {
@@ -1792,6 +1964,22 @@ toast(`${meta.icon} Status atualizado: ${meta.label}`, meta.color);
 }
 
 // ── THEME TOGGLE ──────────────────────────────────────────
+function toggleMobileSidebar() {
+const sb = document.querySelector(’.sidebar’);
+const btn = document.getElementById(‘mob-sidebar-toggle’);
+if (!sb) return;
+const open = sb.classList.toggle(‘mobile-open’);
+btn.textContent = open ? ‘✕ Fechar’ : ‘☰ DRCs’;
+}
+
+function closeMobileSidebar() {
+const sb = document.querySelector(’.sidebar’);
+const btn = document.getElementById(‘mob-sidebar-toggle’);
+if (!sb) return;
+sb.classList.remove(‘mobile-open’);
+if (btn) btn.textContent = ‘☰ DRCs’;
+}
+
 function toggleTheme() {
 const isLight = document.documentElement.getAttribute(‘data-theme’) === ‘light’;
 const newTheme = isLight ? ‘dark’ : ‘light’;
