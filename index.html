@@ -1265,54 +1265,6 @@ function getActiveFilters() {
   };
 }
 
-function renderList() {
-  const f = getActiveFilters();
-  const el = document.getElementById('drc-list');
-  const count = document.getElementById('drc-count');
-
-  const filtered = drcs.filter(d => {
-    const matchText = !f.text || d.numero?.toLowerCase().includes(f.text)
-      || d.cliente?.toLowerCase().includes(f.text) || d.lead?.toLowerCase().includes(f.text);
-    const matchEmpresa   = !f.empresas.length   || f.empresas.includes(d.empresa);
-    const matchCategoria = !f.categorias.length || f.categorias.includes(d.categoriaServico);
-    const matchStatus    = !f.statuses.length   || f.statuses.includes(d.status);
-    const dDate = d.data || '';
-    const matchFrom = !f.dateFrom || dDate >= f.dateFrom;
-    const matchTo   = !f.dateTo   || dDate <= f.dateTo;
-    return matchText && matchEmpresa && matchCategoria && matchStatus && matchFrom && matchTo;
-  });
-
-  count.textContent = drcs.length;
-  if (filtered.length !== drcs.length) {
-    const c = document.getElementById('drc-count');
-    if (c) c.textContent = filtered.length + '/' + drcs.length;
-  }
-
-  if (!filtered.length) {
-    el.innerHTML = `<div class="sb-empty">Nenhum DRC encontrado</div>`;
-  } else {
-    el.innerHTML = filtered.slice().reverse().map(d => {
-      const r = calcDRC(d);
-      const active = currentDRC?.id === d.id ? 'active' : '';
-      return `<div class="drc-item ${active}" onclick="selectDRC('${d.id}')">
-        <div class="drc-num">${d.numero}</div>
-        <div class="drc-name">${d.cliente || '(sem cliente)'}</div>
-        ${d.empresa ? `<div style="font-size:0.65rem;color:var(--text-muted);margin-top:1px;">🏢 ${d.empresa}</div>` : ''}
-        <div class="drc-meta">
-          <span class="drc-status status-${d.status}">${(STATUS_META[d.status]?.icon||'') + ' ' + (STATUS_META[d.status]?.label||d.status)}</span>
-          <span>${fmt(r.receitaBruta)}</span>
-          <span style="margin-left:auto;color:${r.margem > 0.2 ? 'var(--retec)' : r.margem > 0.1 ? 'var(--orange)' : 'var(--red)'}">
-            ${(r.margem * 100).toFixed(1)}%
-          </span>
-        </div>
-      </div>`;
-    }).join('');
-  }
-
-  updateFilterBar(f);
-  populateFilterSelects();
-}
-
 function populateFilterSelects() {
   // Empresa and Categoria options are built dynamically in buildMsDropdown via MS_CONFIGS.
   // Nothing to do here — dropdowns rebuild on open.
