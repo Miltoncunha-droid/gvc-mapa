@@ -223,7 +223,7 @@ header {
 [data-theme="light"] .sb-filter-select { background: #fff; color: #1a2332; }
 
 /* ── MAIN FORM ── */
-.main { flex: 1; padding: 24px; overflow-y: auto; max-width: 960px; }
+.main { flex: 1; padding: 24px; overflow-y: auto; max-width: 100%; display: flex; justify-content: center; align-items: flex-start; }
 .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; gap: 16px; color: var(--text-muted); }
 .empty-icon { font-size: 3rem; opacity: 0.3; }
 .empty-title { font-size: 1rem; font-weight: 600; color: var(--text-dim); }
@@ -590,6 +590,7 @@ header {
 .ms-select-all input[type=checkbox] { accent-color: var(--retec); width: 13px; height: 13px; cursor: pointer; }
 
 
+#drc-form { max-width: 820px; width: 100%; }
 .detail-subbar{
   display:flex;align-items:center;gap:12px;padding:10px 20px;
   border-bottom:1px solid var(--border);background:var(--surface);
@@ -598,7 +599,8 @@ header {
 .detail-drc-id{font-family:var(--font-mono);font-size:0.78rem;font-weight:700;letter-spacing:.08em;color:var(--retec);}
 .detail-actions{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap;}
 @media(max-width:768px){
-  .detail-subbar{padding:8px 12px;gap:8px;}
+  #drc-form { max-width: 820px; width: 100%; }
+.detail-subbar{padding:8px 12px;gap:8px;}
   .detail-actions{width:100%;}
   .detail-actions .hbtn{flex:1 1 auto;text-align:center;font-size:.72rem;}
 }
@@ -702,7 +704,7 @@ header {
   </div>
 
   <!-- Form area -->
-  <div id="detail-main" style="display:none;flex:1;overflow-y:auto;">
+  <div id="detail-main" style="display:none;flex:1;overflow-y:auto;display:flex;justify-content:center;">
     <div id="drc-form"></div>
   </div>
 </div>
@@ -1012,17 +1014,6 @@ function renderForm() {
   // Results
   renderResults(r) +
 
-  // Timeline
-  '<div class="form-section">' +
-    '<div class="section-header">' +
-      '<span class="section-icon">🕐</span>' +
-      '<span class="section-title">Histórico de Status</span>' +
-      '<span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);">' + histLen + ' registro(s)</span>' +
-    '</div>' +
-    '<div class="section-body"><div class="timeline">' + renderTimeline(drc) + '</div></div>' +
-  '</div>' +
-
-  // Coleta
   '<div class="form-section">' +
     '<div class="section-header">' +
       '<span class="section-icon">🚚</span>' +
@@ -1035,7 +1026,6 @@ function renderForm() {
     '</div>' +
   '</div>' +
 
-  // Destinação
   '<div class="form-section">' +
     '<div class="section-header">' +
       '<span class="section-icon">♻️</span>' +
@@ -1051,7 +1041,6 @@ function renderForm() {
     '</div>' +
   '</div>' +
 
-  // Locação
   '<div class="form-section">' +
     '<div class="section-header">' +
       '<span class="section-icon">📦</span>' +
@@ -1067,7 +1056,6 @@ function renderForm() {
     '</div>' +
   '</div>' +
 
-  // Op. Especiais
   '<div class="form-section">' +
     '<div class="section-header">' +
       '<span class="section-icon">⚙️</span>' +
@@ -1081,7 +1069,16 @@ function renderForm() {
       '</table>' +
       '<button class="add-row-btn" onclick="addOp()">＋ Adicionar Operação</button>' +
     '</div>' +
-  '</div>';
+  '</div> +
+
+  '<div class="form-section">' +
+    '<div class="section-header">' +
+      '<span class="section-icon">🕐</span>' +
+      '<span class="section-title">Histórico de Status</span>' +
+      '<span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);">' + histLen + ' registro(s)</span>' +
+    '</div>' +
+    '<div class="section-body"><div class="timeline">' + renderTimeline(drc) + '</div></div>' +
+  '</div>'';
 
 }
 
