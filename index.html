@@ -600,10 +600,12 @@ header {
 .ms-select-all input[type=checkbox] { accent-color: var(--retec); width: 13px; height: 13px; cursor: pointer; }
 
 .filter-lbl{font-family:var(--font-mono);font-size:0.55rem;letter-spacing:.08em;color:var(--text-dim);text-transform:uppercase;margin-bottom:4px;}
-.dash-topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;gap:12px;flex-wrap:wrap;}
-.dash-stats{display:flex;gap:20px;flex-wrap:wrap;}
+.dash-topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;gap:16px;flex-wrap:wrap;width:100%;box-sizing:border-box;}
+.dash-topbar-label{display:flex;align-items:center;gap:14px;}
+.dash-stat-divider{width:1px;height:36px;background:var(--border2);flex-shrink:0;}
+.dash-stats{display:flex;gap:24px;flex-wrap:wrap;align-items:center;}
 .dash-stat{text-align:right;}
-.dash-stat-val{font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--text);}
+.dash-stat-val{font-family:var(--font-mono);font-size:1.15rem;font-weight:700;color:var(--text);}
 .dash-stat-lbl{font-size:0.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);font-family:var(--font-mono);}
 .dash-grid{flex:1;overflow-y:auto;padding:20px 24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;align-content:start;}
 .drc-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;cursor:pointer;position:relative;transition:border-color .18s,transform .15s,box-shadow .18s;display:flex;flex-direction:column;gap:8px;touch-action:manipulation;}
@@ -713,12 +715,18 @@ header {
 
   <main class="main" style="padding:0;overflow:hidden;display:flex;flex-direction:column;min-width:0;">
     <div class="dash-topbar">
-      <div style="font-family:var(--font-mono);font-size:0.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);">
-        Documentos de Referência de Custos
+      <div class="dash-topbar-label">
+        <span style="font-size:1.4rem;line-height:1;">📊</span>
+        <div>
+          <div style="font-family:var(--font-mono);font-size:0.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Documentos de Referência de Custos</div>
+          <div style="font-size:0.7rem;color:var(--text-dim);margin-top:2px;">Módulo de Precificação · Retec / GVC</div>
+        </div>
       </div>
       <div class="dash-stats">
         <div class="dash-stat"><div class="dash-stat-val" id="stat-total">0</div><div class="dash-stat-lbl">DRCs</div></div>
-        <div class="dash-stat"><div class="dash-stat-val" id="stat-receita" style="color:var(--retec)">R$&nbsp;0</div><div class="dash-stat-lbl">Receita Bruta</div></div>
+        <div class="dash-stat-divider"></div>
+        <div class="dash-stat"><div class="dash-stat-val" id="stat-receita" style="color:var(--retec)">R$&nbsp;0,00</div><div class="dash-stat-lbl">Receita Bruta</div></div>
+        <div class="dash-stat-divider"></div>
         <div class="dash-stat"><div class="dash-stat-val" id="stat-aprov" style="color:#00c896">0</div><div class="dash-stat-lbl">Aprovados</div></div>
       </div>
     </div>
