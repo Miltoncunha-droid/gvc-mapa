@@ -696,7 +696,7 @@ header {
   </div>
 
   <!-- Empty / error state -->
-  <div class="empty-state" id="empty-state" style="flex:1;">
+  <div class="empty-state" id="empty-state" style="display:none;flex:1;">
     <div class="empty-icon">⚠️</div>
     <div class="empty-title">DRC não encontrado</div>
     <div class="empty-sub">O DRC solicitado não existe ou foi excluído</div>
@@ -704,7 +704,7 @@ header {
   </div>
 
   <!-- Form area -->
-  <div id="detail-main" style="display:none;flex:1;overflow-y:auto;display:flex;justify-content:center;">
+  <div id="detail-main" style="display:none;flex:1;overflow-y:auto;justify-content:center;">
     <div id="drc-form"></div>
   </div>
 </div>
@@ -1804,7 +1804,13 @@ function loadAndOpen() {
     openDRC(drc.id);
     toast('📋 Novo DRC criado: '+drc.numero,'#00c896');
   } else if (id) {
-    openDRC(id);
+    try {
+      openDRC(id);
+    } catch(e) {
+      console.error('openDRC error:', e);
+      const es = document.getElementById('empty-state');
+      if (es) es.style.display = 'flex';
+    }
   } else {
     document.getElementById('empty-state').style.display='flex';
   }
@@ -1817,7 +1823,7 @@ function openDRC(id) {
     return;
   }
   document.getElementById('empty-state').style.display='none';
-  document.getElementById('detail-main').style.display='block';
+  document.getElementById('detail-main').style.display='flex';
   document.getElementById('detail-subbar').style.display='flex';
   renderForm();
   updateDetailSubbar();
