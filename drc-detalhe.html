@@ -603,6 +603,20 @@ header {
   .detail-actions .hbtn{flex:1 1 auto;text-align:center;font-size:.72rem;}
 }
 
+
+/* ── Version badge ── */
+.ver-badge {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  opacity: 0.5;
+  letter-spacing: .06em;
+  padding: 2px 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  user-select: none;
+  flex-shrink: 0;
+}
 </style>
 </head>
 <body>
@@ -612,6 +626,7 @@ header {
   </a>
   <div class="hdiv"></div>
   <span class="hbadge">DRC · PRECIFICAÇÃO</span>
+  <span class="ver-badge">drc-detalhe v1.1</span>
   <div class="hactions">
     <a class="hbtn" href="index.html" style="text-decoration:none;display:inline-flex;align-items:center;">← Lista</a>
     <a class="hbtn" href="drc-cadastros.html" style="text-decoration:none;display:inline-flex;align-items:center;">⚙ Cadastros</a>
@@ -697,12 +712,14 @@ header {
 
 <div class="toast" id="toast"></div>
 
+<script src="api-client.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 <script>
 
 'use strict';
 
+const APP_VERSION = 'drc-detalhe v1.1';
 const STORAGE_KEY   = 'gvc_drcs_v1';
 const CADASTROS_KEY = 'gvc_cadastros_v1';
 
@@ -734,50 +751,86 @@ const STATUS_META = {
 };
 
 // ── STORAGE ──────────────────────────────────────────────
-function loadData() {
+async function loadData() {
   try {
-    const d = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{"drcs":[],"counter":0}');
-    drcs = d.drcs || []; drcCounter = d.counter || 0;
-  } catch(e) { drcs = []; drcCounter = 0; }
-  try {
-    const s = JSON.parse(localStorage.getItem(CADASTROS_KEY));
-    if (s) {
-      cadastros = s;
+    const [drcRes, cadRes] = await Promise.all([
+      fetch('api/drcs.php'),
+      fetch('api/cadastros.php'),
+    ]);
+    if (!drcRes.ok) throw new Error('Erro DRCs: ' + drcRes.status);
+    if (!cadRes.ok) throw new Error('Erro cadastros: ' + cadRes.status);
+    const drcData = await drcRes.json();
+    const cadData = await cadRes.json();
+    drcs       = drcData.drcs    || [];
+    drcCounter = drcData.counter || 0;
+    if (cadData) {
+      cadastros = cadData;
       if (!cadastros.categorias)     cadastros.categorias     = ['Coleta e Transporte','Tratamento / Destinação','Locação de Equipamentos','Consultoria / Laudos','Operações Especiais'];
       if (!cadastros.justificativas) cadastros.justificativas = [];
       if (!cadastros.empresasLogos)  cadastros.empresasLogos  = {};
       if (!cadastros.usuarios)       cadastros.usuarios       = [];
     }
-  } catch(e) {}
+  } catch(e) {
+    console.error('Erro ao carregar dados:', e);
+    drcs = []; drcCounter = 0;
+    toast('⚠️ Erro ao conectar ao servidor', '#e84393');
+  }
 }
 
-function saveData() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({drcs, counter: drcCounter}));
+async function saveData() {
+  if (!currentDRC) return;
+  try {
+    const res = await fetch('api/drcs.php?id=' + encodeURIComponent(currentDRC.id), {
+      method:  'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body:    JSON.stringify(currentDRC),
+    });
+    if (!res.ok) throw new Error(res.status);
+  } catch(e) {
+    console.error('Erro ao salvar DRC:', e);
+    toast('⚠️ Erro ao salvar no servidor', '#e84393');
+    throw e;
+  }
 }
 
 // ── INIT ─────────────────────────────────────────────────
-function init() {
-  loadData();
+async function init() {
+  await loadData();
   const params = new URLSearchParams(location.search);
   const id     = params.get('id');
   const isNew  = params.get('new') === '1';
+
   if (isNew) {
-    drcCounter++;
-    const drc = {
-      id: 'drc-' + Date.now(),
-      numero: 'DRC-' + new Date().getFullYear() + '-' + String(drcCounter).padStart(4,'0'),
-      status: 'rascunho',
-      statusHistorico: [{status:'rascunho',data:new Date().toISOString(),autor:'',justificativa:''}],
-      createdAt: new Date().toISOString(),
-      empresa:'',cliente:'',lead:'',consultor:'',data:new Date().toISOString().slice(0,10),
-      unidadeAtendimento:'',categoriaServico:'',obs:'',
-      coletas:[],destinacoes:[],locacoes:[],opEspeciais:[],
-    };
-    drcs.push(drc);
-    saveData();
-    history.replaceState(null,'','drc-detalhe.html?id='+drc.id);
-    openDRC(drc.id);
-    toast('📋 Novo DRC criado: '+drc.numero,'#00c896');
+    try {
+      // Send to server — server generates numero and increments counter
+      const newDrc = {
+        id:               'drc-' + Date.now(),
+        status:           'rascunho',
+        statusHistorico:  [],
+        createdAt:        new Date().toISOString(),
+        empresa: '', cliente: '', contato: '', responsavel: '',
+        data:             new Date().toISOString().slice(0, 10),
+        unidade: '', segmento: '', obs: '',
+        coletas: [], destinacoes: [], locacoes: [], opEspeciais: [],
+      };
+      const res = await fetch('api/drcs.php', {
+        method:  'POST',
+        headers: {'Content-Type': 'application/json'},
+        body:    JSON.stringify(newDrc),
+      });
+      if (!res.ok) throw new Error(res.status);
+      const result = await res.json();
+      currentDRC = result.drc;
+      drcs.push(currentDRC);
+      drcCounter = result.counter || drcCounter;
+      history.replaceState(null, '', 'drc-detalhe.html?id=' + currentDRC.id);
+      openDRC(currentDRC.id);
+      toast('📋 Novo DRC criado: ' + currentDRC.numero, '#00c896');
+    } catch(e) {
+      console.error('Erro ao criar DRC:', e);
+      toast('⚠️ Erro ao criar DRC no servidor', '#e84393');
+      showEmpty();
+    }
   } else if (id) {
     openDRC(id);
   } else {
@@ -785,8 +838,12 @@ function init() {
   }
 }
 
-function openDRC(id) {
-  currentDRC = drcs.find(d => d.id === id);
+async function openDRC(id) {
+  try {
+    currentDRC = await API.getDRC(id);
+  } catch(e) {
+    showEmpty(); return;
+  }
   if (!currentDRC) { showEmpty(); return; }
   document.getElementById('empty-state').style.display  = 'none';
   document.getElementById('detail-main').style.display  = 'flex';
@@ -801,30 +858,39 @@ function showEmpty() {
   document.getElementById('detail-subbar').style.display = 'none';
 }
 
-function saveDRC() {
+async function saveDRC() {
   if (!currentDRC) { toast('⚠️ Nenhum DRC aberto','#f5a623'); return; }
-  const idx = drcs.findIndex(d => d.id === currentDRC.id);
-  if (idx >= 0) drcs[idx] = currentDRC; else drcs.push(currentDRC);
-  saveData();
-  toast('💾 DRC salvo com sucesso','#00c896');
-  updateDetailSubbar();
+  try {
+    await saveData();
+    // Update local array too
+    const idx = drcs.findIndex(d => d.id === currentDRC.id);
+    if (idx >= 0) drcs[idx] = currentDRC; else drcs.push(currentDRC);
+    toast('💾 DRC salvo com sucesso','#00c896');
+    updateDetailSubbar();
+  } catch(e) { /* saveData already shows toast */ }
 }
 
-function confirmDelete() {
+async function confirmDelete() {
   if (!currentDRC) return;
   if (!confirm('Excluir este DRC permanentemente?')) return;
-  drcs = drcs.filter(d => d.id !== currentDRC.id);
-  currentDRC = null;
-  saveData();
-  toast('🗑 DRC excluído','#e84393');
-  setTimeout(() => location.href = 'index.html', 1200);
+  try {
+    const res = await fetch('api/drcs.php?id=' + encodeURIComponent(currentDRC.id), {method: 'DELETE'});
+    if (!res.ok) throw new Error(res.status);
+    drcs = drcs.filter(d => d.id !== currentDRC.id);
+    currentDRC = null;
+    toast('🗑 DRC excluído','#e84393');
+    setTimeout(() => location.href = 'index.html', 1200);
+  } catch(e) {
+    console.error('Erro ao excluir:', e);
+    toast('⚠️ Erro ao excluir DRC','#e84393');
+  }
 }
 
 // ── FIELD UPDATES ────────────────────────────────────────
 function updateField(field, value) {
   if (!currentDRC) return;
   currentDRC[field] = value;
-  if (['empresa','cliente','consultor'].includes(field)) updateDetailSubbar();
+  if (['empresa','cliente','responsavel'].includes(field)) updateDetailSubbar();
 }
 
 function updateColeta(id, field, value) {
@@ -1018,24 +1084,24 @@ function renderForm() {
             <input value="${esc(drc.cliente)}" oninput="updateField('cliente',this.value)" placeholder="Nome do cliente">
           </div>
           <div class="field"><label>Lead / Contato</label>
-            <input value="${esc(drc.lead)}" oninput="updateField('lead',this.value)" placeholder="Nome do lead">
+            <input value="${esc(drc.contato)}" oninput="updateField('lead',this.value)" placeholder="Nome do contato">
           </div>
           <div class="field"><label>Consultor</label>
             <select onchange="updateField('consultor',this.value)">
-              <option value="">Selecione...</option>${mkOpts(cadastros.consultores,drc.consultor)}
+              <option value="">Selecione...</option>${mkOpts(cadastros.responsaveis,drc.responsavel)}
             </select>
           </div>
           <div class="field"><label>Data de Criação</label>
             <input type="date" value="${esc(drc.data)}" readonly style="opacity:0.6;cursor:default;">
           </div>
-          <div class="field"><label>Unidade de Atendimento</label>
-            <select onchange="updateField('unidadeAtendimento',this.value)">
-              <option value="">Selecione...</option>${mkOpts(cadastros.unidades,drc.unidadeAtendimento)}
+          <div class="field"><label>Unidade</label>
+            <select onchange="updateField('unidade',this.value)">
+              <option value="">Selecione...</option>${mkOpts(cadastros.unidades,drc.unidade)}
             </select>
           </div>
-          <div class="field"><label>Categoria do Serviço</label>
-            <select onchange="updateField('categoriaServico',this.value)">
-              <option value="">Selecione...</option>${mkOpts(cadastros.categorias,drc.categoriaServico)}
+          <div class="field"><label>Segmento</label>
+            <select onchange="updateField('segmento',this.value)">
+              <option value="">Selecione...</option>${mkOpts(cadastros.categorias,drc.segmento)}
             </select>
           </div>
         </div>
@@ -1288,7 +1354,7 @@ function selectJustOption(val) {
   if (val==='__outra__') { pendingJust=''; if (ta) { ta.style.display='block'; ta.value=''; ta.focus(); } }
   else { pendingJust=val; if (ta) { ta.style.display='none'; ta.value=''; } }
 }
-function confirmStatusChange() {
+async function confirmStatusChange() {
   if (!pendingStatus||!currentDRC) return;
   const meta=STATUS_META[pendingStatus];
   if (meta&&meta.neg&&!pendingJust.trim()) {
@@ -1303,11 +1369,16 @@ function confirmStatusChange() {
     toast('⚠️ Selecione o usuário responsável','#e84393'); return;
   }
   if (!currentDRC.statusHistorico) currentDRC.statusHistorico=[];
-  currentDRC.statusHistorico.push({status:pendingStatus,data:new Date().toISOString(),autor,justificativa:meta&&meta.neg?pendingJust.trim():''});
-  currentDRC.status=pendingStatus;
-  const idx=drcs.findIndex(d=>d.id===currentDRC.id);
-  if (idx>=0) drcs[idx]=currentDRC;
-  saveData(); closeStatusModal(); renderForm(); updateDetailSubbar();
+  try {
+    await API.atualizarStatus(currentDRC.id, pendingStatus, autor, meta&&meta.neg ? pendingJust.trim() : '');
+    if (!currentDRC.statusHistorico) currentDRC.statusHistorico = [];
+    currentDRC.statusHistorico.push({status:pendingStatus,data:new Date().toISOString(),autor,justificativa:meta&&meta.neg?pendingJust.trim():''});
+    currentDRC.status = pendingStatus;
+  } catch(e) {
+    toast('❌ Erro ao atualizar status: ' + e.message, '#e84393');
+    return;
+  }
+  closeStatusModal(); renderForm(); updateDetailSubbar();
   toast(`${meta?meta.icon:''} Status atualizado: ${meta?meta.label:pendingStatus}`,meta?meta.color:'#00c896');
 }
 
@@ -1339,11 +1410,11 @@ function exportPDF() {
   pdf.text('EMPRESA',M+4,y+6);pdf.text('CLIENTE',M+50,y+6);pdf.text('CONSULTOR',M+110,y+6);pdf.text('UNIDADE',M+155,y+6);
   pdf.setFont('helvetica','normal');pdf.setTextColor(221,228,236);pdf.setFontSize(9);
   pdf.text(drc.empresa||'—',M+4,y+13);pdf.text(drc.cliente||'—',M+50,y+13);
-  pdf.text(drc.consultor||'—',M+110,y+13);pdf.text(drc.unidadeAtendimento||'—',M+155,y+13);
+  pdf.text(drc.responsavel||'—',M+110,y+13);pdf.text(drc.unidade||'—',M+155,y+13);
   pdf.setFontSize(7);pdf.setFont('helvetica','bold');pdf.setTextColor(90,101,119);
   pdf.text('LEAD / CONTATO',M+4,y+19);pdf.text('CATEGORIA',M+110,y+19);
   pdf.setFont('helvetica','normal');pdf.setTextColor(221,228,236);pdf.setFontSize(9);
-  pdf.text(drc.lead||'—',M+4,y+25);pdf.text(drc.categoriaServico||'—',M+110,y+25);
+  pdf.text(drc.contato||'—',M+4,y+25);pdf.text(drc.segmento||'—',M+110,y+25);
   y+=34;
   const cards=[
     {label:'RECEITA BRUTA',val:fmt(r.receitaBruta),color:[221,228,236]},
@@ -1419,7 +1490,7 @@ function toggleTheme() {
   document.addEventListener('DOMContentLoaded',function(){
     const btn=document.getElementById('theme-toggle');
     if(btn) btn.textContent=t==='light'?'☀️':'🌙';
-    init();
+    init(); // async — runs in background
   });
 })();
 
