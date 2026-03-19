@@ -603,6 +603,20 @@ header {
 .cad-btn-add:hover { opacity:.85; }
 @media(max-width:600px){.cad-page{padding:16px 12px;}.cad-tabs-row button{font-size:.7rem;padding:10px 6px;}}
 
+
+/* ── Version badge ── */
+.ver-badge {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  opacity: 0.5;
+  letter-spacing: .06em;
+  padding: 2px 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  user-select: none;
+  flex-shrink: 0;
+}
 </style>
 </head>
 <body>
@@ -612,6 +626,7 @@ header {
   </a>
   <div class="hdiv"></div>
   <span class="hbadge">DRC · PRECIFICAÇÃO</span>
+  <span class="ver-badge">drc-cadastros v1.1</span>
   <div class="hactions">
     <a class="hbtn" href="index.html" style="text-decoration:none;display:inline-flex;align-items:center;touch-action:manipulation;">← DRCs</a>
     <button class="hbtn" id="theme-toggle" onclick="toggleTheme()" title="Alternar tema">🌙</button>
@@ -634,8 +649,8 @@ header {
       <div class="cad-tabs-row">
         <button id="tab-empresas"       class="active" onclick="showTab('empresas')">🏢 Empresas</button>
         <button id="tab-unidades"       onclick="showTab('unidades')">🏭 Unidades</button>
-        <button id="tab-consultores"    onclick="showTab('consultores')">👤 Consultores</button>
-        <button id="tab-categorias"     onclick="showTab('categorias')">📁 Categorias</button>
+        <button id="tab-responsaveis"   onclick="showTab('responsaveis')">👤 Responsáveis</button>
+        <button id="tab-segmentos"      onclick="showTab('segmentos')">📁 Segmentos</button>
         <button id="tab-justificativas" onclick="showTab('justificativas')">💬 Justificativas</button>
         <button id="tab-usuarios"       onclick="showTab('usuarios')">👥 Usuários</button>
       </div>
@@ -655,7 +670,9 @@ header {
 
 <div class="toast" id="toast"></div>
 
+<script src="api-client.js"></script>
 <script>
+const APP_VERSION = 'drc-cadastros v1.1';
 // ═══════════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════════
@@ -668,8 +685,8 @@ let cadastros = {
   empresas:      ['Retec Resíduos', 'GVC Ambiental', 'GVC Logística'],
   empresasLogos: {},
   unidades:      ['CIA Sul — Simões Filho', 'Unidade Salvador', 'Unidade Feira de Santana'],
-  consultores:   ['Lucianne', 'Consultor 2', 'Consultor 3'],
-  categorias:    ['Coleta e Transporte', 'Tratamento / Destinação', 'Locação de Equipamentos', 'Consultoria / Laudos', 'Operações Especiais'],
+  responsaveis:  ['Lucianne', 'Consultor 2', 'Consultor 3'],
+  segmentos:     ['Coleta e Transporte', 'Tratamento / Destinação', 'Locação de Equipamentos', 'Consultoria / Laudos', 'Operações Especiais'],
   justificativas: [
     'Preço acima do mercado',
     'Cliente optou por outro fornecedor',
@@ -713,32 +730,33 @@ const CONSUMO_VEICULO = { // km/litro
 // ═══════════════════════════════════════════════════════════
 // STORAGE
 // ═══════════════════════════════════════════════════════════
-function load() {
+async function load() {
   try {
-    const d = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{"drcs":[],"counter":0}');
-    drcs = d.drcs || [];
-    drcCounter = d.counter || 0;
-  } catch(e) { drcs = []; drcCounter = 0; }
-  try {
-    const c = JSON.parse(localStorage.getItem(CADASTROS_KEY));
-    if (c) {
-      cadastros = c;
-      // Ensure new keys exist for older saves
-      if (!cadastros.categorias)    cadastros.categorias    = ['Coleta e Transporte', 'Tratamento / Destinação', 'Locação de Equipamentos', 'Consultoria / Laudos', 'Operações Especiais'];
+    const [drcRes, cadRes] = await Promise.all([
+      fetch('api/drcs.php'),
+      fetch('api/cadastros.php'),
+    ]);
+    if (!drcRes.ok) throw new Error('DRCs: ' + drcRes.status);
+    if (!cadRes.ok) throw new Error('Cadastros: ' + cadRes.status);
+    const drcData = await drcRes.json();
+    const cadData = await cadRes.json();
+    drcs       = drcData.drcs    || [];
+    drcCounter = drcData.counter || 0;
+    if (cadData) {
+      cadastros = cadData;
+      if (!cadastros.segmentos)     cadastros.segmentos     = ['Coleta e Transporte','Tratamento / Destinação','Locação de Equipamentos','Consultoria / Laudos','Operações Especiais'];
       if (!cadastros.justificativas) cadastros.justificativas = [];
       if (!cadastros.empresasLogos)  cadastros.empresasLogos  = {};
-      if (!cadastros.usuarios)        cadastros.usuarios        = [];
+      if (!cadastros.usuarios)       cadastros.usuarios       = [];
     }
-  } catch(e) {}
-  renderList();
+  } catch(e) {
+    console.error('Erro ao carregar dados:', e);
+    drcs = []; drcCounter = 0;
+  }
 }
-function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({ drcs, counter: drcCounter }));
-  renderList();
-  toast('💾 DRC salvo com sucesso', '#00c896');
-}
-function saveCadastros() {
-  localStorage.setItem(CADASTROS_KEY, JSON.stringify(cadastros));
+async function save() { /* dados são persistidos via API */ }
+async function saveCadastros() {
+  // Cadastros são salvos item a item via API — não é necessário salvar tudo de uma vez
 }
 
 
@@ -767,7 +785,7 @@ function toast(msg, color='#00c896') {
     const c = JSON.parse(localStorage.getItem(CADASTROS_KEY));
     if(c){
       cadastros=c;
-      if(!cadastros.categorias)     cadastros.categorias=['Coleta e Transporte','Tratamento / Destinação','Locação de Equipamentos','Consultoria / Laudos','Operações Especiais'];
+      if(!cadastros.segmentos)     cadastros.segmentos=['Coleta e Transporte','Tratamento / Destinação','Locação de Equipamentos','Consultoria / Laudos','Operações Especiais'];
       if(!cadastros.justificativas) cadastros.justificativas=[];
       if(!cadastros.empresasLogos)  cadastros.empresasLogos={};
       if(!cadastros.usuarios)       cadastros.usuarios=[];
@@ -847,33 +865,30 @@ function showPasswordModal() {
   }, 50);
 }
 
-function checkPassword() {
+async function checkPassword() {
   const inp = document.getElementById('pwd-input');
   const err = document.getElementById('pwd-error');
-  const att = document.getElementById('pwd-attempts');
   if (!inp) return;
-  if (inp.value === CADASTROS_PWD) {
+  try {
+    await API.verificarSenha(inp.value);
     pwdAttempts = 0;
     closePwdModal();
     document.getElementById('cadastros-overlay').style.display = 'flex';
+    await load();
     showTab('empresas');
-  } else {
+  } catch(e) {
     pwdAttempts++;
     inp.value = '';
-    inp.style.borderColor = 'var(--red)';
-    setTimeout(() => { inp.style.borderColor = 'var(--border)'; }, 600);
-    const remaining = MAX_PWD_ATTEMPTS - pwdAttempts;
-    if (remaining <= 0) {
-      pwdLocked = true;
-      err.textContent = '🔒 Bloqueado por 30 segundos.';
-      att.textContent = '';
-      closePwdModal();
-      toast('🔒 Acesso bloqueado por 30 segundos', 'var(--red)');
-      pwdLockTimer = setTimeout(() => { pwdLocked = false; pwdAttempts = 0; }, 30000);
+    inp.focus();
+    const att = document.getElementById('pwd-attempts');
+    if (pwdAttempts >= 3) {
+      if (err) err.textContent = '⚠️ Acesso bloqueado por 30 segundos.';
+      if (att) att.textContent = '';
+      inp.disabled = true;
+      setTimeout(function() { inp.disabled = false; pwdAttempts = 0; if(err) err.textContent=''; inp.focus(); }, 30000);
     } else {
-      err.textContent = '❌ Senha incorreta.';
-      att.textContent = remaining === 1 ? '⚠️ Última tentativa!' : `${remaining} tentativas restantes`;
-      inp.focus();
+      if (err) err.textContent = '❌ Senha incorreta.';
+      if (att) att.textContent = (3 - pwdAttempts) + ' tentativa(s) restante(s)';
     }
   }
 }
@@ -892,7 +907,7 @@ function closeCadastros() {
 function showTab(tab) {
   currentTab = tab;
   // Tab styles
-  ['empresas','unidades','consultores','categorias','justificativas'].forEach(t => {
+  ['empresas','unidades','responsaveis','segmentos','justificativas'].forEach(t => {
     const btn = document.getElementById('tab-' + t);
     if (t === tab) {
       btn.style.borderBottomColor = 'var(--retec)';
@@ -906,8 +921,8 @@ function showTab(tab) {
   document.getElementById('cadastro-new-input').placeholder =
     tab === 'empresas'       ? 'Ex: GVC Ambiental...' :
     tab === 'unidades'       ? 'Ex: CIA Sul — Simões Filho...' :
-    tab === 'consultores'    ? 'Ex: João Silva...' :
-    tab === 'categorias'     ? 'Ex: Gestão de Resíduos Industriais...' :
+    tab === 'responsaveis'   ? 'Ex: João Silva...' :
+    tab === 'segmentos'     ? 'Ex: Gestão de Resíduos Industriais...' :
     'Ex: Preço acima do mercado...';
   document.getElementById('cadastro-new-input').focus();
 }
@@ -920,7 +935,7 @@ function renderCadastroList() {
     return;
   }
   const isEmpresa = currentTab === 'empresas';
-  const icon = isEmpresa ? '🏢' : currentTab === 'unidades' ? '🏭' : currentTab === 'consultores' ? '👤' : currentTab === 'categorias' ? '📁' : currentTab === 'usuarios' ? '👥' : '💬';
+  const icon = isEmpresa ? '🏢' : currentTab === 'unidades' ? '🏭' : currentTab === 'responsaveis' ? '👤' : currentTab === 'segmentos' ? '📁' : currentTab === 'usuarios' ? '👥' : '💬';
   el.innerHTML = items.map(function(item, i) {
     const logo = isEmpresa ? (cadastros.empresasLogos[item] || '') : '';
     let logoHtml = '';
@@ -962,42 +977,58 @@ function uploadEmpresaLogo(event, encodedName) {
   reader.readAsDataURL(file);
 }
 
-function removeEmpresaLogo(encodedName) {
-  const name = decodeURIComponent(encodedName);
-  delete cadastros.empresasLogos[name];
-  saveCadastros();
-  renderCadastroList();
-  toast('🗑 Logo removida', 'var(--orange)');
+async function removeEmpresaLogo(dbId) {
+  try {
+    await API.updateLogo(dbId, null);
+    cadastros = await API.getCadastros();
+    renderCadastroList();
+    toast('🖼 Logo removida', '#f5a623');
+  } catch(e) {
+    toast('❌ Erro ao remover logo: ' + e.message, '#e84393');
+  }
 }
 
-function addCadastroItem() {
+async function addCadastroItem() {
   const input = document.getElementById('cadastro-new-input');
   const val = input.value.trim();
   if (!val) { input.focus(); return; }
-  if (cadastros[currentTab].includes(val)) {
-    toast('⚠️ Item já cadastrado', 'var(--orange)'); return;
+  const tipoMap = {empresas:'empresa',unidades:'unidade',responsaveis:'responsavel',
+    segmentos:'segmento',justificativas:'justificativa',usuarios:'usuario'};
+  const tipo = tipoMap[currentTab];
+  if (!tipo) return;
+  try {
+    const res = await API.addCadastro(tipo, val);
+    cadastros = await API.getCadastros();
+    renderCadastroList();
+    input.value = '';
+    input.focus();
+    toast('✅ Item adicionado', 'var(--retec)');
+  } catch(e) {
+    toast('❌ Erro ao adicionar: ' + e.message, '#e84393');
   }
-  cadastros[currentTab].push(val);
-  saveCadastros();
-  renderCadastroList();
-  input.value = '';
-  input.focus();
-  toast('✅ Item adicionado', 'var(--retec)');
-  if (currentTab === 'justificativas') renderJustPresets();
 }
 
-function editCadastroItem(i, val) {
-  cadastros[currentTab][i] = val;
-  saveCadastros();
+async function editCadastroItem(dbId, val) {
+  try {
+    await API.editCadastro(dbId, val);
+    // Atualiza local silenciosamente
+    const meta = (cadastros._meta || []).find(m => m.id === dbId);
+    if (meta) meta.valor = val;
+  } catch(e) {
+    toast('❌ Erro ao editar: ' + e.message, '#e84393');
+  }
 }
 
-function removeCadastroItem(i) {
-  const item = cadastros[currentTab][i];
-  if (!confirm(`Remover "${item}"?`)) return;
-  cadastros[currentTab].splice(i, 1);
-  saveCadastros();
-  renderCadastroList();
-  toast('🗑 Item removido', 'var(--red)');
+async function removeCadastroItem(dbId, label) {
+  if (!confirm(`Remover "${label}"?`)) return;
+  try {
+    await API.removeCadastro(dbId);
+    cadastros = await API.getCadastros();
+    renderCadastroList();
+    toast('🗑 Item removido', 'var(--red)');
+  } catch(e) {
+    toast('❌ Erro ao remover: ' + e.message, '#e84393');
+  }
 }
 
 function moveCadastroItem(i, dir) {
@@ -1013,7 +1044,7 @@ function moveCadastroItem(i, dir) {
 
 function showTab(tab) {
   currentTab = tab;
-  ['empresas','unidades','consultores','categorias','justificativas','usuarios'].forEach(t => {
+  ['empresas','unidades','responsaveis','segmentos','justificativas','usuarios'].forEach(t => {
     const btn = document.getElementById('tab-' + t);
     if (!btn) return;
     if (t === tab) { btn.classList.add('active'); }
@@ -1025,8 +1056,8 @@ function showTab(tab) {
   input.placeholder =
     tab==='empresas'       ? 'Ex: GVC Ambiental...' :
     tab==='unidades'       ? 'Ex: CIA Sul — Simões Filho...' :
-    tab==='consultores'    ? 'Ex: João Silva...' :
-    tab==='categorias'     ? 'Ex: Gestão de Resíduos Industriais...' :
+    tab==='responsaveis'   ? 'Ex: João Silva...' :
+    tab==='segmentos'     ? 'Ex: Gestão de Resíduos Industriais...' :
     tab==='usuarios'       ? 'Ex: Maria Souza...' :
     'Ex: Preço acima do mercado...';
   input.focus();
