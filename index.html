@@ -626,6 +626,20 @@ header {
 .dash-empty-title{font-size:1rem;font-weight:700;color:var(--text-dim);}
 @media(max-width:768px){.dash-grid{padding:12px;gap:10px;grid-template-columns:1fr;}.dash-topbar{padding:10px 14px;}.dash-stats{gap:12px;}}
 
+
+/* ── Version badge ── */
+.ver-badge {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  opacity: 0.5;
+  letter-spacing: .06em;
+  padding: 2px 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  user-select: none;
+  flex-shrink: 0;
+}
 </style>
 </head>
 <body>
@@ -635,6 +649,7 @@ header {
   </a>
   <div class="hdiv"></div>
   <span class="hbadge">DRC · PRECIFICAÇÃO</span>
+  <span class="ver-badge">index v1.1</span>
   <div class="hactions">
     <a class="hbtn" href="drc-cadastros.html" style="text-decoration:none;display:inline-flex;align-items:center;touch-action:manipulation;">⚙ Cadastros</a>
     <button class="hbtn" id="theme-toggle" onclick="toggleTheme()" title="Alternar tema">🌙</button>
@@ -735,7 +750,9 @@ header {
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="api-client.js"></script>
 <script>
+const APP_VERSION = 'index v1.1';
 // ═══════════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════════
@@ -748,8 +765,8 @@ let cadastros = {
   empresas:      ['Retec Resíduos', 'GVC Ambiental', 'GVC Logística'],
   empresasLogos: {},
   unidades:      ['CIA Sul — Simões Filho', 'Unidade Salvador', 'Unidade Feira de Santana'],
-  consultores:   ['Lucianne', 'Consultor 2', 'Consultor 3'],
-  categorias:    ['Coleta e Transporte', 'Tratamento / Destinação', 'Locação de Equipamentos', 'Consultoria / Laudos', 'Operações Especiais'],
+  responsaveis:  ['Lucianne', 'Consultor 2', 'Consultor 3'],
+  segmentos:    ['Coleta e Transporte', 'Tratamento / Destinação', 'Locação de Equipamentos', 'Consultoria / Laudos', 'Operações Especiais'],
   justificativas: [
     'Preço acima do mercado',
     'Cliente optou por outro fornecedor',
@@ -793,32 +810,39 @@ const CONSUMO_VEICULO = { // km/litro
 // ═══════════════════════════════════════════════════════════
 // STORAGE
 // ═══════════════════════════════════════════════════════════
-function load() {
+async function load() {
   try {
-    const d = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{"drcs":[],"counter":0}');
-    drcs = d.drcs || [];
-    drcCounter = d.counter || 0;
-  } catch(e) { drcs = []; drcCounter = 0; }
-  try {
-    const c = JSON.parse(localStorage.getItem(CADASTROS_KEY));
-    if (c) {
-      cadastros = c;
-      // Ensure new keys exist for older saves
-      if (!cadastros.categorias)    cadastros.categorias    = ['Coleta e Transporte', 'Tratamento / Destinação', 'Locação de Equipamentos', 'Consultoria / Laudos', 'Operações Especiais'];
+    const [drcRes, cadRes] = await Promise.all([
+      fetch('api/drcs.php'),
+      fetch('api/cadastros.php'),
+    ]);
+    if (!drcRes.ok) throw new Error('Erro ao buscar DRCs: ' + drcRes.status);
+    if (!cadRes.ok) throw new Error('Erro ao buscar cadastros: ' + cadRes.status);
+    const drcData = await drcRes.json();
+    const cadData = await cadRes.json();
+    drcs       = drcData.drcs    || [];
+    drcCounter = drcData.counter || 0;
+    if (cadData) {
+      cadastros = cadData;
+      if (!cadastros.segmentos)     cadastros.segmentos     = ['Coleta e Transporte','Tratamento / Destinação','Locação de Equipamentos','Consultoria / Laudos','Operações Especiais'];
       if (!cadastros.justificativas) cadastros.justificativas = [];
       if (!cadastros.empresasLogos)  cadastros.empresasLogos  = {};
-      if (!cadastros.usuarios)        cadastros.usuarios        = [];
+      if (!cadastros.usuarios)       cadastros.usuarios       = [];
     }
-  } catch(e) {}
-  renderList();
+  } catch(e) {
+    console.error('Erro ao carregar dados:', e);
+    drcs = []; drcCounter = 0;
+    toast('⚠️ Erro ao conectar ao servidor', '#e84393');
+  }
 }
-function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({ drcs, counter: drcCounter }));
-  renderList();
-  toast('💾 DRC salvo com sucesso', '#00c896');
+async function save() {
+  // Na versão com banco de dados, o salvamento completo é feito pela página drc-detalhe.
+  // Esta função recarrega a lista para refletir mudanças de status.
+  await (async () => { await load(); renderList(); })();
 }
-function saveCadastros() {
-  localStorage.setItem(CADASTROS_KEY, JSON.stringify(cadastros));
+async function saveCadastros() {
+  // Cadastros são salvos individualmente via API (add/edit/remove).
+  // Esta função não precisa fazer nada no modo banco de dados.
 }
 
 
@@ -958,7 +982,7 @@ function openStatusModal() {
   pendingJust   = '';
   const overlay = document.getElementById('status-modal-overlay');
   document.getElementById('status-modal-num').textContent = currentDRC.numero + ' · ' + (currentDRC.cliente || 'sem cliente');
-  document.getElementById('status-autor').value = currentDRC.consultor || '';
+  document.getElementById('status-autor').value = currentDRC.responsavel || '';
   const _ta = document.getElementById('just-textarea');
   if (_ta) { _ta.value = ''; _ta.style.display = 'none'; }
   renderStatusOpts();
@@ -1051,7 +1075,7 @@ function syncJustText(val) {
 
 
 
-function confirmStatusChange() {
+async function confirmStatusChange() {
   if (!pendingStatus || !currentDRC) return;
   const meta = STATUS_META[pendingStatus];
   if (meta?.neg && !pendingJust.trim()) {
@@ -1080,9 +1104,15 @@ function confirmStatusChange() {
   currentDRC.statusHistorico.push(entry);
   currentDRC.status = pendingStatus;
   // Auto-save
-  const idx = drcs.findIndex(d => d.id === currentDRC.id);
-  if (idx >= 0) drcs[idx] = currentDRC;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({ drcs, counter: drcCounter }));
+  try {
+    await API.atualizarStatus(currentDRC.id, pendingStatus, autor, needsJust ? pendingJust.trim() : '');
+    const idx = drcs.findIndex(d => d.id === currentDRC.id);
+    if (idx >= 0) drcs[idx].status = pendingStatus;
+    renderList();
+  } catch(e) {
+    toast('❌ Erro ao atualizar status: ' + e.message, '#e84393');
+    return;
+  }
   closeStatusModal();
   renderForm();
   renderList();
@@ -1138,7 +1168,7 @@ const msState = { empresa: new Set(), categoria: new Set(), status: new Set() };
 
 const MS_CONFIGS = {
   empresa:   { placeholder: 'Todas as empresas',  getItems: () => cadastros.empresas || [] },
-  categoria: { placeholder: 'Todas as categorias', getItems: () => cadastros.categorias || [] },
+  categoria: { placeholder: 'Todas as categorias', getItems: () => cadastros.segmentos || [] },
   status:    { placeholder: 'Todos os status',
     getItems: () => Object.entries(STATUS_META).map(([k,v]) => ({ value: k, label: v.icon + ' ' + v.label })) },
 };
@@ -1336,9 +1366,9 @@ function renderList() {
   const f = getActiveFilters();
   const filtered = drcs.filter(d => {
     const t = f.text;
-    return (!t || d.numero?.toLowerCase().includes(t) || d.cliente?.toLowerCase().includes(t) || d.lead?.toLowerCase().includes(t))
+    return (!t || d.numero?.toLowerCase().includes(t) || d.cliente?.toLowerCase().includes(t) || d.contato?.toLowerCase().includes(t))
       && (!f.empresas.length   || f.empresas.includes(d.empresa))
-      && (!f.categorias.length || f.categorias.includes(d.categoriaServico))
+      && (!f.categorias.length || f.segmentos.includes(d.segmento))
       && (!f.statuses.length   || f.statuses.includes(d.status))
       && (!f.dateFrom || (d.data||'') >= f.dateFrom)
       && (!f.dateTo   || (d.data||'') <= f.dateTo);
@@ -1377,8 +1407,8 @@ function renderList() {
         <div class="drc-card-cliente">${d.cliente||'(sem cliente)'}</div>
         <div class="drc-card-meta">
           ${d.empresa?`<span>🏢 ${d.empresa}</span>`:''}
-          ${d.categoriaServico?`<span>📁 ${d.categoriaServico}</span>`:''}
-          ${d.consultor?`<span>👤 ${d.consultor}</span>`:''}
+          ${d.segmento?`<span>📁 ${d.segmento}</span>`:''}
+          ${d.responsavel?`<span>👤 ${d.responsavel}</span>`:''}
         </div>
         <div class="drc-card-footer">
           <div><div style="font-size:.6rem;color:var(--text-dim);text-transform:uppercase;font-family:var(--font-mono)">Receita Bruta</div>
@@ -1393,12 +1423,18 @@ function renderList() {
   updateFilterBar(f);
 }
 
-function delCard(id) {
+async function delCard(id) {
   if (!confirm('Excluir este DRC permanentemente?')) return;
-  drcs = drcs.filter(d=>d.id!==id);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({drcs,counter:drcCounter}));
-  renderList();
-  toast('🗑 DRC excluído','#e84393');
+  try {
+    const res = await fetch('api/drcs.php?id=' + encodeURIComponent(id), {method: 'DELETE'});
+    if (!res.ok) throw new Error(res.status);
+    drcs = drcs.filter(d => d.id !== id);
+    renderList();
+    toast('🗑 DRC excluído', '#e84393');
+  } catch(e) {
+    console.error('Erro ao excluir DRC:', e);
+    toast('⚠️ Erro ao excluir DRC', '#e84393');
+  }
 }
 
 function toggleMobileSidebar() {
@@ -1428,6 +1464,6 @@ function toggleTheme() {
   });
 })();
 
-load();
+(async () => { await load(); renderList(); })();
 </script>
 </body></html>
