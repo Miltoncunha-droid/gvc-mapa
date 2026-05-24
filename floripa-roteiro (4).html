@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Floripa 🌊</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root {
+  --ocean:#1a4a6e; --ocean-l:#2d6a9e; --ocean-xl:#e8f0f8;
+  --sand:#f5ede0; --sand-d:#e8d8c4; --foam:#f0f7ff;
+  --text:#1c2a38; --muted:#7a90a4; --green:#2d7a5e;
+  --accent:#e07b39; --accent-l:#f5a96b;
+  --bg:#f4f6f9; --white:#ffffff;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bot: env(safe-area-inset-bottom, 0px);
+  --nav-h: 62px;
+  --header-h: 52px;
+  --sheet-radius: 20px;
+}
+* { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+html, body { height:100%; overflow:hidden; background:#0d1f2e; }
+body { font-family:'DM Sans',sans-serif; color:var(--text); overscroll-behavior:none; }
+button { font-family:'DM Sans',sans-serif; cursor:pointer; }
+input, textarea { font-family:'DM Sans',sans-serif; }
+
+/* ── HEADER ── */
+.header {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  height: calc(var(--header-h) + var(--safe-top));
+  padding-top: var(--safe-top);
+  background:linear-gradient(135deg,#0d1f2e,#1a3a55 60%,#0a2a1a);
+  display:flex; align-items:center; justify-content:space-between;
+  padding-left:16px; padding-right:16px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.header-title h1 { font-family:'Playfair Display',serif; font-size:1.15rem; color:#fff; line-height:1.1; }
+.header-title h1 em { color:var(--accent-l); font-style:italic; }
+.header-title p { font-size:0.65rem; color:rgba(255,255,255,0.4); margin-top:1px; }
+.header-stats { display:flex; gap:10px; }
+.hstat { display:flex; flex-direction:column; align-items:center; }
+.hstat-num { font-size:1rem; font-weight:700; color:var(--accent-l); line-height:1; }
+.hstat-lbl { font-size:0.55rem; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:.3px; }
+
+/* ── MAP (always full screen behind everything) ── */
+#map {
+  position:fixed;
+  top: calc(var(--header-h) + var(--safe-top));
+  left:0; right:0;
+  bottom: calc(var(--nav-h) + var(--safe-bot));
+  z-index:0;
+}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position:fixed; bottom:0; left:0; right:0; z-index:300;
+  height: calc(var(--nav-h) + var(--safe-bot));
+  padding-bottom: var(--safe-bot);
+  background:#fff;
+  border-top:1px solid var(--sand-d);
+  display:flex; align-items:stretch;
+  box-shadow:0 -4px 20px rgba(0,0,0,0.12);
+}
+.nav-btn {
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:3px; border:none; background:transparent; color:var(--muted);
+  font-size:0.6rem; font-weight:500; text-transform:uppercase; letter-spacing:.3px;
+  transition:color .15s; padding:0; position:relative;
+}
+.nav-btn .nav-icon { font-size:1.3rem; line-height:1; transition:transform .2s; }
+.nav-btn.active { color:var(--ocean); }
+.nav-btn.active .nav-icon { transform:translateY(-2px); }
+.nav-btn.active::after {
+  content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+  width:24px; height:3px; background:var(--ocean); border-radius:2px 2px 0 0;
+}
+
+/* ── SHEET BASE ── */
+.sheet {
+  position:fixed; left:0; right:0; bottom:0; z-index:250;
+  background:var(--white);
+  border-radius:var(--sheet-radius) var(--sheet-radius) 0 0;
+  box-shadow:0 -8px 40px rgba(0,0,0,0.2);
+  display:flex; flex-direction:column;
+  transform:translateY(100%);
+  transition:transform .35s cubic-bezier(.32,.72,0,1);
+  /* max height from top of screen below header */
+  max-height: calc(100vh - var(--header-h) - var(--safe-top) - var(--nav-h) - var(--safe-bot));
+  overflow:hidden;
+}
+.sheet.open { transform:translateY(0); }
+
+/* Sheet handle */
+.sheet-handle {
+  width:36px; height:4px; background:var(--sand-d); border-radius:2px;
+  margin:10px auto 0; flex-shrink:0;
+}
+
+/* Sheet header */
+.sheet-header {
+  padding:10px 16px 10px;
+  display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid var(--sand-d); flex-shrink:0;
+}
+.sheet-title { font-size:0.95rem; font-weight:600; color:var(--text); }
+.sheet-close {
+  width:28px; height:28px; border-radius:50%; border:none;
+  background:var(--bg); color:var(--muted); font-size:0.9rem;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* Sheet scroll area */
+.sheet-body { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+
+/* ── PLACES SHEET ── */
+#sheet-places { padding-bottom: calc(var(--nav-h) + var(--safe-bot)); }
+.search-wrap { padding:10px 12px; position:sticky; top:0; background:#fff; z-index:10; border-bottom:1px solid var(--sand-d); }
+.search-wrap input {
+  width:100%; padding:10px 14px 10px 36px; border:1.5px solid var(--sand-d);
+  border-radius:12px; font-size:0.9rem; color:var(--text); outline:none;
+  background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%237a90a4' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.868-3.833zm-5.242 1.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z'/%3E%3C/svg%3E") no-repeat 12px center;
+  background-size:16px;
+}
+.search-wrap input:focus { border-color:var(--ocean-l); }
+.cat-scroll { display:flex; gap:6px; padding:8px 12px; overflow-x:auto; border-bottom:1px solid var(--sand-d); background:var(--sand); flex-shrink:0; }
+.cat-scroll::-webkit-scrollbar { display:none; }
+.cat-pill {
+  padding:5px 12px; border-radius:20px; border:1.5px solid var(--sand-d);
+  background:#fff; font-size:0.72rem; font-weight:500; color:var(--muted);
+  white-space:nowrap; flex-shrink:0; transition:all .15s;
+}
+.cat-pill.active { background:var(--ocean); color:#fff; border-color:var(--ocean); }
+.places-list { padding:8px 10px 16px; }
+.place-row {
+  display:flex; align-items:center; gap:10px;
+  padding:11px 12px; border-radius:12px; margin-bottom:5px;
+  background:#fff; border:1.5px solid var(--sand-d);
+  transition:border-color .15s;
+}
+.place-row.allocated { background:var(--foam); border-color:var(--sand-d); }
+.place-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.place-info { flex:1; min-width:0; }
+.place-name { font-size:0.88rem; font-weight:500; color:var(--text); }
+.place-sub { font-size:0.68rem; color:var(--muted); margin-top:2px; display:flex; gap:5px; align-items:center; flex-wrap:wrap; }
+.walk-tag { background:#e6f4ea; color:var(--green); font-size:0.62rem; padding:1px 5px; border-radius:6px; font-weight:500; }
+.day-tag { font-size:0.62rem; padding:1px 6px; border-radius:8px; color:#fff; font-weight:500; }
+.place-row-actions { display:flex; gap:5px; flex-shrink:0; }
+.btn-add-day {
+  padding:7px 13px; border-radius:10px; border:1.5px solid var(--ocean);
+  background:transparent; color:var(--ocean); font-size:0.75rem; font-weight:600;
+  transition:all .15s; min-width:50px;
+}
+.btn-add-day:active { background:var(--ocean); color:#fff; }
+.btn-remove-place {
+  width:30px; height:30px; border-radius:8px; border:1.5px solid #e8e8e8;
+  background:transparent; color:#bbb; font-size:0.85rem;
+  display:flex; align-items:center; justify-content:center;
+}
+.btn-remove-place:active { background:#fee; color:#e05555; border-color:#fcc; }
+.hidden-section-toggle {
+  margin:4px 2px 8px; padding:10px 14px; border-radius:10px;
+  border:1.5px dashed var(--sand-d); background:transparent;
+  font-size:0.75rem; color:var(--muted); width:100%; text-align:center;
+}
+
+/* ── DAYS SHEET ── */
+#sheet-days { padding-bottom: calc(var(--nav-h) + var(--safe-bot)); }
+.days-body { padding:10px 12px 20px; display:flex; flex-direction:column; gap:10px; }
+.day-card {
+  background:#fff; border-radius:14px; overflow:hidden;
+  border:1.5px solid var(--sand-d); box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+.day-header {
+  padding:12px 14px; display:flex; align-items:center; gap:10px;
+  min-height:56px;
+}
+.day-num {
+  width:32px; height:32px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Playfair Display',serif; font-size:0.9rem; color:#fff; flex-shrink:0;
+}
+.day-title { flex:1; min-width:0; }
+.day-name-input {
+  font-size:0.9rem; font-weight:600; color:var(--text);
+  border:none; background:transparent; width:100%; outline:none;
+}
+.day-meta { font-size:0.65rem; color:var(--muted); margin-top:2px; display:flex; gap:6px; flex-wrap:wrap; }
+.day-toggle-btn {
+  background:none; border:none; font-size:1rem; color:var(--muted);
+  transition:transform .2s; padding:4px; flex-shrink:0;
+}
+.day-toggle-btn.open { transform:rotate(180deg); }
+.day-body { padding:0 12px 12px; }
+.drop-hint {
+  border:2px dashed var(--sand-d); border-radius:10px; padding:16px;
+  text-align:center; color:var(--muted); font-size:0.78rem; margin-bottom:8px;
+}
+.drop-hint.over { border-color:var(--ocean-l); background:var(--ocean-xl); }
+
+/* Itinerary item */
+.itin-item {
+  display:flex; align-items:flex-start; gap:8px;
+  padding:10px 10px; border-radius:10px; margin-bottom:4px;
+  background:var(--foam); border:1.5px solid var(--sand-d);
+  position:relative; touch-action:none;
+}
+.itin-item.touch-dragging { opacity:.35; background:#e0e0e0; }
+.itin-item.drop-above { border-top:3px solid var(--ocean); }
+.itin-item.drop-below { border-bottom:3px solid var(--ocean); }
+.itin-drag { color:#c5ced8; font-size:1rem; line-height:1; padding:2px 2px 0; flex-shrink:0; cursor:grab; }
+.itin-order { display:flex; flex-direction:column; gap:2px; flex-shrink:0; margin-top:2px; }
+.ord-btn {
+  background:none; border:1.5px solid var(--sand-d); border-radius:5px;
+  width:22px; height:20px; font-size:0.6rem; color:var(--muted);
+  display:flex; align-items:center; justify-content:center; transition:all .12s;
+}
+.ord-btn:active { background:var(--ocean); color:#fff; border-color:var(--ocean); }
+.ord-btn:disabled { opacity:.2; }
+.itin-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; margin-top:4px; }
+.itin-content { flex:1; min-width:0; }
+.itin-name { font-size:0.83rem; font-weight:500; color:var(--text); display:flex; align-items:center; gap:4px; flex-wrap:wrap; }
+.itin-note {
+  margin-top:3px; width:100%; border:none; background:transparent;
+  font-size:0.72rem; color:var(--muted); resize:none; outline:none;
+  height:18px; overflow:hidden; line-height:1.4;
+}
+.itin-note:focus { color:var(--text); }
+.itin-right { display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0; }
+.itin-time { display:flex; align-items:center; gap:3px; }
+.time-inp {
+  width:46px; padding:3px 5px; border:1.5px solid var(--sand-d); border-radius:7px;
+  font-size:0.72rem; text-align:center; color:var(--text); outline:none; background:#fff;
+}
+.time-inp:focus { border-color:var(--ocean-l); }
+.time-unit { font-size:0.62rem; color:var(--muted); }
+.itin-remove {
+  background:none; border:none; color:#ccc; font-size:0.85rem; padding:2px 3px;
+}
+.itin-remove:active { color:#e05555; }
+
+/* Travel connector */
+.travel-conn {
+  display:flex; align-items:center; gap:6px;
+  padding:2px 8px 2px 40px; margin-bottom:4px;
+  font-size:0.66rem; color:var(--muted);
+}
+.travel-line { flex:1; height:1px; background:var(--sand-d); position:relative; }
+.travel-line::after { content:''; position:absolute; right:-1px; top:-3px; border-left:5px solid var(--sand-d); border-top:3px solid transparent; border-bottom:3px solid transparent; }
+.tbadge { font-size:0.65rem; padding:2px 7px; border-radius:10px; font-weight:500; white-space:nowrap; }
+.tbadge.car { background:#e8f0fe; color:#1a56c4; }
+.tbadge.walk { background:#e6f4ea; color:#1e7e34; }
+.tbadge.loading { background:#f0f0f0; color:#aaa; font-style:italic; }
+.tbadge.err { background:#fce8e8; color:#c62828; }
+
+.day-total { font-size:0.72rem; color:var(--muted); text-align:right; padding:4px 2px 0; border-top:1px solid var(--sand-d); margin-top:2px; }
+.day-total b { color:var(--accent); }
+.day-notes-area { margin-top:8px; padding:8px 10px; background:var(--sand); border-radius:9px; }
+.day-notes-area label { font-size:0.6rem; text-transform:uppercase; letter-spacing:.4px; color:var(--muted); display:block; margin-bottom:3px; }
+.day-notes-area textarea { width:100%; border:none; background:transparent; font-size:0.8rem; color:var(--text); resize:none; outline:none; min-height:32px; line-height:1.5; }
+
+/* ── TIPS/SUGGESTIONS SHEET ── */
+#sheet-info { padding-bottom: calc(var(--nav-h) + var(--safe-bot)); }
+.info-tabs { display:flex; border-bottom:2px solid var(--sand-d); background:var(--sand); flex-shrink:0; }
+.info-tab-btn {
+  flex:1; padding:11px 4px; border:none; background:transparent;
+  font-size:0.72rem; font-weight:500; color:var(--muted); text-transform:uppercase;
+  letter-spacing:.3px; transition:all .2s;
+}
+.info-tab-btn.active { color:var(--ocean); border-bottom:2px solid var(--ocean); margin-bottom:-2px; background:#fff; }
+.info-tab-content { display:none; padding:10px 12px 20px; }
+.info-tab-content.active { display:block; }
+.sug-card { background:var(--foam); border-radius:11px; padding:12px 13px; border-left:3px solid var(--ocean); margin-bottom:8px; }
+.sug-card h4 { font-size:0.83rem; font-weight:600; color:var(--ocean); margin-bottom:4px; }
+.sug-card p { font-size:0.76rem; color:var(--muted); line-height:1.55; }
+.tip-row { display:flex; gap:9px; padding:9px 0; border-bottom:1px solid var(--sand-d); font-size:0.77rem; line-height:1.5; }
+.tip-icon { font-size:1rem; flex-shrink:0; margin-top:1px; }
+
+/* ── MAP LEGEND ── */
+.map-legend {
+  position:fixed; bottom:calc(var(--nav-h) + var(--safe-bot) + 10px); right:10px;
+  z-index:100; background:rgba(255,255,255,.94);
+  border-radius:12px; padding:9px 12px;
+  box-shadow:0 2px 14px rgba(0,0,0,.18);
+  backdrop-filter:blur(6px);
+  min-width:110px;
+}
+.map-legend h4 { font-size:0.62rem; text-transform:uppercase; letter-spacing:.4px; color:var(--muted); margin-bottom:5px; }
+.leg-item { display:flex; align-items:center; gap:6px; font-size:0.68rem; color:var(--text); margin-bottom:2px; }
+.leg-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+/* ── ADD-TO-DAY MODAL ── */
+.modal-overlay {
+  position:fixed; inset:0; z-index:500;
+  background:rgba(0,0,0,.55); backdrop-filter:blur(3px);
+  display:flex; align-items:flex-end;
+  opacity:0; pointer-events:none; transition:opacity .25s;
+}
+.modal-overlay.open { opacity:1; pointer-events:all; }
+.modal-sheet {
+  background:#fff; border-radius:20px 20px 0 0;
+  padding:0 0 calc(16px + var(--safe-bot));
+  width:100%;
+  transform:translateY(40px); transition:transform .3s cubic-bezier(.32,.72,0,1);
+}
+.modal-overlay.open .modal-sheet { transform:translateY(0); }
+.modal-handle { width:36px; height:4px; background:var(--sand-d); border-radius:2px; margin:10px auto; }
+.modal-title { font-size:0.95rem; font-weight:600; color:var(--text); padding:0 16px 12px; border-bottom:1px solid var(--sand-d); }
+.modal-place-name { font-size:0.78rem; color:var(--muted); margin-top:2px; }
+.day-select-list { padding:10px 12px; display:flex; flex-direction:column; gap:7px; }
+.day-select-btn {
+  display:flex; align-items:center; gap:12px;
+  padding:12px 14px; border-radius:12px; border:1.5px solid var(--sand-d);
+  background:#fff; width:100%; text-align:left; transition:all .15s;
+}
+.day-select-btn:active { background:var(--ocean-xl); border-color:var(--ocean-l); }
+.day-select-num {
+  width:30px; height:30px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Playfair Display',serif; font-size:0.85rem; color:#fff; flex-shrink:0;
+}
+.day-select-info { flex:1; text-align:left; }
+.day-select-name { font-size:0.83rem; font-weight:500; color:var(--text); }
+.day-select-count { font-size:0.68rem; color:var(--muted); margin-top:1px; }
+.modal-cancel {
+  margin:4px 12px 0; padding:11px; border-radius:12px;
+  border:1.5px solid var(--sand-d); background:var(--bg);
+  font-size:0.83rem; color:var(--muted); width:calc(100% - 24px);
+}
+
+/* ── PRINT ONLY ── */
+@media print { .header,.bottom-nav,.sheet,.modal-overlay,.map-legend { display:none !important; } }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<div class="header">
+  <div class="header-title">
+    <h1>🌊 Floripa · <em>6 dias</em></h1>
+    <p>Toque nos pins · adicione lugares aos dias</p>
+  </div>
+  <div class="header-stats">
+    <div class="hstat"><span class="hstat-num" id="hs-places">0</span><span class="hstat-lbl">Lugares</span></div>
+    <div class="hstat"><span class="hstat-num" id="hs-hours">0h</span><span class="hstat-lbl">Total</span></div>
+  </div>
+</div>
+
+<!-- ── MAP ── -->
+<div id="map"></div>
+
+<!-- ── MAP LEGEND ── -->
+<div class="map-legend" id="map-legend">
+  <h4>Dias</h4>
+  <div id="legend-items"></div>
+  <div class="leg-item"><div class="leg-dot" style="background:#aaa;border:2px solid #999"></div><span style="color:var(--muted)">Livre</span></div>
+</div>
+
+<!-- ── SHEET: LUGARES ── -->
+<div class="sheet" id="sheet-places">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <span class="sheet-title">Lugares</span>
+    <button class="sheet-close" onclick="closeSheet('places')">✕</button>
+  </div>
+  <div class="cat-scroll" id="cat-scroll">
+    <button class="cat-pill active" onclick="filterCat(this,'all')">Todos</button>
+    <button class="cat-pill" onclick="filterCat(this,'centro')">Centro</button>
+    <button class="cat-pill" onclick="filterCat(this,'leste')">Leste</button>
+    <button class="cat-pill" onclick="filterCat(this,'sul')">Sul</button>
+    <button class="cat-pill" onclick="filterCat(this,'norte')">Norte</button>
+    <button class="cat-pill" onclick="filterCat(this,'trilha')">Trilhas</button>
+  </div>
+  <div class="sheet-body">
+    <div class="search-wrap">
+      <input type="search" id="search-input" placeholder="Buscar lugar..." oninput="filterPlaces()" autocomplete="off">
+    </div>
+    <div class="places-list" id="places-list"></div>
+    <button class="hidden-section-toggle" id="hidden-toggle-btn" onclick="toggleHidden()" style="display:none"></button>
+  </div>
+</div>
+
+<!-- ── SHEET: DIAS ── -->
+<div class="sheet" id="sheet-days">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <span class="sheet-title">Meu Roteiro</span>
+    <div style="display:flex;gap:6px">
+      <button onclick="clearItinerary()" style="padding:5px 10px;border-radius:8px;border:1.5px solid var(--sand-d);background:transparent;font-size:0.72rem;color:var(--muted)">Limpar</button>
+      <button onclick="printItinerary()" style="padding:5px 10px;border-radius:8px;border:none;background:var(--ocean);color:#fff;font-size:0.72rem">🖨️</button>
+      <button class="sheet-close" onclick="closeSheet('days')">✕</button>
+    </div>
+  </div>
+  <div class="sheet-body">
+    <div class="days-body" id="days-container"></div>
+  </div>
+</div>
+
+<!-- ── SHEET: INFO ── -->
+<div class="sheet" id="sheet-info">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <span class="sheet-title">Dicas & Roteiros</span>
+    <button class="sheet-close" onclick="closeSheet('info')">✕</button>
+  </div>
+  <div class="info-tabs">
+    <button class="info-tab-btn active" onclick="switchInfoTab('suggestions',this)">Roteiros</button>
+    <button class="info-tab-btn" onclick="switchInfoTab('tips',this)">Dicas</button>
+  </div>
+  <div class="sheet-body">
+    <div class="info-tab-content active" id="itab-suggestions">
+      <div class="sug-card"><h4>📍 Base ideal — Lagoa da Conceição</h4><p>Centro da ilha: Praia Mole, Barra da Lagoa, Joaquina e Galheta a 10–20min. Sul e Norte a ~50min de carro.</p></div>
+      <div class="sug-card" style="border-color:#2d7a5e"><h4>🌅 Dia 1 — Chegada + Centro</h4><p>Ponte Hercílio Luz, Forte Santana, Mirante da Cruz ao pôr do sol. Jantar em Santo Antônio com ostras.</p></div>
+      <div class="sug-card" style="border-color:#6b4a8e"><h4>🏄 Dia 2 — Leste Agitado</h4><p>Praia Mole → trilha Galheta → Joaquina (sandboard nas dunas!) → Barra da Lagoa (piscinas naturais).</p></div>
+      <div class="sug-card" style="border-color:#e07b39"><h4>🌿 Dia 3 — Sul Selvagem</h4><p>Armação → Lagoinha do Leste (trilha 3–4h, leve 2L água!). Tarde: Pantano do Sul + Açores. Frutos do mar.</p></div>
+      <div class="sug-card" style="border-color:#8e4a2d"><h4>🏖️ Dia 4 — Sul Tranquilo</h4><p>Campeche (manhã) → Matadeiro (trilha 40min) → Ribeirão da Ilha (ostras!) → Açores ao fim de tarde.</p></div>
+      <div class="sug-card" style="border-color:#2d6a5e"><h4>🎉 Dia 5 — Norte Badalado</h4><p>Ingleses + Santinho (manhã) → Mirante do Santinho → Jurerê Internacional (tarde/noite).</p></div>
+      <div class="sug-card" style="border-color:#8e2d5e"><h4>🌊 Dia 6 — Norte Completo</h4><p>Canasvieiras → Canajurê → Jurerê Nacional (pôr do sol). Praia Brava se curtir kitesurf.</p></div>
+      <div class="sug-card" style="border-color:#666"><h4>⚠️ Trilhas — preparo necessário</h4><p><b>Lagoinha do Leste</b>: 3–4h, 2L água. <b>Matadeiro</b>: 40min. <b>Galheta</b>: 40min. <b>Mirante Santinho</b>: 50min. Todas exigem tênis de borracha.</p></div>
+    </div>
+    <div class="info-tab-content" id="itab-tips">
+      <div class="tip-row"><span class="tip-icon">🌡️</span><span>Agosto: 15–22°C, dias ensolarados mas vento sul forte. Leve casaco para praias e mirantes.</span></div>
+      <div class="tip-row"><span class="tip-icon">🚗</span><span>De carro você tem liberdade total. Evite SC-401 no pico (7–9h, 17–19h). Trânsito pesado na Beira-Mar Norte.</span></div>
+      <div class="tip-row"><span class="tip-icon">🦪</span><span>Agosto é a melhor época para ostras! Ribeirão da Ilha e Santo Antônio de Lisboa são obrigatórios.</span></div>
+      <div class="tip-row"><span class="tip-icon">🌊</span><span>Mar de agosto: ondas fortes no Sul e Leste (possível bandeira vermelha). Norte é mais calmo para banho.</span></div>
+      <div class="tip-row"><span class="tip-icon">🐋</span><span>Temporada de baleias jubarte em agosto! Passeio de barco de Garopaba (~1h30 de Floripa).</span></div>
+      <div class="tip-row"><span class="tip-icon">📸</span><span>Melhores fotos: Mirante da Cruz (pôr do sol), Mirante da Lagoa (manhã), Galheta (trilha).</span></div>
+      <div class="tip-row"><span class="tip-icon">🍽️</span><span>Restaurantes: Marisqueira Rita (Ribeirão), Ostradamus (Sto. Antônio), Rancho Açoriano (Pantano). Reserve!</span></div>
+      <div class="tip-row"><span class="tip-icon">🎒</span><span>Trilhas: tênis de borracha, 2L água, protetor, repelente. Lagoinha impossível com chuva forte.</span></div>
+      <div class="tip-row"><span class="tip-icon">🏄</span><span>Surf: Joaquina, Santinho, Praia Mole, Brava. Aulas ~R$120/h com prancha inclusa.</span></div>
+      <div class="tip-row"><span class="tip-icon">🌅</span><span>Pôr do sol: Mirante da Cruz (360°), Jurerê Nacional (frente ao mar), Sto. Antônio (sobre a baía).</span></div>
+      <div class="tip-row"><span class="tip-icon">💰</span><span>Estacionamento: zona azul ~R$5/h. Praias selvagens (Lagoinha, Matadeiro) têm pago no acesso.</span></div>
+      <div class="tip-row" style="border:none"><span class="tip-icon">📱</span><span>Baixe Maps offline — sinal fraco nas trilhas e SC-406 (leste). Vivo/Claro melhor que TIM.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ADD-TO-DAY MODAL ── -->
+<div class="modal-overlay" id="add-modal" onclick="closeAddModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      Adicionar ao dia
+      <div class="modal-place-name" id="modal-place-name"></div>
+    </div>
+    <div class="day-select-list" id="day-select-list"></div>
+    <button class="modal-cancel" onclick="closeAddModal()">Cancelar</button>
+  </div>
+</div>
+
+<!-- ── BOTTOM NAV ── -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-map" onclick="activateNav('map')">
+    <span class="nav-icon">🗺️</span><span>Mapa</span>
+  </button>
+  <button class="nav-btn" id="nav-places" onclick="activateNav('places')">
+    <span class="nav-icon">📍</span><span>Lugares</span>
+  </button>
+  <button class="nav-btn" id="nav-days" onclick="activateNav('days')">
+    <span class="nav-icon">📅</span><span>Roteiro</span>
+  </button>
+  <button class="nav-btn" id="nav-info" onclick="activateNav('info')">
+    <span class="nav-icon">💡</span><span>Dicas</span>
+  </button>
+</nav>
+
+<script>
+// ─────────────────────────
+// DATA
+// ─────────────────────────
+const PLACES = [
+  {id:'centro-hist',      name:'Centro Histórico',       zone:'centro',color:'#8e6a2d',type:'cultura',    dur:90, lat:-27.5956,lng:-48.5521,walk:false,tip:'Casario colonial, Mercado Público, arquitetura açoriana.'},
+  {id:'forte-santana',    name:'Forte Santana',           zone:'centro',color:'#8e6a2d',type:'cultura',    dur:60, lat:-27.5928,lng:-48.5630,walk:false,tip:'Forte séc. XVIII, vista para a ponte Hercílio. Aberto 9h–17h.'},
+  {id:'ponte-hercilio',   name:'Ponte Hercílio Luz',      zone:'centro',color:'#8e6a2d',type:'mirante',    dur:45, lat:-27.5930,lng:-48.5617,walk:false,tip:'Ícone de Floripa. Aberta para pedestres aos domingos.'},
+  {id:'mirante-cruz',     name:'Mirante Morro da Cruz',   zone:'centro',color:'#8e6a2d',type:'mirante',    dur:60, lat:-27.5884,lng:-48.5338,walk:false,tip:'Vista 360° da ilha. Chegue 30min antes do pôr do sol.'},
+  {id:'sto-antonio',      name:'Santo Antônio de Lisboa', zone:'centro',color:'#8e6a2d',type:'gastronomia',dur:120,lat:-27.5064,lng:-48.5200,walk:false,tip:'Vila açoriana. Melhores ostras e frutos do mar da ilha.'},
+  {id:'lagoa',            name:'Lagoa da Conceição',      zone:'leste', color:'#2d7a9e',type:'lago',       dur:60, lat:-27.6031,lng:-48.4712,walk:false,tip:'Hub da ilha: kitesurf, restaurantes, vida noturna.'},
+  {id:'mirante-lagoa',    name:'Mirante da Lagoa',        zone:'leste', color:'#2d7a9e',type:'mirante',    dur:30, lat:-27.6007,lng:-48.4813,walk:false,tip:'Um dos melhores ângulos da ilha. Nota 4.8⭐'},
+  {id:'praia-mole',       name:'Praia Mole',              zone:'leste', color:'#2d7a9e',type:'praia',      dur:120,lat:-27.6032,lng:-48.4350,walk:false,tip:'Vibe jovem e descolada. Ótima para tomar açaí na beira.'},
+  {id:'galheta',          name:'Praia Galheta + Mirante', zone:'leste', color:'#2d7a9e',type:'trilha',     dur:90, lat:-27.6134,lng:-48.4336,walk:true, tip:'40min de trilha a pé da Praia Mole. Praia nudista. 4.9⭐'},
+  {id:'barra-lagoa',      name:'Praia Barra da Lagoa',    zone:'leste', color:'#2d7a9e',type:'praia',      dur:120,lat:-27.5735,lng:-48.4249,walk:false,tip:'Canal de pesca, piscinas naturais ao fim de tarde.'},
+  {id:'joaquina',         name:'Praia Joaquina',          zone:'leste', color:'#2d7a9e',type:'praia',      dur:150,lat:-27.6294,lng:-48.4490,walk:false,tip:'Dunas para sandboard! Campeonato mundial de surf.'},
+  {id:'mocambique',       name:'Praia do Moçambique',     zone:'leste', color:'#2d7a9e',type:'praia',      dur:90, lat:-27.4938,lng:-48.3955,walk:false,tip:'40km de praia selvagem preservada. Acesso por estrada de terra.'},
+  {id:'campeche',         name:'Praia do Campeche',       zone:'sul',   color:'#2d8e5e',type:'praia',      dur:120,lat:-27.6622,lng:-48.4734,walk:false,tip:'Longa e plana. Ilha do Campeche visível — passeio de barco.'},
+  {id:'armacao',          name:'Praia de Armação',        zone:'sul',   color:'#2d8e5e',type:'praia',      dur:90, lat:-27.7443,lng:-48.5076,walk:false,tip:'Ponto de partida para trilha Lagoinha do Leste.'},
+  {id:'matadeiro',        name:'Praia do Matadeiro',      zone:'sul',   color:'#2d8e5e',type:'trilha',     dur:90, lat:-27.7548,lng:-48.4986,walk:true, tip:'Acesso por trilha (~40min a pé). Praia selvagem, spot de surf. 4.8⭐'},
+  {id:'mirante-mata',     name:'Mirante Matadeiro',       zone:'sul',   color:'#2d8e5e',type:'mirante',    dur:45, lat:-27.7514,lng:-48.5005,walk:true, tip:'Vista da praia do Matadeiro. Trilha a pé.'},
+  {id:'lagoinha-leste',   name:'Lagoinha do Leste ⚡',   zone:'sul',   color:'#2d8e5e',type:'trilha',     dur:240,lat:-27.7732,lng:-48.4864,walk:true, tip:'A mais bonita da ilha! 3–4h trilha a pé. Leve 2L água. 4.9⭐'},
+  {id:'pantano-sul',      name:'Praia Pantano do Sul',    zone:'sul',   color:'#2d8e5e',type:'praia',      dur:90, lat:-27.7817,lng:-48.5092,walk:false,tip:'Pescadores locais, frutos do mar frescos, vibe autêntica.'},
+  {id:'acores',           name:'Praia dos Açores',        zone:'sul',   color:'#2d8e5e',type:'praia',      dur:90, lat:-27.7837,lng:-48.5237,walk:false,tip:'Tranquila e pouco movimentada. Muito bem avaliada. 4.8⭐'},
+  {id:'ribeirao',         name:'Ribeirão da Ilha',        zone:'sul',   color:'#2d8e5e',type:'gastronomia',dur:120,lat:-27.8099,lng:-48.5604,walk:false,tip:'Melhores ostras de SC! Vila açoriana no extremo sul.'},
+  {id:'ingleses',         name:'Praia dos Ingleses',      zone:'norte', color:'#8e3a8e',type:'praia',      dur:120,lat:-27.4372,lng:-48.3895,walk:false,tip:'Mais urbanizada do norte. Boa infraestrutura, água calma.'},
+  {id:'santinho',         name:'Praia do Santinho',       zone:'norte', color:'#8e3a8e',type:'praia',      dur:90, lat:-27.4619,lng:-48.3762,walk:false,tip:'Arte rupestre nas pedras! Ondas fortes, bom para surf.'},
+  {id:'mirante-santinho', name:'Mirante do Santinho',     zone:'norte', color:'#8e3a8e',type:'trilha',     dur:90, lat:-27.4715,lng:-48.3799,walk:true, tip:'Trilha a pé ~50min, vista panorâmica espetacular. 4.9⭐'},
+  {id:'brava',            name:'Praia Brava',             zone:'norte', color:'#8e3a8e',type:'praia',      dur:90, lat:-27.4030,lng:-48.4150,walk:false,tip:'Kitesurf e windsurf. Ondas fortes — não ideal para banho.'},
+  {id:'canasvieiras',     name:'Praia Canasvieiras',      zone:'norte', color:'#8e3a8e',type:'praia',      dur:120,lat:-27.4271,lng:-48.4585,walk:false,tip:'Mais movimentada do norte. Pôr do sol incrível.'},
+  {id:'canajure',         name:'Praia Canajurê',          zone:'norte', color:'#8e3a8e',type:'praia',      dur:90, lat:-27.4292,lng:-48.4780,walk:false,tip:'Escondida, águas cristalinas, muito tranquila. 4.8⭐'},
+  {id:'jurere-intl',      name:'Jurerê Internacional',    zone:'norte', color:'#8e3a8e',type:'praia',      dur:180,lat:-27.4329,lng:-48.5140,walk:false,tip:'Beach clubs sofisticados, vibe Ibiza. Melhor tarde/noite.'},
+  {id:'jurere-nac',       name:'Jurerê Nacional',         zone:'norte', color:'#8e3a8e',type:'praia',      dur:120,lat:-27.4369,lng:-48.5008,walk:false,tip:'Mais familiar que o Internacional. Pôr do sol maravilhoso.'},
+];
+
+const DAY_COLORS = ['#1a4a6e','#2d7a5e','#6b4a8e','#8e4a2d','#2d6a5e','#8e2d5e'];
+const DAY_NAMES  = ['Chegada · Centro','Leste · Lagoa','Sul · Trilhas','Sul · Praias','Norte · Santinho','Norte · Jurerê'];
+
+// ─────────────────────────
+// STATE
+// ─────────────────────────
+let S = {
+  days: DAY_NAMES.map((n,i)=>({id:i+1,name:n,open:false,notes:'',items:[]})),
+  hidden: [], showHidden: false,
+  activeCat: 'all', query: '',
+  activeNav: 'map',
+  addingPlaceId: null,
+};
+const tCache = {};
+
+try {
+  const sv = localStorage.getItem('floripa-v4');
+  if (sv) { const p=JSON.parse(sv); if(p.days)S.days=p.days; if(p.hidden)S.hidden=p.hidden; }
+} catch(e){}
+
+function save() {
+  try { localStorage.setItem('floripa-v4',JSON.stringify({days:S.days,hidden:S.hidden})); } catch(e){}
+}
+
+// ─────────────────────────
+// MAP
+// ─────────────────────────
+let map, markers={};
+
+function initMap() {
+  map = L.map('map',{center:[-27.6,-48.47],zoom:11,zoomControl:false,attributionControl:false});
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
+  L.control.zoom({position:'topleft'}).addTo(map);
+  PLACES.forEach(p=>{
+    const m = L.marker([p.lat,p.lng],{icon:makeIcon(p.id)}).addTo(map).bindPopup(makePopup(p),{maxWidth:260,className:'floripa-popup'});
+    markers[p.id] = m;
+  });
+}
+
+function makeIcon(placeId) {
+  const di = getDayIdx(placeId);
+  const col = di>=0 ? DAY_COLORS[di] : '#999';
+  const sz  = di>=0 ? 20 : 13;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${sz+8}" height="${sz+8}">
+    <circle cx="${(sz+8)/2}" cy="${(sz+8)/2}" r="${sz/2}" fill="${col}" stroke="${di>=0?'#fff':'#bbb'}" stroke-width="2.5"/>
+    ${di>=0?`<text x="${(sz+8)/2}" y="${(sz+8)/2+4}" text-anchor="middle" font-size="9" fill="white" font-family="sans-serif" font-weight="bold">${di+1}</text>`:''}
+  </svg>`;
+  return L.divIcon({html:svg,iconSize:[sz+8,sz+8],iconAnchor:[(sz+8)/2,(sz+8)/2],className:''});
+}
+
+function makePopup(p) {
+  const di = getDayIdx(p.id);
+  const walkTag = p.walk ? `<span style="background:#e6f4ea;color:#2d7a5e;font-size:.62rem;padding:1px 5px;border-radius:6px;font-weight:600">🚶 trilha</span>` : '';
+  const btns = DAY_COLORS.map((c,i)=>{
+    const has = S.days[i].items.some(it=>it.placeId===p.id);
+    return `<button style="padding:5px 10px;border-radius:8px;border:1.5px solid ${c};background:${has?c:c+'22'};color:${has?'#fff':c};font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:600;cursor:pointer" onclick="toggleMapDay('${p.id}',${i})">${has?'✓':'+'} Dia ${i+1}</button>`;
+  }).join('');
+  return `<div style="padding:2px">
+    <div style="font-weight:600;font-size:.9rem;margin-bottom:3px">${p.name}</div>
+    <div style="font-size:.7rem;color:#7a90a4;margin-bottom:5px;display:flex;gap:5px;flex-wrap:wrap">${zL(p.zone)} · ~${durL(p.dur)} ${walkTag}</div>
+    <div style="font-size:.72rem;background:#f0f7ff;padding:6px 8px;border-radius:7px;margin-bottom:8px;line-height:1.5">${p.tip}</div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">${btns}</div>
+  </div>`;
+}
+
+function toggleMapDay(placeId,di) {
+  const p=PLACES.find(x=>x.id===placeId);
+  const day=S.days[di];
+  const idx=day.items.findIndex(it=>it.placeId===placeId);
+  if(idx>=0) day.items.splice(idx,1);
+  else day.items.push({placeId:p.id,name:p.name,duration:p.dur,note:''});
+  refreshAll(); save();
+  setTimeout(()=>markers[placeId]&&markers[placeId].openPopup(),40);
+}
+
+function refreshAll() { PLACES.forEach(p=>{ markers[p.id]&&markers[p.id].setIcon(makeIcon(p.id)); markers[p.id]&&markers[p.id].setPopupContent(makePopup(p)); }); renderLegend(); renderHeader(); }
+function getDayIdx(placeId) { for(let i=0;i<S.days.length;i++) if(S.days[i].items.some(it=>it.placeId===placeId)) return i; return -1; }
+
+function renderLegend() {
+  document.getElementById('legend-items').innerHTML = DAY_COLORS.map((c,i)=>{
+    const n=S.days[i].items.length;
+    return `<div class="leg-item"><div class="leg-dot" style="background:${c}"></div><span>Dia ${i+1} <span style="color:var(--muted)">(${n})</span></span></div>`;
+  }).join('');
+}
+
+// ─────────────────────────
+// ROUTING (OSRM)
+// ─────────────────────────
+async function fetchRoute(p1,p2,mode) {
+  const key=`${p1.lat},${p1.lng}>${p2.lat},${p2.lng}:${mode}`;
+  if(tCache[key]) return tCache[key];
+  const prof=mode==='foot'?'foot':'car';
+  try {
+    const r=await fetch(`https://router.project-osrm.org/route/v1/${prof}/${p1.lng},${p1.lat};${p2.lng},${p2.lat}?overview=false`,{signal:AbortSignal.timeout(6000)});
+    const j=await r.json();
+    if(j.routes&&j.routes[0]){const res={dist:j.routes[0].distance,time:j.routes[0].duration};tCache[key]=res;return res;}
+  }catch(e){}
+  return null;
+}
+function fD(m){return m<1000?`${Math.round(m)}m`:`${(m/1000).toFixed(1)}km`;}
+function fT(s){const m=Math.round(s/60);if(m<60)return `${m}min`;const h=Math.floor(m/60),r=m%60;return r?`${h}h ${r}min`:`${h}h`;}
+
+async function loadConnectors(di) {
+  const items=S.days[di].items;
+  for(let ii=0;ii<items.length-1;ii++){
+    const el=document.getElementById(`conn-${di}-${ii}`); if(!el) continue;
+    const p1=PLACES.find(x=>x.id===items[ii].placeId), p2=PLACES.find(x=>x.id===items[ii+1].placeId);
+    if(!p1||!p2) continue;
+    const mode=p2.walk?'foot':'driving';
+    const res=await fetchRoute(p1,p2,mode);
+    const badge=el.querySelector('.tbadge');
+    const icon=el.querySelector('.ticon');
+    if(res){
+      icon.textContent=mode==='foot'?'🚶':'🚗';
+      badge.textContent=`${fD(res.dist)} · ${fT(res.time)}`;
+      badge.className=`tbadge ${mode==='foot'?'walk':'car'}`;
+    } else { badge.textContent='rota indisponível'; badge.className='tbadge err'; }
+  }
+}
+
+// ─────────────────────────
+// NAV
+// ─────────────────────────
+function activateNav(which) {
+  S.activeNav = which;
+  ['map','places','days','info'].forEach(n=>{
+    document.getElementById('nav-'+n).classList.toggle('active',n===which);
+  });
+  // close all sheets first
+  ['places','days','info'].forEach(id=>document.getElementById('sheet-'+id).classList.remove('open'));
+  if(which!=='map') {
+    document.getElementById('sheet-'+which).classList.add('open');
+    if(which==='places') renderPlaces();
+    if(which==='days')   renderDays();
+  }
+}
+function closeSheet(which) { document.getElementById('sheet-'+which).classList.remove('open'); activateNav('map'); }
+
+// ─────────────────────────
+// RENDER PLACES
+// ─────────────────────────
+function renderPlaces() {
+  const q=S.query.toLowerCase();
+  const all=PLACES.filter(p=>{
+    const mc=S.activeCat==='all'||p.zone===S.activeCat||(S.activeCat==='trilha'&&p.type==='trilha');
+    return mc&&(!q||p.name.toLowerCase().includes(q));
+  });
+  const vis=all.filter(p=>!S.hidden.includes(p.id));
+  const hid=all.filter(p=> S.hidden.includes(p.id));
+
+  const card=(p,isHid)=>{
+    const di=getDayIdx(p.id);
+    const dayBadge=di>=0?`<span class="day-tag" style="background:${DAY_COLORS[di]}">Dia ${di+1}</span>`:'';
+    const walkTag=p.walk?`<span class="walk-tag">🚶 trilha</span>`:'';
+    return `<div class="place-row ${di>=0?'allocated':''} ${isHid?'hidden-place':''}">
+      <div class="place-dot" style="background:${p.color}"></div>
+      <div class="place-info">
+        <div class="place-name">${p.name}</div>
+        <div class="place-sub">${zL(p.zone)} · ~${durL(p.dur)} ${walkTag} ${dayBadge}</div>
+      </div>
+      <div class="place-row-actions">
+        ${!isHid?`<button class="btn-add-day" onclick="openAddModal('${p.id}')">+ Dia</button>`:''}
+        <button class="btn-remove-place" onclick="${isHid?`unhide('${p.id}')`:`hidePlace('${p.id}')`}" title="${isHid?'Restaurar':'Remover'}">${isHid?'↩':'✕'}</button>
+      </div>
+    </div>`;
+  };
+
+  let html=vis.map(p=>card(p,false)).join('');
+  if(hid.length&&S.showHidden){
+    html+=`<div style="font-size:.68rem;color:var(--muted);padding:8px 10px 2px;text-transform:uppercase;letter-spacing:.3px">Removidos</div>`;
+    html+=hid.map(p=>card(p,true)).join('');
+  }
+  document.getElementById('places-list').innerHTML=html;
+
+  const totalHid=S.hidden.filter(id=>{
+    const p=PLACES.find(x=>x.id===id); if(!p) return false;
+    const mc=S.activeCat==='all'||p.zone===S.activeCat||(S.activeCat==='trilha'&&p.type==='trilha');
+    return mc&&(!q||p.name.toLowerCase().includes(q));
+  }).length;
+  const btn=document.getElementById('hidden-toggle-btn');
+  if(totalHid>0){btn.style.display='block';btn.textContent=S.showHidden?`▲ Ocultar ${totalHid} removido(s)`:`↩ Mostrar ${totalHid} removido(s)`;}
+  else btn.style.display='none';
+}
+
+// ─────────────────────────
+// RENDER DAYS
+// ─────────────────────────
+function renderDays() {
+  const c=document.getElementById('days-container');
+  c.innerHTML=S.days.map((day,di)=>{
+    const col=DAY_COLORS[di];
+    const tot=day.items.reduce((s,i)=>s+(parseInt(i.duration)||0),0);
+    let body='';
+    if(!day.items.length){
+      body=`<div class="drop-hint" id="droph-${di}" ondragover="onDZ(event)" ondragleave="onDZL(event)" ondrop="onDZDrop(event,${di})">Toque em + Dia ou arraste um lugar aqui</div>`;
+    } else {
+      body+=`<div class="drop-hint" id="droph-${di}" style="padding:8px;font-size:.7rem" ondragover="onDZ(event)" ondragleave="onDZL(event)" ondrop="onDZDrop(event,${di})">↓ soltar aqui</div>`;
+      day.items.forEach((item,ii)=>{
+        const p=PLACES.find(x=>x.id===item.placeId)||{};
+        const wTag=p.walk?`<span style="font-size:.6rem;color:var(--green)">🚶</span>`:'';
+        const isF=ii===0, isL=ii===day.items.length-1;
+        body+=`<div class="itin-item" id="iitem-${di}-${ii}"
+          draggable="true"
+          ondragstart="onIDragS(event,${di},${ii})" ondragend="onIDragE(event)"
+          ondragover="onIDragO(event,${di},${ii})" ondragleave="onIDragL(event)" ondrop="onIDrop(event,${di},${ii})"
+          ontouchstart="touchStart(event,${di},${ii})" ontouchmove="touchMove(event)" ontouchend="touchEnd(event)">
+          <span class="itin-drag">⋮⋮</span>
+          <div class="itin-order">
+            <button class="ord-btn" onclick="moveItem(${di},${ii},-1)" ${isF?'disabled':''}>▲</button>
+            <button class="ord-btn" onclick="moveItem(${di},${ii},+1)" ${isL?'disabled':''}>▼</button>
+          </div>
+          <div class="itin-dot" style="background:${p.color||col}"></div>
+          <div class="itin-content">
+            <div class="itin-name">${item.name} ${wTag}</div>
+            <textarea class="itin-note" placeholder="Observação..." onchange="updateNote(${di},${ii},this.value)" oninput="aR(this)">${item.note||''}</textarea>
+          </div>
+          <div class="itin-right">
+            <div class="itin-time">
+              <input class="time-inp" type="number" min="0" max="600" step="15" value="${item.duration||60}" onchange="updateDur(${di},${ii},this.value)">
+              <span class="time-unit">min</span>
+            </div>
+            <button class="itin-remove" onclick="removeItem(${di},${ii})">✕</button>
+          </div>
+        </div>`;
+        if(!isL){
+          const np=PLACES.find(x=>x.id===day.items[ii+1].placeId)||{};
+          const mode=np.walk?'foot':'driving';
+          body+=`<div class="travel-conn" id="conn-${di}-${ii}">
+            <span class="ticon">${mode==='foot'?'🚶':'🚗'}</span>
+            <div class="travel-line"></div>
+            <span class="tbadge loading" id="badge-${di}-${ii}">calculando…</span>
+          </div>`;
+        }
+      });
+      body+=`<div class="day-total">Total estimado: <b>${fmtT(tot)}</b></div>`;
+    }
+    return `<div class="day-card">
+      <div class="day-header" onclick="toggleDay(${di})">
+        <div class="day-num" style="background:${col}">${di+1}</div>
+        <div class="day-title">
+          <input class="day-name-input" value="${day.name}" onchange="updateDayName(${di},this.value)" onclick="event.stopPropagation()">
+          <div class="day-meta"><span>${day.items.length} lugar${day.items.length!==1?'es':''}</span><span>${fmtT(tot)}</span></div>
+        </div>
+        <button class="day-toggle-btn ${day.open?'open':''}" onclick="event.stopPropagation();toggleDay(${di})">▾</button>
+      </div>
+      ${day.open?`<div class="day-body">
+        ${body}
+        <div class="day-notes-area">
+          <label>Notas do dia</label>
+          <textarea placeholder="Hotel, restaurantes, lembretes..." onchange="updateDayNotes(${di},this.value)">${day.notes||''}</textarea>
+        </div>
+      </div>`:''}
+    </div>`;
+  }).join('');
+
+  S.days.forEach((d,di)=>{ if(d.open&&d.items.length>1) loadConnectors(di); });
+}
+
+function renderHeader() {
+  const tot=S.days.reduce((s,d)=>s+d.items.length,0);
+  const totM=S.days.reduce((s,d)=>s+d.items.reduce((ss,i)=>ss+(parseInt(i.duration)||0),0),0);
+  document.getElementById('hs-places').textContent=tot;
+  document.getElementById('hs-hours').textContent=fmtT(totM);
+}
+
+// ─────────────────────────
+// ADD-TO-DAY MODAL
+// ─────────────────────────
+function openAddModal(placeId) {
+  S.addingPlaceId=placeId;
+  const p=PLACES.find(x=>x.id===placeId);
+  document.getElementById('modal-place-name').textContent=p.name;
+  document.getElementById('day-select-list').innerHTML = S.days.map((d,i)=>{
+    const has=d.items.some(it=>it.placeId===placeId);
+    return `<button class="day-select-btn" onclick="addToDay('${placeId}',${i})">
+      <div class="day-select-num" style="background:${DAY_COLORS[i]}">${i+1}</div>
+      <div class="day-select-info">
+        <div class="day-select-name">${d.name}</div>
+        <div class="day-select-count">${d.items.length} lugar${d.items.length!==1?'es':''} · ${fmtT(d.items.reduce((s,it)=>s+(parseInt(it.duration)||0),0))}</div>
+      </div>
+      ${has?`<span style="font-size:.75rem;color:var(--green);font-weight:600">✓ já adicionado</span>`:''}
+    </button>`;
+  }).join('');
+  document.getElementById('add-modal').classList.add('open');
+}
+function closeAddModal(e) {
+  if(e&&e.target!==document.getElementById('add-modal')) return;
+  document.getElementById('add-modal').classList.remove('open');
+  S.addingPlaceId=null;
+}
+function addToDay(placeId,di) {
+  const p=PLACES.find(x=>x.id===placeId);
+  S.days[di].items.push({placeId:p.id,name:p.name,duration:p.dur,note:''});
+  S.days[di].open=true;
+  document.getElementById('add-modal').classList.remove('open');
+  refreshAll(); renderPlaces(); renderDays(); save();
+}
+
+// ─────────────────────────
+// DRAG & DROP (desktop)
+// ─────────────────────────
+let dDrag=null, dDrop=null;
+function onDZ(e)  { e.preventDefault(); e.currentTarget.classList.add('over'); }
+function onDZL(e) { e.currentTarget.classList.remove('over'); }
+function onDZDrop(e,di){
+  e.preventDefault(); e.currentTarget.classList.remove('over');
+  if(dDrag){const{fromDay,fromIdx}=dDrag; const item=S.days[fromDay].items.splice(fromIdx,1)[0]; S.days[di].items.push(item); S.days[di].open=true; dDrag=null; renderDays(); save();}
+}
+function onIDragS(e,di,ii){ dDrag={fromDay:di,fromIdx:ii}; e.dataTransfer.effectAllowed='move'; e.stopPropagation(); setTimeout(()=>{ const el=document.getElementById(`iitem-${di}-${ii}`); if(el) el.classList.add('touch-dragging'); },0); }
+function onIDragE(e){ document.querySelectorAll('.itin-item').forEach(el=>el.classList.remove('touch-dragging','drop-above','drop-below')); dDrag=null; }
+function onIDragO(e,di,ii){
+  if(!dDrag) return; e.preventDefault(); e.stopPropagation();
+  const rect=e.currentTarget.getBoundingClientRect(), mid=rect.top+rect.height/2;
+  document.querySelectorAll('.itin-item').forEach(el=>el.classList.remove('drop-above','drop-below'));
+  const pos=e.clientY<mid?'above':'below';
+  e.currentTarget.classList.add(pos==='above'?'drop-above':'drop-below');
+  dDrop={toDay:di,toIdx:ii,pos};
+}
+function onIDragL(e){ e.currentTarget.classList.remove('drop-above','drop-below'); }
+function onIDrop(e,di,ii){
+  e.preventDefault(); e.stopPropagation();
+  document.querySelectorAll('.itin-item').forEach(el=>el.classList.remove('drop-above','drop-below'));
+  if(!dDrag) return;
+  const {fromDay,fromIdx}=dDrag;
+  const {toDay,toIdx,pos}=dDrop||{toDay:di,toIdx:ii,pos:'below'};
+  if(fromDay===toDay&&fromIdx===toIdx){dDrag=null;return;}
+  const item=S.days[fromDay].items.splice(fromIdx,1)[0];
+  let at=toIdx; if(fromDay===toDay&&fromIdx<toIdx)at--; if(pos==='below')at++;
+  at=Math.max(0,Math.min(at,S.days[toDay].items.length));
+  S.days[toDay].items.splice(at,0,item); S.days[toDay].open=true;
+  dDrag=null; renderDays(); save();
+}
+
+// ─────────────────────────
+// TOUCH DRAG (mobile reorder)
+// ─────────────────────────
+let tDrag=null, tClone=null, tScroll=null;
+function touchStart(e,di,ii){
+  // only start drag from the ⋮⋮ handle
+  if(!e.target.classList.contains('itin-drag')&&!e.target.classList.contains('ord-btn')) return;
+  e.preventDefault();
+  const el=document.getElementById(`iitem-${di}-${ii}`);
+  tDrag={el,di,ii,startY:e.touches[0].clientY};
+  // clone for visual feedback
+  tClone=el.cloneNode(true);
+  tClone.style.cssText=`position:fixed;left:${el.getBoundingClientRect().left}px;width:${el.offsetWidth}px;opacity:.75;z-index:9999;pointer-events:none;transform:scale(1.02);box-shadow:0 8px 24px rgba(0,0,0,.2);border-radius:10px;`;
+  tClone.style.top=el.getBoundingClientRect().top+'px';
+  document.body.appendChild(tClone);
+  el.classList.add('touch-dragging');
+}
+function touchMove(e){
+  if(!tDrag) return; e.preventDefault();
+  const y=e.touches[0].clientY;
+  tClone.style.top=(y-30)+'px';
+  // find element under touch
+  tClone.style.display='none';
+  const under=document.elementFromPoint(e.touches[0].clientX,y);
+  tClone.style.display='';
+  const targetItem=under&&under.closest('.itin-item');
+  document.querySelectorAll('.itin-item').forEach(el=>el.classList.remove('drop-above','drop-below'));
+  if(targetItem&&targetItem!==tDrag.el){
+    const rect=targetItem.getBoundingClientRect(),mid=rect.top+rect.height/2;
+    const [di,ii]=targetItem.id.replace('iitem-','').split('-').map(Number);
+    dDrop={toDay:di,toIdx:ii,pos:y<mid?'above':'below'};
+    targetItem.classList.add(y<mid?'drop-above':'drop-below');
+  }
+}
+function touchEnd(e){
+  if(!tDrag) return;
+  document.querySelectorAll('.itin-item').forEach(el=>el.classList.remove('touch-dragging','drop-above','drop-below'));
+  if(tClone){tClone.remove();tClone=null;}
+  if(dDrop){
+    const {fromDay:fd,fromIdx:fi}={fromDay:tDrag.di,fromIdx:tDrag.ii};
+    const {toDay:td,toIdx:ti,pos}=dDrop;
+    if(!(fd===td&&fi===ti)){
+      const item=S.days[fd].items.splice(fi,1)[0];
+      let at=ti; if(fd===td&&fi<ti)at--; if(pos==='below')at++;
+      at=Math.max(0,Math.min(at,S.days[td].items.length));
+      S.days[td].items.splice(at,0,item); S.days[td].open=true;
+      renderDays(); save();
+    }
+    dDrop=null;
+  }
+  tDrag=null;
+}
+
+// ─────────────────────────
+// ACTIONS
+// ─────────────────────────
+function removeItem(di,ii){S.days[di].items.splice(ii,1);renderDays();refreshAll();save();}
+function moveItem(di,ii,d){const a=S.days[di].items,t=ii+d;if(t<0||t>=a.length)return;[a[ii],a[t]]=[a[t],a[ii]];renderDays();save();}
+function updateDur(di,ii,v){S.days[di].items[ii].duration=parseInt(v)||60;renderHeader();save();}
+function updateNote(di,ii,v){S.days[di].items[ii].note=v;save();}
+function updateDayName(di,v){S.days[di].name=v;save();}
+function updateDayNotes(di,v){S.days[di].notes=v;save();}
+function toggleDay(idx){S.days[idx].open=!S.days[idx].open;renderDays();}
+function hidePlace(id){if(!S.hidden.includes(id))S.hidden.push(id);renderPlaces();save();}
+function unhide(id){S.hidden=S.hidden.filter(x=>x!==id);renderPlaces();save();}
+function toggleHidden(){S.showHidden=!S.showHidden;renderPlaces();}
+function clearItinerary(){if(!confirm('Limpar todo o roteiro?'))return;S.days.forEach(d=>{d.items=[];d.notes='';});renderDays();refreshAll();save();}
+
+// ─────────────────────────
+// FILTERS
+// ─────────────────────────
+function filterCat(btn,cat){
+  document.querySelectorAll('.cat-pill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); S.activeCat=cat; renderPlaces();
+}
+function filterPlaces(){S.query=document.getElementById('search-input').value;renderPlaces();}
+function switchInfoTab(tab,btn){
+  document.querySelectorAll('.info-tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.info-tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('itab-'+tab).classList.add('active');
+}
+
+// ─────────────────────────
+// HELPERS
+// ─────────────────────────
+function zL(z){return{sul:'Sul',norte:'Norte',leste:'Leste',centro:'Centro'}[z]||z;}
+function durL(m){if(m<60)return `${m}min`;const h=Math.floor(m/60),r=m%60;return r?`${h}h${r}`:`${h}h`;}
+function fmtT(m){if(!m)return '0min';const h=Math.floor(m/60),r=m%60;if(!h)return `${r}min`;return r?`${h}h ${r}min`:`${h}h`;}
+function aR(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
+
+function printItinerary(){
+  const lines=[`ROTEIRO FLORIANÓPOLIS — 6 DIAS\n${'='.repeat(38)}`];
+  S.days.forEach((d,i)=>{
+    lines.push(`\nDIA ${i+1}: ${d.name}\n${'-'.repeat(28)}`);
+    if(!d.items.length){lines.push('  (sem itens planejados)');}
+    else{
+      const tot=d.items.reduce((s,it)=>s+(parseInt(it.duration)||0),0);
+      d.items.forEach((it,j)=>{
+        const p=PLACES.find(x=>x.id===it.placeId)||{};
+        lines.push(`  ${j+1}. ${it.name}${p.walk?' [trilha]':''} — ${durL(it.duration)}`);
+        if(it.note)lines.push(`     📝 ${it.note}`);
+        if(j<d.items.length-1){const b=document.getElementById(`badge-${i}-${j}`);if(b&&!b.classList.contains('loading'))lines.push(`     ➜ ${b.textContent}`);}
+      });
+      lines.push(`  ⏱ Total: ${fmtT(tot)}`);
+    }
+    if(d.notes)lines.push(`  💬 ${d.notes}`);
+  });
+  const w=window.open('','_blank');
+  w.document.write(`<pre style="font-family:monospace;padding:20px;font-size:13px;white-space:pre-wrap;line-height:1.6">${lines.join('\n')}</pre>`);
+  w.print();
+}
+
+// ─────────────────────────
+// INIT
+// ─────────────────────────
+window.addEventListener('load',()=>{
+  initMap();
+  renderLegend();
+  renderHeader();
+});
+</script>
+</body>
+</html>
